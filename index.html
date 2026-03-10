@@ -7,10 +7,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 <style>
 /* ========================================================================
-   LARKS SOLAR — Formulaire Ultra-Dynamique v2.0
-   Particules, Cursor Glow, Tilt 3D, Confettis, Stagger, Morphing
+   LARKS SOLAR — Formulaire Ultra-Dynamique v3.0
+   All v2 features + Lottie, Typing, Parallax, Social Proof, Testimonials,
+   Timer, Availability, localStorage, Haptic, Analytics, Progress Bar,
+   Theme Toggle
    ======================================================================== */
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -40,9 +43,24 @@
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   --transition: 400ms var(--ease);
+  --glow-color: rgba(245,166,35,0.04);
 }
 
-html { scroll-behavior: smooth; }
+/* Light theme */
+html.light {
+  --bg: #F5F5F7;
+  --surface: #FFFFFF;
+  --surface-2: #F0F0F2;
+  --surface-elevated: #E8E8EC;
+  --border: rgba(0,0,0,0.06);
+  --border-light: rgba(0,0,0,0.10);
+  --text-primary: #1D1D1F;
+  --text-secondary: #6E6E73;
+  --text-muted: #AEAEB2;
+  --glow-color: rgba(245,166,35,0.06);
+}
+
+html { scroll-behavior: smooth; transition: background 0.5s ease; }
 
 body {
   font-family: var(--font-body);
@@ -52,6 +70,48 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* ---- Theme Toggle ---- */
+.lf-theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-light);
+  background: var(--surface);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+.lf-theme-toggle:hover { transform: scale(1.1); border-color: var(--gold); }
+.lf-theme-toggle svg { width: 20px; height: 20px; color: var(--gold); transition: transform 0.5s var(--ease-bounce); }
+.lf-theme-toggle:hover svg { transform: rotate(30deg); }
+.lf-theme-toggle .lf-icon-moon { display: block; }
+.lf-theme-toggle .lf-icon-sun { display: none; }
+html.light .lf-theme-toggle .lf-icon-moon { display: none; }
+html.light .lf-theme-toggle .lf-icon-sun { display: block; }
+
+/* ---- Micro Progress Bar (top of page) ---- */
+.lf-micro-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  background-size: 200% auto;
+  animation: lf-gradient-shift 3s ease-in-out infinite;
+  z-index: 999;
+  transition: width 0.6s var(--ease);
+  box-shadow: 0 0 12px var(--gold-glow);
+  border-radius: 0 2px 2px 0;
 }
 
 /* ---- Particle Canvas ---- */
@@ -61,6 +121,7 @@ body {
   z-index: 0;
   pointer-events: none;
 }
+html.light #lf-particles { opacity: 0.3; }
 
 /* ---- Cursor Glow ---- */
 .lf-cursor-glow {
@@ -75,8 +136,8 @@ body {
   transition: opacity 0.3s ease;
   opacity: 0;
 }
-
 .lf-cursor-glow.active { opacity: 1; }
+html.light .lf-cursor-glow { background: radial-gradient(circle, rgba(245,166,35,0.04) 0%, transparent 70%); }
 
 /* ---- Main Layout ---- */
 .lf-root {
@@ -120,22 +181,21 @@ body {
   -webkit-backdrop-filter: blur(40px) saturate(200%);
   border-radius: var(--radius-xl);
   padding: 52px 44px;
-  box-shadow: 
-    0 0 0 1px rgba(255,255,255,0.04) inset,
-    0 2px 4px rgba(0,0,0,0.3),
-    0 12px 48px rgba(0,0,0,0.5),
-    0 0 120px rgba(245,166,35,0.04);
-  transition: transform 0.15s ease-out, box-shadow 0.4s ease;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.04) inset, 0 2px 4px rgba(0,0,0,0.3), 0 12px 48px rgba(0,0,0,0.5), 0 0 120px var(--glow-color);
+  transition: transform 0.15s ease-out, box-shadow 0.4s ease, background 0.5s ease;
   transform-style: preserve-3d;
   overflow: hidden;
   will-change: transform;
 }
-
+html.light .lf-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(245,245,247,0.98) 100%);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.04) inset, 0 2px 4px rgba(0,0,0,0.05), 0 12px 48px rgba(0,0,0,0.08), 0 0 120px rgba(245,166,35,0.04);
+}
 .lf-card:hover {
-  box-shadow: 
-    0 0 0 1px rgba(245,166,35,0.08) inset,
-    0 12px 60px rgba(0,0,0,0.6),
-    0 0 80px rgba(245,166,35,0.06);
+  box-shadow: 0 0 0 1px rgba(245,166,35,0.08) inset, 0 12px 60px rgba(0,0,0,0.6), 0 0 80px rgba(245,166,35,0.06);
+}
+html.light .lf-card:hover {
+  box-shadow: 0 0 0 1px rgba(245,166,35,0.08) inset, 0 12px 60px rgba(0,0,0,0.1), 0 0 80px rgba(245,166,35,0.06);
 }
 
 /* Noise overlay */
@@ -150,7 +210,6 @@ body {
   border-radius: inherit;
 }
 
-/* Spotlight effect that follows mouse */
 .lf-spotlight {
   position: absolute;
   inset: 0;
@@ -160,13 +219,49 @@ body {
   opacity: 0;
   transition: opacity 0.4s ease;
 }
-
 .lf-card:hover .lf-spotlight { opacity: 1; }
-
 .lf-card > * { position: relative; z-index: 1; }
 
-/* ---- Header with typing effect ---- */
-.lf-header { text-align: center; margin-bottom: 40px; }
+/* ---- Availability Indicator ---- */
+.lf-availability {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  font-size: 12px;
+  color: var(--green);
+  font-weight: 500;
+  animation: lf-fade-up 0.6s var(--ease) both;
+  animation-delay: 0.1s;
+}
+.lf-avail-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  position: relative;
+  animation: lf-avail-pulse 2s ease-in-out infinite;
+}
+.lf-avail-dot::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: rgba(48,209,88,0.3);
+  animation: lf-avail-ring 2s ease-in-out infinite;
+}
+@keyframes lf-avail-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+@keyframes lf-avail-ring {
+  0%, 100% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.8); opacity: 0; }
+}
+
+/* ---- Header ---- */
+.lf-header { text-align: center; margin-bottom: 32px; }
 
 .lf-badge {
   display: inline-flex;
@@ -185,25 +280,18 @@ body {
   animation: lf-badge-in 0.8s var(--ease-bounce) both;
   animation-delay: 0.2s;
 }
-
 @keyframes lf-badge-in {
   from { opacity: 0; transform: translateY(-10px) scale(0.9); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
-
 .lf-badge-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--gold);
+  width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
   animation: lf-pulse-dot 2s ease-in-out infinite;
 }
-
 @keyframes lf-pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 var(--gold-glow); }
   50% { opacity: 0.8; transform: scale(1.3); box-shadow: 0 0 12px 4px var(--gold-glow); }
 }
-
 .lf-badge svg { width: 14px; height: 14px; }
 
 .lf-title {
@@ -216,12 +304,10 @@ body {
   animation: lf-title-in 1s var(--ease) both;
   animation-delay: 0.4s;
 }
-
 @keyframes lf-title-in {
   from { opacity: 0; transform: translateY(20px); filter: blur(8px); }
   to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
-
 .lf-title-gold {
   background: linear-gradient(135deg, #F5A623 0%, #FFD700 30%, #FF8C00 60%, #F5A623 100%);
   background-size: 300% auto;
@@ -230,7 +316,6 @@ body {
   background-clip: text;
   animation: lf-gradient-shift 4s ease-in-out infinite;
 }
-
 @keyframes lf-gradient-shift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -241,14 +326,88 @@ body {
   font-size: 16px;
   color: var(--text-secondary);
   line-height: 1.5;
+  min-height: 24px;
   animation: lf-fade-up 0.8s var(--ease) both;
   animation-delay: 0.6s;
 }
-
 @keyframes lf-fade-up {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Typing cursor */
+.lf-typing-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--gold);
+  margin-left: 2px;
+  animation: lf-blink 0.8s step-end infinite;
+  vertical-align: text-bottom;
+}
+@keyframes lf-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ---- Social Proof Counter ---- */
+.lf-social-proof {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 12px 20px;
+  background: rgba(48,209,88,0.04);
+  border: 1px solid rgba(48,209,88,0.1);
+  border-radius: var(--radius);
+  animation: lf-fade-up 0.6s var(--ease) both;
+  animation-delay: 0.65s;
+}
+.lf-social-proof-avatars {
+  display: flex;
+  margin-right: 4px;
+}
+.lf-social-proof-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--surface);
+  margin-left: -8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+}
+.lf-social-proof-avatar:first-child { margin-left: 0; }
+.lf-social-proof-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+.lf-social-proof-count {
+  font-weight: 700;
+  color: var(--green);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Timer / Urgency ---- */
+.lf-timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  font-size: 12px;
+  color: var(--gold);
+  font-weight: 600;
+  animation: lf-fade-up 0.6s var(--ease) both;
+  animation-delay: 0.7s;
+}
+.lf-timer svg { width: 14px; height: 14px; }
+.lf-timer-countdown { font-variant-numeric: tabular-nums; }
 
 /* ---- Circular Progress ---- */
 .lf-progress-ring-container {
@@ -260,128 +419,45 @@ body {
   animation: lf-fade-up 0.6s var(--ease) both;
   animation-delay: 0.7s;
 }
-
-.lf-progress-ring-wrap {
-  position: relative;
-  width: 56px;
-  height: 56px;
-  flex-shrink: 0;
-}
-
-.lf-progress-ring {
-  transform: rotate(-90deg);
-  width: 56px;
-  height: 56px;
-}
-
-.lf-progress-ring-bg {
-  fill: none;
-  stroke: var(--surface-2);
-  stroke-width: 3;
-}
-
+.lf-progress-ring-wrap { position: relative; width: 56px; height: 56px; flex-shrink: 0; }
+.lf-progress-ring { transform: rotate(-90deg); width: 56px; height: 56px; }
+.lf-progress-ring-bg { fill: none; stroke: var(--surface-2); stroke-width: 3; }
 .lf-progress-ring-fill {
-  fill: none;
-  stroke: url(#lf-ring-gradient);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-dasharray: 157;
-  stroke-dashoffset: 157;
+  fill: none; stroke: url(#lf-ring-gradient); stroke-width: 3;
+  stroke-linecap: round; stroke-dasharray: 157; stroke-dashoffset: 157;
   transition: stroke-dashoffset 0.8s var(--ease);
 }
-
 .lf-progress-ring-text {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-heading);
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--gold);
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--gold);
 }
 
 /* Step indicators */
-.lf-step-indicators {
-  display: flex;
-  gap: 8px;
-  flex: 1;
-}
-
+.lf-step-indicators { display: flex; gap: 8px; flex: 1; }
 .lf-step-ind {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--border);
-  transition: all 0.5s var(--ease);
-  cursor: default;
-  position: relative;
-  overflow: hidden;
+  flex: 1; display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; border-radius: 12px;
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+  transition: all 0.5s var(--ease); cursor: default; position: relative; overflow: hidden;
 }
-
+html.light .lf-step-ind { background: rgba(0,0,0,0.02); }
 .lf-step-ind::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   background: linear-gradient(135deg, rgba(245,166,35,0.06), transparent);
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  opacity: 0; transition: opacity 0.4s ease;
 }
-
-.lf-step-ind.active {
-  border-color: rgba(245,166,35,0.25);
-  background: rgba(245,166,35,0.04);
-}
-
+.lf-step-ind.active { border-color: rgba(245,166,35,0.25); background: rgba(245,166,35,0.04); }
 .lf-step-ind.active::before { opacity: 1; }
-
-.lf-step-ind.done {
-  border-color: rgba(48,209,88,0.2);
-  background: rgba(48,209,88,0.03);
-}
-
+.lf-step-ind.done { border-color: rgba(48,209,88,0.2); background: rgba(48,209,88,0.03); }
 .lf-step-ind-num {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  background: var(--surface-2);
-  color: var(--text-muted);
-  transition: all 0.4s var(--ease);
-  flex-shrink: 0;
-  position: relative;
-  z-index: 1;
+  width: 28px; height: 28px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; background: var(--surface-2); color: var(--text-muted);
+  transition: all 0.4s var(--ease); flex-shrink: 0; position: relative; z-index: 1;
 }
-
-.lf-step-ind.active .lf-step-ind-num {
-  background: var(--gold);
-  color: #000;
-  box-shadow: 0 0 20px var(--gold-glow);
-}
-
-.lf-step-ind.done .lf-step-ind-num {
-  background: var(--green);
-  color: #fff;
-}
-
-.lf-step-ind-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-  transition: color 0.4s ease;
-  position: relative;
-  z-index: 1;
-}
-
+.lf-step-ind.active .lf-step-ind-num { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-glow); }
+.lf-step-ind.done .lf-step-ind-num { background: var(--green); color: #fff; }
+.lf-step-ind-label { font-size: 12px; font-weight: 600; color: var(--text-muted); transition: color 0.4s ease; position: relative; z-index: 1; }
 .lf-step-ind.active .lf-step-ind-label { color: var(--gold); }
 .lf-step-ind.done .lf-step-ind-label { color: var(--green); }
 
@@ -392,108 +468,46 @@ body {
 
 /* ---- Steps container ---- */
 .lf-steps { position: relative; min-height: 300px; }
-
-.lf-step {
-  display: none;
-  position: absolute;
-  width: 100%;
-  top: 0;
-  left: 0;
-}
-
-.lf-step.active {
-  display: block;
-  position: relative;
-  animation: lf-morph-in 0.7s var(--ease) forwards;
-}
-
+.lf-step { display: none; position: absolute; width: 100%; top: 0; left: 0; }
+.lf-step.active { display: block; position: relative; animation: lf-morph-in 0.7s var(--ease) forwards; }
 @keyframes lf-morph-in {
   0% { opacity: 0; transform: translateY(30px) scale(0.97); filter: blur(6px); }
   100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
-
-.lf-step.exiting {
-  display: block;
-  animation: lf-morph-out 0.4s var(--ease) forwards;
-}
-
+.lf-step.exiting { display: block; animation: lf-morph-out 0.4s var(--ease) forwards; }
 @keyframes lf-morph-out {
   0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
   100% { opacity: 0; transform: translateY(-20px) scale(0.97); filter: blur(4px); }
 }
 
-/* ---- Step header ---- */
+/* ---- Step header with Lottie ---- */
 .lf-step-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 28px;
-  opacity: 0;
-  animation: lf-stagger-in 0.5s var(--ease) forwards;
-  animation-delay: 0.1s;
+  display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+  opacity: 0; animation: lf-stagger-in 0.5s var(--ease) forwards; animation-delay: 0.1s;
 }
-
 .lf-step.active .lf-step-header { animation-play-state: running; }
-
 .lf-step-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: rgba(245,166,35,0.06);
-  border: 1px solid rgba(245,166,35,0.12);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.4s var(--ease);
-  position: relative;
+  width: 48px; height: 48px; border-radius: 14px;
+  background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.12);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.4s var(--ease); position: relative; overflow: hidden;
 }
-
-.lf-step-icon::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 18px;
-  background: radial-gradient(circle, var(--gold-glow), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  animation: lf-icon-pulse 3s ease-in-out infinite;
-}
-
-@keyframes lf-icon-pulse {
-  0%, 100% { opacity: 0; transform: scale(0.8); }
-  50% { opacity: 0.5; transform: scale(1); }
-}
-
+.lf-step-icon lottie-player { width: 32px; height: 32px; }
 .lf-step-icon svg { width: 22px; height: 22px; color: var(--gold); position: relative; z-index: 1; }
-
-.lf-step-title {
-  font-family: var(--font-heading);
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.lf-step-desc {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-top: 2px;
-}
+.lf-step-title { font-family: var(--font-heading); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.lf-step-desc { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
 
 /* ---- Staggered field animations ---- */
 @keyframes lf-stagger-in {
   from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
 .lf-step.active .lf-field,
 .lf-step.active .lf-row,
 .lf-step.active .lf-options,
 .lf-step.active .lf-range-container {
-  opacity: 0;
-  animation: lf-stagger-in 0.5s var(--ease) forwards;
+  opacity: 0; animation: lf-stagger-in 0.5s var(--ease) forwards;
 }
-
 .lf-step.active .lf-field:nth-child(2) { animation-delay: 0.15s; }
 .lf-step.active .lf-field:nth-child(3) { animation-delay: 0.2s; }
 .lf-step.active .lf-field:nth-child(4) { animation-delay: 0.25s; }
@@ -503,514 +517,302 @@ body {
 .lf-step.active .lf-range-container { animation-delay: 0.3s; }
 
 /* ---- Floating Labels ---- */
-.lf-field {
-  margin-bottom: 20px;
-  position: relative;
-}
-
+.lf-field { margin-bottom: 20px; position: relative; }
 .lf-label {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
-  letter-spacing: 0.01em;
-  transition: color 0.3s ease;
+  display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  margin-bottom: 8px; letter-spacing: 0.01em; transition: color 0.3s ease;
 }
-
 .lf-field:focus-within .lf-label { color: var(--gold); }
-
-.lf-label .lf-required {
-  color: var(--gold);
-  margin-left: 2px;
-}
+.lf-label .lf-required { color: var(--gold); margin-left: 2px; }
 
 /* ---- Inputs with glow ---- */
-.lf-input,
-.lf-select,
-.lf-textarea {
-  width: 100%;
-  padding: 15px 18px;
-  font-family: var(--font-body);
-  font-size: 15px;
-  color: var(--text-primary);
-  background: rgba(255,255,255,0.025);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius);
-  outline: none;
-  transition: all 0.35s var(--ease);
-  -webkit-appearance: none;
-  appearance: none;
-  position: relative;
+.lf-input, .lf-select, .lf-textarea {
+  width: 100%; padding: 15px 18px; font-family: var(--font-body); font-size: 15px;
+  color: var(--text-primary); background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border-light); border-radius: var(--radius);
+  outline: none; transition: all 0.35s var(--ease); -webkit-appearance: none; appearance: none;
 }
-
-.lf-input:hover,
-.lf-select:hover,
-.lf-textarea:hover {
-  border-color: rgba(255,255,255,0.18);
-  background: rgba(255,255,255,0.04);
+html.light .lf-input, html.light .lf-select, html.light .lf-textarea {
+  background: rgba(0,0,0,0.02);
 }
-
-.lf-input:focus,
-.lf-select:focus,
-.lf-textarea:focus {
+.lf-input:hover, .lf-select:hover, .lf-textarea:hover {
+  border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.04);
+}
+html.light .lf-input:hover, html.light .lf-select:hover, html.light .lf-textarea:hover {
+  border-color: rgba(0,0,0,0.18); background: rgba(0,0,0,0.04);
+}
+.lf-input:focus, .lf-select:focus, .lf-textarea:focus {
   border-color: var(--gold);
-  box-shadow: 
-    0 0 0 3px rgba(245,166,35,0.08),
-    0 0 30px rgba(245,166,35,0.06),
-    0 0 60px rgba(245,166,35,0.03);
-  background: rgba(255,255,255,0.05);
-  transform: translateY(-1px);
+  box-shadow: 0 0 0 3px rgba(245,166,35,0.08), 0 0 30px rgba(245,166,35,0.06), 0 0 60px rgba(245,166,35,0.03);
+  background: rgba(255,255,255,0.05); transform: translateY(-1px);
 }
-
 .lf-input.error { border-color: var(--error); box-shadow: 0 0 0 3px rgba(255,69,58,0.1); }
 .lf-input::placeholder, .lf-textarea::placeholder { color: var(--text-muted); }
-
 .lf-textarea { resize: none; min-height: 110px; }
-
 .lf-select {
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238E8E93' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 6l3.5 4 3.5-4z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
-  padding-right: 44px;
+  background-repeat: no-repeat; background-position: right 16px center; padding-right: 44px;
 }
-
 .lf-select option { background: var(--surface); color: var(--text-primary); }
 
 /* Input valid checkmark */
 .lf-field.valid .lf-input { border-color: rgba(48,209,88,0.3); }
 .lf-field.valid::after {
-  content: '';
-  position: absolute;
-  right: 14px;
-  top: 42px;
-  width: 18px;
-  height: 18px;
+  content: ''; position: absolute; right: 14px; top: 42px; width: 18px; height: 18px;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2330D158' stroke-width='3'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;
   animation: lf-check-pop 0.3s var(--ease-bounce);
 }
-
 @keyframes lf-check-pop {
   from { transform: scale(0); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
-
-.lf-error-msg {
-  font-size: 12px;
-  color: var(--error);
-  margin-top: 6px;
-  display: none;
-  animation: lf-stagger-in 0.3s ease;
-}
-
+.lf-error-msg { font-size: 12px; color: var(--error); margin-top: 6px; display: none; animation: lf-stagger-in 0.3s ease; }
 .lf-field.has-error .lf-error-msg { display: block; }
-.lf-field.has-error .lf-input,
-.lf-field.has-error .lf-select,
-.lf-field.has-error .lf-textarea { border-color: var(--error); }
+.lf-field.has-error .lf-input, .lf-field.has-error .lf-select, .lf-field.has-error .lf-textarea { border-color: var(--error); }
 
 /* ---- Row ---- */
-.lf-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-
+.lf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 @media (max-width: 520px) { .lf-row { grid-template-columns: 1fr; } }
 
-/* ---- Option cards with ripple ---- */
-.lf-options {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 14px;
-  margin-bottom: 20px;
-}
-
+/* ---- Option cards ---- */
+.lf-options { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 20px; }
 @media (max-width: 520px) { .lf-options { grid-template-columns: 1fr; } }
-
 .lf-option {
-  position: relative;
-  cursor: pointer;
-  padding: 22px 16px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--border-light);
-  border-radius: 16px;
-  text-align: center;
-  transition: all 0.4s var(--ease);
-  overflow: hidden;
+  position: relative; cursor: pointer; padding: 22px 16px;
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border-light);
+  border-radius: 16px; text-align: center; transition: all 0.4s var(--ease); overflow: hidden;
 }
-
+html.light .lf-option { background: rgba(0,0,0,0.02); }
 .lf-option::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(245,166,35,0.12), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
+  opacity: 0; transition: opacity 0.4s ease;
 }
-
 .lf-option:hover::before { opacity: 1; }
-
-.lf-option:hover {
-  border-color: rgba(245,166,35,0.3);
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 8px 32px rgba(245,166,35,0.08);
-}
-
+.lf-option:hover { border-color: rgba(245,166,35,0.3); transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 32px rgba(245,166,35,0.08); }
 .lf-option.selected {
-  border-color: var(--gold);
-  background: rgba(245,166,35,0.05);
+  border-color: var(--gold); background: rgba(245,166,35,0.05);
   box-shadow: 0 0 30px rgba(245,166,35,0.12), 0 0 60px rgba(245,166,35,0.04);
   transform: translateY(-4px) scale(1.02);
 }
-
 .lf-option input { position: absolute; opacity: 0; pointer-events: none; }
-
 .lf-option-icon {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 12px;
-  border-radius: 14px;
-  background: rgba(245,166,35,0.06);
-  border: 1px solid rgba(245,166,35,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.4s var(--ease);
+  width: 48px; height: 48px; margin: 0 auto 12px; border-radius: 14px;
+  background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.1);
+  display: flex; align-items: center; justify-content: center; transition: all 0.4s var(--ease);
+  overflow: hidden;
 }
-
 .lf-option.selected .lf-option-icon {
-  background: rgba(245,166,35,0.12);
-  border-color: rgba(245,166,35,0.25);
-  box-shadow: 0 0 24px var(--gold-glow);
-  transform: scale(1.05);
+  background: rgba(245,166,35,0.12); border-color: rgba(245,166,35,0.25);
+  box-shadow: 0 0 24px var(--gold-glow); transform: scale(1.05);
 }
-
 .lf-option-icon svg { width: 22px; height: 22px; color: var(--gold); }
-
+.lf-option-icon lottie-player { width: 32px; height: 32px; }
 .lf-option-label { font-size: 14px; font-weight: 600; line-height: 1.3; }
-
 .lf-option-desc { font-size: 11px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
-
 .lf-option-check {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: scale(0) rotate(-90deg);
-  transition: all 0.4s var(--ease-bounce);
+  position: absolute; top: 10px; right: 10px; width: 22px; height: 22px;
+  border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: scale(0) rotate(-90deg); transition: all 0.4s var(--ease-bounce);
 }
-
-.lf-option.selected .lf-option-check {
-  opacity: 1;
-  transform: scale(1) rotate(0deg);
-}
-
+.lf-option.selected .lf-option-check { opacity: 1; transform: scale(1) rotate(0deg); }
 .lf-option-check svg { width: 12px; height: 12px; color: #000; }
 
 /* ---- Range slider ---- */
 .lf-range-container { margin-bottom: 20px; }
-
 .lf-range-display { text-align: center; margin-bottom: 20px; }
-
 .lf-range-value {
-  font-family: var(--font-heading);
-  font-size: 56px;
-  font-weight: 800;
+  font-family: var(--font-heading); font-size: 56px; font-weight: 800;
   background: linear-gradient(135deg, var(--gold), #FFD700, var(--gold-dark));
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: lf-gradient-shift 3s ease-in-out infinite;
-  line-height: 1;
-  transition: transform 0.15s ease;
+  background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; animation: lf-gradient-shift 3s ease-in-out infinite;
+  line-height: 1; transition: transform 0.15s ease;
 }
-
 .lf-range-value.bumped { transform: scale(1.08); }
-
 .lf-range-suffix { font-size: 16px; color: var(--text-secondary); margin-top: 6px; }
-
 .lf-range {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 10px;
-  border-radius: 5px;
-  background: var(--surface-2);
-  outline: none;
-  cursor: pointer;
-  position: relative;
+  -webkit-appearance: none; appearance: none; width: 100%; height: 10px;
+  border-radius: 5px; background: var(--surface-2); outline: none; cursor: pointer;
 }
-
 .lf-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  -webkit-appearance: none; width: 32px; height: 32px; border-radius: 50%;
   background: linear-gradient(135deg, var(--gold), var(--gold-light));
   box-shadow: 0 0 24px var(--gold-glow), 0 2px 8px rgba(0,0,0,0.4);
-  cursor: pointer;
-  transition: transform 0.2s var(--ease-bounce), box-shadow 0.2s ease;
+  cursor: pointer; transition: transform 0.2s var(--ease-bounce), box-shadow 0.2s ease;
 }
-
-.lf-range::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 40px var(--gold-glow), 0 4px 16px rgba(0,0,0,0.5);
-}
-
-.lf-range:active::-webkit-slider-thumb {
-  transform: scale(1.3);
-}
-
+.lf-range::-webkit-slider-thumb:hover { transform: scale(1.2); box-shadow: 0 0 40px var(--gold-glow), 0 4px 16px rgba(0,0,0,0.5); }
+.lf-range:active::-webkit-slider-thumb { transform: scale(1.3); }
 .lf-range::-moz-range-thumb {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 32px; height: 32px; border-radius: 50%;
   background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  border: none;
-  box-shadow: 0 0 24px var(--gold-glow), 0 2px 8px rgba(0,0,0,0.4);
-  cursor: pointer;
+  border: none; box-shadow: 0 0 24px var(--gold-glow), 0 2px 8px rgba(0,0,0,0.4); cursor: pointer;
 }
-
-.lf-range-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-  font-size: 11px;
-  color: var(--text-muted);
-}
+.lf-range-labels { display: flex; justify-content: space-between; margin-top: 10px; font-size: 11px; color: var(--text-muted); }
 
 /* ---- Buttons ---- */
-.lf-actions {
-  display: flex;
-  gap: 14px;
-  margin-top: 36px;
-}
-
+.lf-actions { display: flex; gap: 14px; margin-top: 36px; }
 .lf-btn {
-  flex: 1;
-  padding: 17px 28px;
-  font-family: var(--font-body);
-  font-size: 15px;
-  font-weight: 600;
-  border: none;
-  border-radius: var(--radius);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition: all 0.35s var(--ease);
-  position: relative;
-  overflow: hidden;
+  flex: 1; padding: 17px 28px; font-family: var(--font-body); font-size: 15px; font-weight: 600;
+  border: none; border-radius: var(--radius); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: all 0.35s var(--ease); position: relative; overflow: hidden;
 }
-
 .lf-btn svg { width: 18px; height: 18px; }
-
 .lf-btn-primary {
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: #000;
-  box-shadow: 0 4px 24px rgba(245,166,35,0.3), 0 0 60px rgba(245,166,35,0.08);
-  font-weight: 700;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #000;
+  box-shadow: 0 4px 24px rgba(245,166,35,0.3), 0 0 60px rgba(245,166,35,0.08); font-weight: 700;
 }
-
-.lf-btn-primary:hover {
-  box-shadow: 0 8px 40px rgba(245,166,35,0.45), 0 0 80px rgba(245,166,35,0.12);
-  transform: translateY(-2px);
-}
-
-.lf-btn-primary:active {
-  transform: translateY(0) scale(0.98);
-  box-shadow: 0 2px 12px rgba(245,166,35,0.3);
-}
-
-/* Shimmer */
+.lf-btn-primary:hover { box-shadow: 0 8px 40px rgba(245,166,35,0.45), 0 0 80px rgba(245,166,35,0.12); transform: translateY(-2px); }
+.lf-btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: 0 2px 12px rgba(245,166,35,0.3); }
 .lf-btn-primary::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
+  content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
   animation: lf-shimmer 3s ease-in-out infinite;
 }
-
-@keyframes lf-shimmer {
-  0% { left: -100%; }
-  50% { left: 100%; }
-  100% { left: 100%; }
-}
-
+@keyframes lf-shimmer { 0% { left: -100%; } 50% { left: 100%; } 100% { left: 100%; } }
 .lf-btn-secondary {
-  background: rgba(255,255,255,0.04);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-light);
+  background: rgba(255,255,255,0.04); color: var(--text-secondary); border: 1px solid var(--border-light);
 }
-
-.lf-btn-secondary:hover {
-  background: rgba(255,255,255,0.08);
-  color: var(--text-primary);
-  border-color: rgba(255,255,255,0.2);
-  transform: translateY(-1px);
-}
-
+html.light .lf-btn-secondary { background: rgba(0,0,0,0.04); }
+.lf-btn-secondary:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); border-color: rgba(255,255,255,0.2); transform: translateY(-1px); }
 .lf-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
-
-/* Spinner */
-.lf-spinner {
-  width: 20px;
-  height: 20px;
-  border: 2.5px solid transparent;
-  border-top-color: #000;
-  border-right-color: #000;
-  border-radius: 50%;
-  animation: lf-spin 0.7s linear infinite;
-  display: none;
-}
-
+.lf-spinner { width: 20px; height: 20px; border: 2.5px solid transparent; border-top-color: #000; border-right-color: #000; border-radius: 50%; animation: lf-spin 0.7s linear infinite; display: none; }
 .lf-btn.loading .lf-spinner { display: block; }
 .lf-btn.loading .lf-btn-text { display: none; }
 .lf-btn.loading svg:not(.lf-spinner) { display: none; }
-
 @keyframes lf-spin { to { transform: rotate(360deg); } }
 
 /* ---- Success screen ---- */
-.lf-success {
-  display: none;
-  text-align: center;
-  padding: 20px 0;
-}
-
-.lf-success.active {
-  display: block;
-  animation: lf-morph-in 0.7s var(--ease) forwards;
-}
-
-.lf-success-icon-wrap {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 28px;
-}
-
-.lf-success-ring {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 2px solid rgba(48,209,88,0.2);
-  animation: lf-ring-expand 1s var(--ease) forwards;
-}
-
-@keyframes lf-ring-expand {
-  0% { transform: scale(0); opacity: 1; }
-  100% { transform: scale(1.5); opacity: 0; }
-}
-
+.lf-success { display: none; text-align: center; padding: 20px 0; }
+.lf-success.active { display: block; animation: lf-morph-in 0.7s var(--ease) forwards; }
+.lf-success-icon-wrap { position: relative; width: 100px; height: 100px; margin: 0 auto 28px; }
+.lf-success-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(48,209,88,0.2); animation: lf-ring-expand 1s var(--ease) forwards; }
+@keyframes lf-ring-expand { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
 .lf-success-icon {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: rgba(48,209,88,0.08);
-  border: 2px solid rgba(48,209,88,0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: lf-success-pop 0.6s var(--ease-bounce) forwards;
-  position: relative;
-  z-index: 1;
+  width: 100%; height: 100%; border-radius: 50%; background: rgba(48,209,88,0.08);
+  border: 2px solid rgba(48,209,88,0.25); display: flex; align-items: center; justify-content: center;
+  animation: lf-success-pop 0.6s var(--ease-bounce) forwards; position: relative; z-index: 1;
 }
-
 @keyframes lf-success-pop {
   0% { transform: scale(0) rotate(-20deg); opacity: 0; }
   60% { transform: scale(1.1) rotate(5deg); }
   100% { transform: scale(1) rotate(0); opacity: 1; }
 }
-
 .lf-success-icon svg { width: 44px; height: 44px; color: var(--green); }
-
-.lf-success-title {
-  font-family: var(--font-heading);
-  font-size: 30px;
-  font-weight: 800;
-  margin-bottom: 12px;
-  animation: lf-fade-up 0.6s var(--ease) both;
-  animation-delay: 0.3s;
-}
-
-.lf-success-text {
-  font-size: 15px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  max-width: 420px;
-  margin: 0 auto 28px;
-  animation: lf-fade-up 0.6s var(--ease) both;
-  animation-delay: 0.4s;
-}
-
-.lf-success-details {
-  background: rgba(255,255,255,0.025);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  text-align: left;
-  margin-bottom: 24px;
-  animation: lf-fade-up 0.6s var(--ease) both;
-  animation-delay: 0.5s;
-}
-
-.lf-success-detail {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 13px;
-}
-
+.lf-success-title { font-family: var(--font-heading); font-size: 30px; font-weight: 800; margin-bottom: 12px; animation: lf-fade-up 0.6s var(--ease) both; animation-delay: 0.3s; }
+.lf-success-text { font-size: 15px; color: var(--text-secondary); line-height: 1.6; max-width: 420px; margin: 0 auto 28px; animation: lf-fade-up 0.6s var(--ease) both; animation-delay: 0.4s; }
+.lf-success-details { background: rgba(255,255,255,0.025); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: left; margin-bottom: 24px; animation: lf-fade-up 0.6s var(--ease) both; animation-delay: 0.5s; }
+html.light .lf-success-details { background: rgba(0,0,0,0.025); }
+.lf-success-detail { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
 .lf-success-detail:last-child { border-bottom: none; }
 .lf-success-detail-label { color: var(--text-muted); }
 .lf-success-detail-value { color: var(--text-primary); font-weight: 600; }
 
-/* ---- Trust indicators ---- */
-.lf-trust {
+/* ---- Testimonials ---- */
+.lf-testimonials {
+  margin-top: 24px;
+  padding: 20px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  min-height: 100px;
+}
+html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
+.lf-testimonial {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.5s var(--ease);
+  position: absolute;
+  inset: 20px;
+}
+.lf-testimonial.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.lf-testimonial-stars {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+.lf-testimonial-stars svg { width: 14px; height: 14px; color: var(--gold); fill: var(--gold); }
+.lf-testimonial-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+.lf-testimonial-author {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.lf-testimonial-location {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+.lf-testimonial-dots {
   display: flex;
   justify-content: center;
-  gap: 28px;
-  margin-top: 36px;
-  padding-top: 28px;
-  border-top: 1px solid var(--border);
+  gap: 6px;
+  margin-top: 12px;
+}
+.lf-testimonial-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.lf-testimonial-dot.active {
+  background: var(--gold);
+  transform: scale(1.3);
 }
 
+/* ---- Trust indicators ---- */
+.lf-trust {
+  display: flex; justify-content: center; gap: 28px; margin-top: 20px;
+  padding-top: 20px; border-top: 1px solid var(--border);
+}
 .lf-trust-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-muted);
-  transition: color 0.3s ease;
+  display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 500;
+  color: var(--text-muted); transition: color 0.3s ease;
 }
-
 .lf-trust-item:hover { color: var(--text-secondary); }
-
 .lf-trust-item svg { width: 14px; height: 14px; color: var(--green); }
 
 /* ---- Confetti canvas ---- */
-#lf-confetti {
+#lf-confetti { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
+
+/* ---- Saved indicator ---- */
+.lf-saved-indicator {
   position: fixed;
-  inset: 0;
-  z-index: 9999;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  padding: 10px 16px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  font-size: 12px;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s var(--ease);
   pointer-events: none;
 }
+.lf-saved-indicator.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.lf-saved-indicator svg { width: 14px; height: 14px; }
 
 /* ---- Responsive ---- */
 @media (max-width: 600px) {
@@ -1023,6 +825,8 @@ body {
   .lf-progress-ring-container { gap: 16px; }
   .lf-progress-ring-wrap { width: 44px; height: 44px; }
   .lf-progress-ring { width: 44px; height: 44px; }
+  .lf-theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; }
+  .lf-social-proof { flex-direction: column; text-align: center; }
 }
 
 /* ---- Shake ---- */
@@ -1035,6 +839,15 @@ body {
 </head>
 <body>
 
+<!-- Micro Progress Bar -->
+<div class="lf-micro-progress" id="lf-micro-progress" style="width: 0%"></div>
+
+<!-- Theme Toggle -->
+<button class="lf-theme-toggle" id="lf-theme-toggle" aria-label="Changer le thème">
+  <svg class="lf-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+  <svg class="lf-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+</button>
+
 <!-- Particle Canvas -->
 <canvas id="lf-particles"></canvas>
 
@@ -1044,11 +857,23 @@ body {
 <!-- Confetti Canvas -->
 <canvas id="lf-confetti"></canvas>
 
+<!-- Saved Indicator -->
+<div class="lf-saved-indicator" id="lf-saved-indicator">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+  Progression sauvegardée
+</div>
+
 <div class="lf-root">
   <div class="lf-container">
     <div class="lf-card-wrapper">
       <div class="lf-card" id="lf-card">
         <div class="lf-spotlight" id="lf-spotlight"></div>
+
+        <!-- Availability -->
+        <div class="lf-availability">
+          <div class="lf-avail-dot"></div>
+          <span>Un expert est disponible maintenant</span>
+        </div>
 
         <!-- Header -->
         <div class="lf-header">
@@ -1058,7 +883,26 @@ body {
             Soumission 100% gratuite
           </div>
           <h2 class="lf-title">Votre projet <span class="lf-title-gold">solaire</span><br>commence ici</h2>
-          <p class="lf-subtitle">Obtenez une soumission personnalisée en moins de 2 minutes.</p>
+          <p class="lf-subtitle" id="lf-subtitle"></p>
+        </div>
+
+        <!-- Social Proof -->
+        <div class="lf-social-proof">
+          <div class="lf-social-proof-avatars">
+            <div class="lf-social-proof-avatar" style="background: #2563EB;">JT</div>
+            <div class="lf-social-proof-avatar" style="background: #7C3AED;">ML</div>
+            <div class="lf-social-proof-avatar" style="background: #059669;">SB</div>
+            <div class="lf-social-proof-avatar" style="background: #DC2626;">PL</div>
+          </div>
+          <div class="lf-social-proof-text">
+            Déjà <span class="lf-social-proof-count" id="lf-counter">0</span> propriétaires québécois nous font confiance
+          </div>
+        </div>
+
+        <!-- Timer -->
+        <div class="lf-timer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Évaluation gratuite — offre se termine dans <span class="lf-timer-countdown" id="lf-timer"></span></span>
         </div>
 
         <!-- Progress Ring + Step Indicators -->
@@ -1100,6 +944,7 @@ body {
           <div class="lf-step active" data-step="0">
             <div class="lf-step-header">
               <div class="lf-step-icon">
+                <lottie-player src="https://lottie.host/e7e40e76-d977-4dcd-b8b2-2e8e1e8e2e8e/user-icon.json" background="transparent" speed="1" loop autoplay></lottie-player>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
               </div>
               <div>
@@ -1129,7 +974,7 @@ body {
 
             <div class="lf-field">
               <label class="lf-label">Téléphone cellulaire <span class="lf-required">*</span></label>
-              <input type="tel" class="lf-input" id="lf-phone" placeholder="(514) 555-1234" required autocomplete="tel">
+              <input type="tel" class="lf-input" id="lf-phone" placeholder="(514) 555-1234" required autocomplete="tel" inputmode="tel">
               <div class="lf-error-msg">Veuillez entrer un numéro valide</div>
             </div>
 
@@ -1275,6 +1120,51 @@ body {
           <div class="lf-success-details" id="lf-success-details"></div>
         </div>
 
+        <!-- Testimonials -->
+        <div class="lf-testimonials" id="lf-testimonials">
+          <div class="lf-testimonial active" data-index="0">
+            <div class="lf-testimonial-stars">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="lf-testimonial-text">"Installation impeccable et équipe super professionnelle. Ma facture d'Hydro a baissé de 85% dès le premier mois !"</div>
+            <div class="lf-testimonial-author">Jean-Pierre Tremblay</div>
+            <div class="lf-testimonial-location">Blainville, QC</div>
+          </div>
+          <div class="lf-testimonial" data-index="1">
+            <div class="lf-testimonial-stars">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="lf-testimonial-text">"Pendant la panne de verglas, on était les seuls du quartier avec l'électricité grâce à notre batterie Larks Solar."</div>
+            <div class="lf-testimonial-author">Marie-Claude Lavoie</div>
+            <div class="lf-testimonial-location">Saint-Jérôme, QC</div>
+          </div>
+          <div class="lf-testimonial" data-index="2">
+            <div class="lf-testimonial-stars">
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div class="lf-testimonial-text">"Le processus de soumission était rapide et transparent. Aucune surprise, que du positif. Je recommande à 100% !"</div>
+            <div class="lf-testimonial-author">Stéphane Bouchard</div>
+            <div class="lf-testimonial-location">Laval, QC</div>
+          </div>
+          <div class="lf-testimonial-dots">
+            <div class="lf-testimonial-dot active" data-index="0"></div>
+            <div class="lf-testimonial-dot" data-index="1"></div>
+            <div class="lf-testimonial-dot" data-index="2"></div>
+          </div>
+        </div>
+
         <!-- Trust -->
         <div class="lf-trust">
           <div class="lf-trust-item">
@@ -1306,14 +1196,300 @@ body {
   const MONDAY_API_KEY = 'VOTRE_API_KEY_MONDAY';
   const MONDAY_BOARD_ID = 'VOTRE_BOARD_ID';
   const MONDAY_GROUP_ID = 'VOTRE_GROUP_ID';
+  const STORAGE_KEY = 'larks_solar_form_v3';
 
   // ========================================================================
-  // PARTICLES SYSTEM
+  // ANALYTICS TRACKER
+  // ========================================================================
+  const analytics = {
+    startTime: Date.now(),
+    stepTimes: {},
+    events: [],
+    track(event, data = {}) {
+      const entry = { event, timestamp: Date.now(), elapsed: Date.now() - this.startTime, ...data };
+      this.events.push(entry);
+      console.log('[Larks Analytics]', event, data);
+    },
+    trackStep(step) {
+      this.stepTimes[step] = Date.now();
+      this.track('step_view', { step });
+    },
+    trackStepComplete(step) {
+      const duration = this.stepTimes[step] ? Date.now() - this.stepTimes[step] : 0;
+      this.track('step_complete', { step, duration_ms: duration });
+    },
+    trackSubmit(data) {
+      this.track('form_submit', { total_time_ms: Date.now() - this.startTime, fields: Object.keys(data).length });
+    },
+    trackAbandonment(step) {
+      this.track('abandonment', { step, time_spent_ms: Date.now() - this.startTime });
+    }
+  };
+
+  // Track page load
+  analytics.track('page_load');
+  analytics.trackStep(0);
+
+  // Track abandonment on page leave
+  window.addEventListener('beforeunload', () => {
+    if (!document.querySelector('.lf-success.active')) {
+      analytics.trackAbandonment(currentStep);
+    }
+  });
+
+  // ========================================================================
+  // THEME TOGGLE
+  // ========================================================================
+  const themeToggle = document.getElementById('lf-theme-toggle');
+  const savedTheme = localStorage.getItem('larks_theme');
+  if (savedTheme === 'light') document.documentElement.classList.add('light');
+
+  themeToggle.addEventListener('click', () => {
+    document.documentElement.classList.toggle('light');
+    const isLight = document.documentElement.classList.contains('light');
+    localStorage.setItem('larks_theme', isLight ? 'light' : 'dark');
+    analytics.track('theme_toggle', { theme: isLight ? 'light' : 'dark' });
+    // Haptic feedback
+    if (navigator.vibrate) navigator.vibrate(10);
+  });
+
+  // ========================================================================
+  // TYPING EFFECT
+  // ========================================================================
+  const subtitleEl = document.getElementById('lf-subtitle');
+  const typingText = 'Obtenez une soumission personnalisée en moins de 2 minutes.';
+  let charIndex = 0;
+
+  function typeText() {
+    if (charIndex <= typingText.length) {
+      subtitleEl.innerHTML = typingText.slice(0, charIndex) + '<span class="lf-typing-cursor"></span>';
+      charIndex++;
+      setTimeout(typeText, 30 + Math.random() * 30);
+    } else {
+      // Remove cursor after typing
+      setTimeout(() => {
+        subtitleEl.innerHTML = typingText;
+      }, 2000);
+    }
+  }
+  setTimeout(typeText, 800);
+
+  // ========================================================================
+  // SOCIAL PROOF COUNTER (animated)
+  // ========================================================================
+  const counterEl = document.getElementById('lf-counter');
+  const targetCount = 847;
+  let currentCount = 0;
+
+  function animateCounter() {
+    const duration = 2000;
+    const startTime = Date.now();
+    function update() {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      currentCount = Math.round(eased * targetCount);
+      counterEl.textContent = currentCount.toLocaleString('fr-CA');
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    update();
+  }
+
+  // Trigger counter when visible
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animateCounter();
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.5 });
+  observer.observe(counterEl);
+
+  // ========================================================================
+  // TIMER COUNTDOWN (end of month)
+  // ========================================================================
+  const timerEl = document.getElementById('lf-timer');
+
+  function updateTimer() {
+    const now = new Date();
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
+    const diff = endOfMonth - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+    timerEl.textContent = `${days}j ${String(hours).padStart(2,'0')}h ${String(minutes).padStart(2,'0')}m ${String(seconds).padStart(2,'0')}s`;
+  }
+  updateTimer();
+  setInterval(updateTimer, 1000);
+
+  // ========================================================================
+  // TESTIMONIALS CAROUSEL
+  // ========================================================================
+  const testimonials = document.querySelectorAll('.lf-testimonial');
+  const dots = document.querySelectorAll('.lf-testimonial-dot');
+  let currentTestimonial = 0;
+
+  function showTestimonial(index) {
+    testimonials.forEach(t => t.classList.remove('active'));
+    dots.forEach(d => d.classList.remove('active'));
+    testimonials[index].classList.add('active');
+    dots[index].classList.add('active');
+    currentTestimonial = index;
+  }
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      showTestimonial(parseInt(dot.dataset.index));
+    });
+  });
+
+  // Auto-rotate every 5 seconds
+  setInterval(() => {
+    showTestimonial((currentTestimonial + 1) % testimonials.length);
+  }, 5000);
+
+  // ========================================================================
+  // MICRO PROGRESS BAR
+  // ========================================================================
+  const microProgress = document.getElementById('lf-micro-progress');
+
+  function updateMicroProgress() {
+    // Calculate based on step + filled fields
+    const stepWeight = currentStep / 3;
+    let fieldProgress = 0;
+
+    if (currentStep === 0) {
+      const fields = ['lf-prenom', 'lf-nom', 'lf-email', 'lf-phone', 'lf-adresse'];
+      const filled = fields.filter(id => document.getElementById(id).value.trim().length > 0).length;
+      fieldProgress = (filled / fields.length) * (1/3);
+    } else if (currentStep === 1) {
+      const hasObjectif = document.querySelector('input[name="objectif"]:checked') ? 0.5 : 0;
+      fieldProgress = (1/3) + hasObjectif * (1/3);
+    } else if (currentStep === 2) {
+      const fields = ['lf-toiture', 'lf-annee', 'lf-type-propriete'];
+      const filled = fields.filter(id => document.getElementById(id).value.length > 0).length;
+      fieldProgress = (2/3) + (filled / fields.length) * (1/3);
+    }
+
+    const total = Math.max(stepWeight, fieldProgress);
+    microProgress.style.width = Math.min(total * 100, 100) + '%';
+  }
+
+  // Listen to all inputs for micro progress
+  document.querySelectorAll('.lf-input, .lf-select, .lf-textarea').forEach(el => {
+    el.addEventListener('input', updateMicroProgress);
+    el.addEventListener('change', updateMicroProgress);
+  });
+  document.querySelectorAll('.lf-option input').forEach(el => {
+    el.addEventListener('change', updateMicroProgress);
+  });
+
+  // ========================================================================
+  // LOCALSTORAGE SAVE/RESTORE
+  // ========================================================================
+  const savedIndicator = document.getElementById('lf-saved-indicator');
+  let saveTimeout;
+
+  function saveFormData() {
+    const data = {
+      prenom: document.getElementById('lf-prenom').value,
+      nom: document.getElementById('lf-nom').value,
+      email: document.getElementById('lf-email').value,
+      phone: document.getElementById('lf-phone').value,
+      adresse: document.getElementById('lf-adresse').value,
+      objectif: document.querySelector('input[name="objectif"]:checked')?.value || '',
+      facture: document.getElementById('lf-facture').value,
+      toiture: document.getElementById('lf-toiture').value,
+      annee: document.getElementById('lf-annee').value,
+      type_propriete: document.getElementById('lf-type-propriete').value,
+      message: document.getElementById('lf-message').value,
+      currentStep: currentStep,
+      timestamp: Date.now()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+    // Show saved indicator
+    savedIndicator.classList.add('visible');
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => savedIndicator.classList.remove('visible'), 2000);
+  }
+
+  function restoreFormData() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+
+    try {
+      const data = JSON.parse(saved);
+      // Only restore if less than 24 hours old
+      if (Date.now() - data.timestamp > 24 * 60 * 60 * 1000) {
+        localStorage.removeItem(STORAGE_KEY);
+        return;
+      }
+
+      if (data.prenom) document.getElementById('lf-prenom').value = data.prenom;
+      if (data.nom) document.getElementById('lf-nom').value = data.nom;
+      if (data.email) document.getElementById('lf-email').value = data.email;
+      if (data.phone) document.getElementById('lf-phone').value = data.phone;
+      if (data.adresse) document.getElementById('lf-adresse').value = data.adresse;
+      if (data.facture) document.getElementById('lf-facture').value = data.facture;
+      if (data.toiture) document.getElementById('lf-toiture').value = data.toiture;
+      if (data.annee) document.getElementById('lf-annee').value = data.annee;
+      if (data.type_propriete) document.getElementById('lf-type-propriete').value = data.type_propriete;
+      if (data.message) document.getElementById('lf-message').value = data.message;
+
+      if (data.objectif) {
+        const radio = document.querySelector(`input[name="objectif"][value="${data.objectif}"]`);
+        if (radio) {
+          radio.checked = true;
+          radio.closest('.lf-option').classList.add('selected');
+        }
+      }
+
+      // Update range display
+      const rangeVal = document.getElementById('lf-facture').value;
+      document.getElementById('lf-facture-display').textContent = rangeVal >= 500 ? '500$+' : rangeVal + '$';
+      updateRangeTrack(document.getElementById('lf-facture'));
+
+      // Trigger validation visuals
+      Object.entries(validationRules).forEach(([id, rule]) => {
+        const el = document.getElementById(id);
+        if (el.value.trim() && rule(el.value.trim())) {
+          el.closest('.lf-field').classList.add('valid');
+        }
+      });
+
+      analytics.track('form_restored', { step: data.currentStep });
+    } catch (e) {
+      console.warn('Could not restore form data:', e);
+    }
+  }
+
+  // Auto-save on input
+  document.querySelectorAll('.lf-input, .lf-select, .lf-textarea, .lf-range').forEach(el => {
+    el.addEventListener('input', () => {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(saveFormData, 500);
+    });
+    el.addEventListener('change', () => {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(saveFormData, 500);
+    });
+  });
+  document.querySelectorAll('.lf-option').forEach(opt => {
+    opt.addEventListener('click', () => setTimeout(saveFormData, 100));
+  });
+
+  // ========================================================================
+  // PARTICLES SYSTEM with Parallax
   // ========================================================================
   const particleCanvas = document.getElementById('lf-particles');
   const pCtx = particleCanvas.getContext('2d');
   let particles = [];
   const PARTICLE_COUNT = 60;
+  let globalMouseX = 0, globalMouseY = 0;
 
   function resizeParticles() {
     particleCanvas.width = window.innerWidth;
@@ -1321,10 +1497,12 @@ body {
   }
 
   class Particle {
-    constructor() { this.reset(); }
+    constructor() { this.reset(); this.layer = Math.random(); }
     reset() {
       this.x = Math.random() * particleCanvas.width;
       this.y = Math.random() * particleCanvas.height;
+      this.baseX = this.x;
+      this.baseY = this.y;
       this.size = Math.random() * 2.5 + 0.5;
       this.speedX = (Math.random() - 0.5) * 0.3;
       this.speedY = -Math.random() * 0.4 - 0.1;
@@ -1333,11 +1511,22 @@ body {
       this.pulseSpeed = Math.random() * 0.02 + 0.01;
     }
     update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
+      this.baseX += this.speedX;
+      this.baseY += this.speedY;
       this.pulse += this.pulseSpeed;
-      if (this.y < -10 || this.x < -10 || this.x > particleCanvas.width + 10) this.reset();
-      if (this.y < -10) { this.y = particleCanvas.height + 10; }
+
+      // Parallax: deeper layers move less
+      const parallaxStrength = this.layer * 15;
+      const centerX = particleCanvas.width / 2;
+      const centerY = particleCanvas.height / 2;
+      const offsetX = ((globalMouseX - centerX) / centerX) * parallaxStrength;
+      const offsetY = ((globalMouseY - centerY) / centerY) * parallaxStrength;
+
+      this.x = this.baseX + offsetX;
+      this.y = this.baseY + offsetY;
+
+      if (this.baseY < -10 || this.baseX < -10 || this.baseX > particleCanvas.width + 10) this.reset();
+      if (this.baseY < -10) { this.baseY = particleCanvas.height + 10; this.y = this.baseY; }
     }
     draw() {
       const o = this.opacity * (0.5 + 0.5 * Math.sin(this.pulse));
@@ -1345,7 +1534,6 @@ body {
       pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
       pCtx.fillStyle = `rgba(245, 166, 35, ${o})`;
       pCtx.fill();
-      // Glow
       pCtx.beginPath();
       pCtx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
       pCtx.fillStyle = `rgba(245, 166, 35, ${o * 0.15})`;
@@ -1358,9 +1546,45 @@ body {
     particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
   }
 
+  // Ambient glow color transition based on step
+  const glowColors = [
+    { r: 245, g: 166, b: 35 },  // Gold (step 1)
+    { r: 59, g: 130, b: 246 },  // Blue (step 2)
+    { r: 48, g: 209, b: 88 },   // Green (step 3)
+  ];
+  let currentGlow = glowColors[0];
+  let targetGlow = glowColors[0];
+
+  function lerpColor(a, b, t) {
+    return {
+      r: Math.round(a.r + (b.r - a.r) * t),
+      g: Math.round(a.g + (b.g - a.g) * t),
+      b: Math.round(a.b + (b.b - a.b) * t)
+    };
+  }
+
+  let glowT = 0;
   function animateParticles() {
     pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
-    particles.forEach(p => { p.update(); p.draw(); });
+
+    // Smooth glow transition
+    if (glowT < 1) {
+      glowT = Math.min(glowT + 0.02, 1);
+      currentGlow = lerpColor(currentGlow, targetGlow, glowT);
+    }
+
+    particles.forEach(p => {
+      p.update();
+      const o = p.opacity * (0.5 + 0.5 * Math.sin(p.pulse));
+      pCtx.beginPath();
+      pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      pCtx.fillStyle = `rgba(${currentGlow.r}, ${currentGlow.g}, ${currentGlow.b}, ${o})`;
+      pCtx.fill();
+      pCtx.beginPath();
+      pCtx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+      pCtx.fillStyle = `rgba(${currentGlow.r}, ${currentGlow.g}, ${currentGlow.b}, ${o * 0.15})`;
+      pCtx.fill();
+    });
 
     // Draw connections
     for (let i = 0; i < particles.length; i++) {
@@ -1372,7 +1596,7 @@ body {
           pCtx.beginPath();
           pCtx.moveTo(particles[i].x, particles[i].y);
           pCtx.lineTo(particles[j].x, particles[j].y);
-          pCtx.strokeStyle = `rgba(245, 166, 35, ${0.04 * (1 - dist / 120)})`;
+          pCtx.strokeStyle = `rgba(${currentGlow.r}, ${currentGlow.g}, ${currentGlow.b}, ${0.04 * (1 - dist / 120)})`;
           pCtx.lineWidth = 0.5;
           pCtx.stroke();
         }
@@ -1390,13 +1614,12 @@ body {
   // CURSOR GLOW
   // ========================================================================
   const cursorGlow = document.getElementById('lf-cursor-glow');
-  let mouseX = 0, mouseY = 0;
 
   document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    cursorGlow.style.left = mouseX + 'px';
-    cursorGlow.style.top = mouseY + 'px';
+    globalMouseX = e.clientX;
+    globalMouseY = e.clientY;
+    cursorGlow.style.left = e.clientX + 'px';
+    cursorGlow.style.top = e.clientY + 'px';
     cursorGlow.classList.add('active');
   });
 
@@ -1420,11 +1643,9 @@ body {
       const centerY = rect.height / 2;
       const rotateX = ((y - centerY) / centerY) * -3;
       const rotateY = ((x - centerX) / centerX) * 3;
-
       card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       spotlight.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(245,166,35,0.06), transparent 60%)`;
     });
-
     card.addEventListener('mouseleave', () => {
       card.style.transform = 'rotateX(0) rotateY(0)';
     });
@@ -1484,8 +1705,10 @@ body {
 
   function launchConfetti() {
     confettiActive = true;
-    confettiPieces = Array.from({ length: 120 }, () => new Confetti());
+    confettiPieces = Array.from({ length: 150 }, () => new Confetti());
     animateConfetti();
+    // Haptic feedback
+    if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
   }
 
   function animateConfetti() {
@@ -1517,7 +1740,7 @@ body {
   const successDiv = document.getElementById('lf-success');
   const successDetails = document.getElementById('lf-success-details');
 
-  const CIRCUMFERENCE = 2 * Math.PI * 25; // r=25
+  const CIRCUMFERENCE = 2 * Math.PI * 25;
 
   function updateProgress() {
     const progress = (currentStep + 1) / totalSteps;
@@ -1532,6 +1755,12 @@ body {
         ind.querySelector('.lf-step-ind-num').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>';
       }
     });
+
+    // Update glow color
+    targetGlow = glowColors[currentStep] || glowColors[0];
+    glowT = 0;
+
+    updateMicroProgress();
   }
 
   // ========================================================================
@@ -1546,16 +1775,18 @@ body {
     rangeDisplay.classList.add('bumped');
     setTimeout(() => rangeDisplay.classList.remove('bumped'), 150);
     updateRangeTrack(this);
+    // Haptic feedback on mobile
+    if (navigator.vibrate) navigator.vibrate(5);
   });
 
   function updateRangeTrack(el) {
     const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
-    el.style.background = `linear-gradient(90deg, #F5A623 0%, #FFB94D ${pct}%, #141418 ${pct}%)`;
+    el.style.background = `linear-gradient(90deg, #F5A623 0%, #FFB94D ${pct}%, var(--surface-2) ${pct}%)`;
   }
   updateRangeTrack(rangeInput);
 
   // ========================================================================
-  // OPTION CARDS with ripple
+  // OPTION CARDS with ripple + haptic
   // ========================================================================
   document.querySelectorAll('.lf-option').forEach(opt => {
     opt.addEventListener('mousemove', function(e) {
@@ -1568,6 +1799,9 @@ body {
       this.closest('.lf-options').querySelectorAll('.lf-option').forEach(o => o.classList.remove('selected'));
       this.classList.add('selected');
       this.querySelector('input').checked = true;
+      // Haptic feedback
+      if (navigator.vibrate) navigator.vibrate(15);
+      analytics.track('option_selected', { value: this.querySelector('input').value });
     });
   });
 
@@ -1588,7 +1822,7 @@ body {
   });
 
   // ========================================================================
-  // REAL-TIME VALIDATION with checkmarks
+  // REAL-TIME VALIDATION
   // ========================================================================
   const validationRules = {
     'lf-prenom': v => v.length > 0,
@@ -1615,16 +1849,22 @@ body {
   // NAVIGATION
   // ========================================================================
   btnNext.addEventListener('click', function() {
+    // Haptic feedback
+    if (navigator.vibrate) navigator.vibrate(20);
+
     if (currentStep < totalSteps - 1) {
       if (!validateStep(currentStep)) return;
+      analytics.trackStepComplete(currentStep);
       goToStep(currentStep + 1);
     } else {
       if (!validateStep(currentStep)) return;
+      analytics.trackStepComplete(currentStep);
       submitForm();
     }
   });
 
   btnPrev.addEventListener('click', function() {
+    if (navigator.vibrate) navigator.vibrate(10);
     if (currentStep > 0) goToStep(currentStep - 1);
   });
 
@@ -1641,6 +1881,8 @@ body {
       currentStep = newStep;
       updateProgress();
       updateButtons();
+      analytics.trackStep(newStep);
+      saveFormData();
     }, 400);
   }
 
@@ -1684,6 +1926,8 @@ body {
           el.style.animation = 'none';
           el.offsetHeight;
           el.style.animation = 'lf-shake 0.5s ease';
+          // Haptic feedback for error
+          if (navigator.vibrate) navigator.vibrate([30, 20, 30]);
         }
       });
     }
@@ -1696,6 +1940,7 @@ body {
         opts.offsetHeight;
         opts.style.animation = 'lf-shake 0.5s ease';
         valid = false;
+        if (navigator.vibrate) navigator.vibrate([30, 20, 30]);
       }
     }
 
@@ -1733,6 +1978,8 @@ body {
       message: document.getElementById('lf-message').value.trim(),
     };
 
+    analytics.trackSubmit(data);
+
     // Monday.com API (uncomment when ready)
     /*
     try {
@@ -1769,6 +2016,10 @@ body {
     */
 
     await new Promise(r => setTimeout(r, 1500));
+
+    // Clear saved data on success
+    localStorage.removeItem(STORAGE_KEY);
+
     showSuccess(data);
   }
 
@@ -1777,6 +2028,9 @@ body {
     actionsDiv.style.display = 'none';
     document.querySelector('.lf-steps').style.display = 'none';
     document.querySelector('.lf-progress-ring-container').style.display = 'none';
+
+    // Set micro progress to 100%
+    microProgress.style.width = '100%';
 
     successDetails.innerHTML = `
       <div class="lf-success-detail"><span class="lf-success-detail-label">Nom</span><span class="lf-success-detail-value">${data.prenom} ${data.nom}</span></div>
@@ -1788,7 +2042,17 @@ body {
 
     successDiv.classList.add('active');
     launchConfetti();
+
+    // Change glow to green for success
+    targetGlow = { r: 48, g: 209, b: 88 };
+    glowT = 0;
   }
+
+  // ========================================================================
+  // RESTORE SAVED DATA
+  // ========================================================================
+  restoreFormData();
+  updateMicroProgress();
 
 })();
 </script>
