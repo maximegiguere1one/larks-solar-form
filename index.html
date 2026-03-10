@@ -9,8 +9,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ========================================================================
-   LARKS SOLAR — Formulaire de Soumission Premium
-   Multi-étapes, animé, glassmorphism, 100% responsive
+   LARKS SOLAR — Formulaire Ultra-Dynamique v2.0
+   Particules, Cursor Glow, Tilt 3D, Confettis, Stagger, Morphing
    ======================================================================== */
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -19,7 +19,7 @@
   --gold: #F5A623;
   --gold-dark: #E8941A;
   --gold-light: #FFB94D;
-  --gold-50: #FFF8EB;
+  --gold-glow: rgba(245,166,35,0.35);
   --bg: #050508;
   --surface: #0C0C10;
   --surface-2: #141418;
@@ -30,78 +30,115 @@
   --text-secondary: #8E8E93;
   --text-muted: #48484A;
   --green: #30D158;
-  --green-dark: #28A745;
-  --blue: #0A84FF;
   --error: #FF453A;
   --radius: 14px;
-  --radius-xl: 20px;
+  --radius-xl: 24px;
   --radius-full: 9999px;
   --font-heading: 'Syne', sans-serif;
   --font-body: 'Inter', sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   --transition: 400ms var(--ease);
 }
 
-.lf-root {
+html { scroll-behavior: smooth; }
+
+body {
   font-family: var(--font-body);
   background: var(--bg);
   color: var(--text-primary);
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px 16px;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ---- Container principal ---- */
+/* ---- Particle Canvas ---- */
+#lf-particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ---- Cursor Glow ---- */
+.lf-cursor-glow {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.lf-cursor-glow.active { opacity: 1; }
+
+/* ---- Main Layout ---- */
+.lf-root {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 32px 16px;
+}
+
 .lf-container {
   width: 100%;
-  max-width: 680px;
+  max-width: 720px;
   position: relative;
+  perspective: 1200px;
 }
 
-/* ---- Glow ambiant derrière le formulaire ---- */
-.lf-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(245,166,35,0.08) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-  animation: lf-glow-pulse 4s ease-in-out infinite;
+/* ---- Animated Gradient Border ---- */
+.lf-card-wrapper {
+  position: relative;
+  border-radius: var(--radius-xl);
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(245,166,35,0.3), rgba(245,166,35,0), rgba(245,166,35,0.15), rgba(245,166,35,0));
+  background-size: 300% 300%;
+  animation: lf-border-flow 6s ease infinite;
 }
 
-@keyframes lf-glow-pulse {
-  0%,100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
-  50% { opacity: 1; transform: translate(-50%,-50%) scale(1.15); }
+@keyframes lf-border-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* ---- Card principale ---- */
+/* ---- Card with 3D Tilt ---- */
 .lf-card {
   position: relative;
-  z-index: 1;
-  background: linear-gradient(135deg, rgba(20,20,24,0.85) 0%, rgba(12,12,16,0.95) 100%);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid var(--border);
+  background: linear-gradient(145deg, rgba(20,20,24,0.92) 0%, rgba(8,8,12,0.98) 100%);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
   border-radius: var(--radius-xl);
-  padding: 48px 40px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 40px rgba(0,0,0,0.4);
-  transition: border-color var(--transition), box-shadow var(--transition);
+  padding: 52px 44px;
+  box-shadow: 
+    0 0 0 1px rgba(255,255,255,0.04) inset,
+    0 2px 4px rgba(0,0,0,0.3),
+    0 12px 48px rgba(0,0,0,0.5),
+    0 0 120px rgba(245,166,35,0.04);
+  transition: transform 0.15s ease-out, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
   overflow: hidden;
+  will-change: transform;
 }
 
 .lf-card:hover {
-  border-color: rgba(245,166,35,0.12);
-  box-shadow: 0 8px 60px rgba(0,0,0,0.5), 0 0 40px rgba(245,166,35,0.06);
+  box-shadow: 
+    0 0 0 1px rgba(245,166,35,0.08) inset,
+    0 12px 60px rgba(0,0,0,0.6),
+    0 0 80px rgba(245,166,35,0.06);
 }
 
-/* ---- Noise texture ---- */
+/* Noise overlay */
 .lf-card::before {
   content: '';
   position: absolute;
@@ -113,41 +150,81 @@
   border-radius: inherit;
 }
 
+/* Spotlight effect that follows mouse */
+.lf-spotlight {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lf-card:hover .lf-spotlight { opacity: 1; }
+
 .lf-card > * { position: relative; z-index: 1; }
 
-/* ---- Header ---- */
-.lf-header { text-align: center; margin-bottom: 36px; }
+/* ---- Header with typing effect ---- */
+.lf-header { text-align: center; margin-bottom: 40px; }
 
 .lf-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 16px;
-  background: rgba(245,166,35,0.08);
-  border: 1px solid rgba(245,166,35,0.15);
+  gap: 8px;
+  padding: 8px 20px;
+  background: rgba(245,166,35,0.06);
+  border: 1px solid rgba(245,166,35,0.12);
   border-radius: var(--radius-full);
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
   color: var(--gold);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 20px;
+  letter-spacing: 0.12em;
+  margin-bottom: 24px;
+  animation: lf-badge-in 0.8s var(--ease-bounce) both;
+  animation-delay: 0.2s;
+}
+
+@keyframes lf-badge-in {
+  from { opacity: 0; transform: translateY(-10px) scale(0.9); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.lf-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: lf-pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes lf-pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 var(--gold-glow); }
+  50% { opacity: 0.8; transform: scale(1.3); box-shadow: 0 0 12px 4px var(--gold-glow); }
 }
 
 .lf-badge svg { width: 14px; height: 14px; }
 
 .lf-title {
   font-family: var(--font-heading);
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: 12px;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 14px;
+  animation: lf-title-in 1s var(--ease) both;
+  animation-delay: 0.4s;
+}
+
+@keyframes lf-title-in {
+  from { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 
 .lf-title-gold {
-  background: linear-gradient(135deg, #F5A623 0%, #FFD700 50%, #F5A623 100%);
-  background-size: 200% auto;
+  background: linear-gradient(135deg, #F5A623 0%, #FFD700 30%, #FF8C00 60%, #F5A623 100%);
+  background-size: 300% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -164,125 +241,237 @@
   font-size: 16px;
   color: var(--text-secondary);
   line-height: 1.5;
+  animation: lf-fade-up 0.8s var(--ease) both;
+  animation-delay: 0.6s;
 }
 
-/* ---- Progress bar ---- */
-.lf-progress {
+@keyframes lf-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Circular Progress ---- */
+.lf-progress-ring-container {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 36px;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 40px;
+  animation: lf-fade-up 0.6s var(--ease) both;
+  animation-delay: 0.7s;
 }
 
-.lf-progress-step {
-  flex: 1;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--surface-2);
+.lf-progress-ring-wrap {
   position: relative;
-  overflow: hidden;
-  transition: background var(--transition);
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
 }
 
-.lf-progress-step.active .lf-progress-fill,
-.lf-progress-step.done .lf-progress-fill {
-  transform: scaleX(1);
+.lf-progress-ring {
+  transform: rotate(-90deg);
+  width: 56px;
+  height: 56px;
 }
 
-.lf-progress-fill {
+.lf-progress-ring-bg {
+  fill: none;
+  stroke: var(--surface-2);
+  stroke-width: 3;
+}
+
+.lf-progress-ring-fill {
+  fill: none;
+  stroke: url(#lf-ring-gradient);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 157;
+  stroke-dashoffset: 157;
+  transition: stroke-dashoffset 0.8s var(--ease);
+}
+
+.lf-progress-ring-text {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, var(--gold), var(--gold-light));
-  border-radius: inherit;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 600ms var(--ease);
-}
-
-.lf-step-labels {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
-.lf-step-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  transition: color var(--transition);
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold);
 }
 
-.lf-step-label.active { color: var(--gold); }
-.lf-step-label.done { color: var(--green); }
-
-.lf-step-label .lf-check {
-  width: 14px;
-  height: 14px;
-  display: none;
+/* Step indicators */
+.lf-step-indicators {
+  display: flex;
+  gap: 8px;
+  flex: 1;
 }
 
-.lf-step-label.done .lf-check { display: inline-block; }
-
-/* ---- Steps container ---- */
-.lf-steps {
+.lf-step-ind {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  transition: all 0.5s var(--ease);
+  cursor: default;
   position: relative;
   overflow: hidden;
 }
+
+.lf-step-ind::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(245,166,35,0.06), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lf-step-ind.active {
+  border-color: rgba(245,166,35,0.25);
+  background: rgba(245,166,35,0.04);
+}
+
+.lf-step-ind.active::before { opacity: 1; }
+
+.lf-step-ind.done {
+  border-color: rgba(48,209,88,0.2);
+  background: rgba(48,209,88,0.03);
+}
+
+.lf-step-ind-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  transition: all 0.4s var(--ease);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.lf-step-ind.active .lf-step-ind-num {
+  background: var(--gold);
+  color: #000;
+  box-shadow: 0 0 20px var(--gold-glow);
+}
+
+.lf-step-ind.done .lf-step-ind-num {
+  background: var(--green);
+  color: #fff;
+}
+
+.lf-step-ind-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: color 0.4s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.lf-step-ind.active .lf-step-ind-label { color: var(--gold); }
+.lf-step-ind.done .lf-step-ind-label { color: var(--green); }
+
+@media (max-width: 600px) {
+  .lf-step-ind-label { display: none; }
+  .lf-step-ind { justify-content: center; padding: 10px; }
+}
+
+/* ---- Steps container ---- */
+.lf-steps { position: relative; min-height: 300px; }
 
 .lf-step {
   display: none;
-  animation: lf-step-in 500ms var(--ease) forwards;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
 }
 
-.lf-step.active { display: block; }
-
-@keyframes lf-step-in {
-  from { opacity: 0; transform: translateX(30px); }
-  to { opacity: 1; transform: translateX(0); }
+.lf-step.active {
+  display: block;
+  position: relative;
+  animation: lf-morph-in 0.7s var(--ease) forwards;
 }
 
-@keyframes lf-step-out {
-  from { opacity: 1; transform: translateX(0); }
-  to { opacity: 0; transform: translateX(-30px); }
+@keyframes lf-morph-in {
+  0% { opacity: 0; transform: translateY(30px) scale(0.97); filter: blur(6px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
 
 .lf-step.exiting {
   display: block;
-  animation: lf-step-out 300ms var(--ease) forwards;
+  animation: lf-morph-out 0.4s var(--ease) forwards;
+}
+
+@keyframes lf-morph-out {
+  0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+  100% { opacity: 0; transform: translateY(-20px) scale(0.97); filter: blur(4px); }
 }
 
 /* ---- Step header ---- */
 .lf-step-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 14px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: lf-stagger-in 0.5s var(--ease) forwards;
+  animation-delay: 0.1s;
 }
 
+.lf-step.active .lf-step-header { animation-play-state: running; }
+
 .lf-step-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(245,166,35,0.08);
-  border: 1px solid rgba(245,166,35,0.15);
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(245,166,35,0.06);
+  border: 1px solid rgba(245,166,35,0.12);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: all 0.4s var(--ease);
+  position: relative;
 }
 
-.lf-step-icon svg { width: 22px; height: 22px; color: var(--gold); }
+.lf-step-icon::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 18px;
+  background: radial-gradient(circle, var(--gold-glow), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  animation: lf-icon-pulse 3s ease-in-out infinite;
+}
+
+@keyframes lf-icon-pulse {
+  0%, 100% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 0.5; transform: scale(1); }
+}
+
+.lf-step-icon svg { width: 22px; height: 22px; color: var(--gold); position: relative; z-index: 1; }
 
 .lf-step-title {
   font-family: var(--font-heading);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .lf-step-desc {
@@ -291,9 +480,32 @@
   margin-top: 2px;
 }
 
-/* ---- Form fields ---- */
+/* ---- Staggered field animations ---- */
+@keyframes lf-stagger-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.lf-step.active .lf-field,
+.lf-step.active .lf-row,
+.lf-step.active .lf-options,
+.lf-step.active .lf-range-container {
+  opacity: 0;
+  animation: lf-stagger-in 0.5s var(--ease) forwards;
+}
+
+.lf-step.active .lf-field:nth-child(2) { animation-delay: 0.15s; }
+.lf-step.active .lf-field:nth-child(3) { animation-delay: 0.2s; }
+.lf-step.active .lf-field:nth-child(4) { animation-delay: 0.25s; }
+.lf-step.active .lf-field:nth-child(5) { animation-delay: 0.3s; }
+.lf-step.active .lf-row:nth-child(2) { animation-delay: 0.15s; }
+.lf-step.active .lf-options { animation-delay: 0.2s; }
+.lf-step.active .lf-range-container { animation-delay: 0.3s; }
+
+/* ---- Floating Labels ---- */
 .lf-field {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
+  position: relative;
 }
 
 .lf-label {
@@ -301,36 +513,41 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--text-secondary);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   letter-spacing: 0.01em;
+  transition: color 0.3s ease;
 }
+
+.lf-field:focus-within .lf-label { color: var(--gold); }
 
 .lf-label .lf-required {
   color: var(--gold);
   margin-left: 2px;
 }
 
+/* ---- Inputs with glow ---- */
 .lf-input,
 .lf-select,
 .lf-textarea {
   width: 100%;
-  padding: 14px 16px;
+  padding: 15px 18px;
   font-family: var(--font-body);
   font-size: 15px;
   color: var(--text-primary);
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.025);
   border: 1px solid var(--border-light);
   border-radius: var(--radius);
   outline: none;
-  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  transition: all 0.35s var(--ease);
   -webkit-appearance: none;
   appearance: none;
+  position: relative;
 }
 
 .lf-input:hover,
 .lf-select:hover,
 .lf-textarea:hover {
-  border-color: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.18);
   background: rgba(255,255,255,0.04);
 }
 
@@ -338,45 +555,53 @@
 .lf-select:focus,
 .lf-textarea:focus {
   border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(245,166,35,0.1), 0 0 20px rgba(245,166,35,0.05);
+  box-shadow: 
+    0 0 0 3px rgba(245,166,35,0.08),
+    0 0 30px rgba(245,166,35,0.06),
+    0 0 60px rgba(245,166,35,0.03);
   background: rgba(255,255,255,0.05);
+  transform: translateY(-1px);
 }
 
-.lf-input.error,
-.lf-select.error,
-.lf-textarea.error {
-  border-color: var(--error);
-  box-shadow: 0 0 0 3px rgba(255,69,58,0.1);
-}
+.lf-input.error { border-color: var(--error); box-shadow: 0 0 0 3px rgba(255,69,58,0.1); }
+.lf-input::placeholder, .lf-textarea::placeholder { color: var(--text-muted); }
 
-.lf-input::placeholder,
-.lf-textarea::placeholder {
-  color: var(--text-muted);
-}
-
-.lf-textarea {
-  resize: none;
-  min-height: 100px;
-}
+.lf-textarea { resize: none; min-height: 110px; }
 
 .lf-select {
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238E8E93' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 6l3.5 4 3.5-4z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 14px center;
-  padding-right: 40px;
+  background-position: right 16px center;
+  padding-right: 44px;
 }
 
-.lf-select option {
-  background: var(--surface);
-  color: var(--text-primary);
+.lf-select option { background: var(--surface); color: var(--text-primary); }
+
+/* Input valid checkmark */
+.lf-field.valid .lf-input { border-color: rgba(48,209,88,0.3); }
+.lf-field.valid::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 42px;
+  width: 18px;
+  height: 18px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2330D158' stroke-width='3'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;
+  animation: lf-check-pop 0.3s var(--ease-bounce);
+}
+
+@keyframes lf-check-pop {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .lf-error-msg {
   font-size: 12px;
   color: var(--error);
-  margin-top: 4px;
+  margin-top: 6px;
   display: none;
+  animation: lf-stagger-in 0.3s ease;
 }
 
 .lf-field.has-error .lf-error-msg { display: block; }
@@ -384,140 +609,141 @@
 .lf-field.has-error .lf-select,
 .lf-field.has-error .lf-textarea { border-color: var(--error); }
 
-/* ---- Row (2 colonnes) ---- */
+/* ---- Row ---- */
 .lf-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 16px;
 }
 
-@media (max-width: 520px) {
-  .lf-row { grid-template-columns: 1fr; }
-}
+@media (max-width: 520px) { .lf-row { grid-template-columns: 1fr; } }
 
-/* ---- Option cards (objectif) ---- */
+/* ---- Option cards with ripple ---- */
 .lf-options {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 18px;
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
-@media (max-width: 520px) {
-  .lf-options { grid-template-columns: 1fr; }
-}
+@media (max-width: 520px) { .lf-options { grid-template-columns: 1fr; } }
 
 .lf-option {
   position: relative;
   cursor: pointer;
-  padding: 18px 14px;
+  padding: 22px 16px;
   background: rgba(255,255,255,0.02);
   border: 1px solid var(--border-light);
-  border-radius: var(--radius);
+  border-radius: 16px;
   text-align: center;
-  transition: all var(--transition);
+  transition: all 0.4s var(--ease);
+  overflow: hidden;
 }
 
+.lf-option::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--ripple-x, 50%) var(--ripple-y, 50%), rgba(245,166,35,0.12), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lf-option:hover::before { opacity: 1; }
+
 .lf-option:hover {
-  border-color: rgba(245,166,35,0.25);
-  background: rgba(245,166,35,0.03);
-  transform: translateY(-2px);
+  border-color: rgba(245,166,35,0.3);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 32px rgba(245,166,35,0.08);
 }
 
 .lf-option.selected {
   border-color: var(--gold);
-  background: rgba(245,166,35,0.06);
-  box-shadow: 0 0 20px rgba(245,166,35,0.1);
+  background: rgba(245,166,35,0.05);
+  box-shadow: 0 0 30px rgba(245,166,35,0.12), 0 0 60px rgba(245,166,35,0.04);
+  transform: translateY(-4px) scale(1.02);
 }
 
 .lf-option input { position: absolute; opacity: 0; pointer-events: none; }
 
 .lf-option-icon {
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 10px;
-  border-radius: 10px;
-  background: rgba(245,166,35,0.08);
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  border-radius: 14px;
+  background: rgba(245,166,35,0.06);
+  border: 1px solid rgba(245,166,35,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background var(--transition);
+  transition: all 0.4s var(--ease);
 }
 
 .lf-option.selected .lf-option-icon {
-  background: rgba(245,166,35,0.15);
+  background: rgba(245,166,35,0.12);
+  border-color: rgba(245,166,35,0.25);
+  box-shadow: 0 0 24px var(--gold-glow);
+  transform: scale(1.05);
 }
 
-.lf-option-icon svg { width: 20px; height: 20px; color: var(--gold); }
+.lf-option-icon svg { width: 22px; height: 22px; color: var(--gold); }
 
-.lf-option-label {
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.3;
-}
+.lf-option-label { font-size: 14px; font-weight: 600; line-height: 1.3; }
 
-.lf-option-desc {
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 4px;
-}
+.lf-option-desc { font-size: 11px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
 
 .lf-option-check {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 20px;
-  height: 20px;
+  top: 10px;
+  right: 10px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--gold);
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transform: scale(0.5);
-  transition: all 300ms var(--ease);
+  transform: scale(0) rotate(-90deg);
+  transition: all 0.4s var(--ease-bounce);
 }
 
 .lf-option.selected .lf-option-check {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1) rotate(0deg);
 }
 
 .lf-option-check svg { width: 12px; height: 12px; color: #000; }
 
-/* ---- Range slider (facture) ---- */
-.lf-range-container {
-  margin-bottom: 18px;
-}
+/* ---- Range slider ---- */
+.lf-range-container { margin-bottom: 20px; }
 
-.lf-range-display {
-  text-align: center;
-  margin-bottom: 16px;
-}
+.lf-range-display { text-align: center; margin-bottom: 20px; }
 
 .lf-range-value {
   font-family: var(--font-heading);
-  font-size: 48px;
+  font-size: 56px;
   font-weight: 800;
-  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  background: linear-gradient(135deg, var(--gold), #FFD700, var(--gold-dark));
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: lf-gradient-shift 3s ease-in-out infinite;
   line-height: 1;
+  transition: transform 0.15s ease;
 }
 
-.lf-range-suffix {
-  font-size: 16px;
-  color: var(--text-secondary);
-  margin-top: 4px;
-}
+.lf-range-value.bumped { transform: scale(1.08); }
+
+.lf-range-suffix { font-size: 16px; color: var(--text-secondary); margin-top: 6px; }
 
 .lf-range {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
-  height: 8px;
-  border-radius: 4px;
+  height: 10px;
+  border-radius: 5px;
   background: var(--surface-2);
   outline: none;
   cursor: pointer;
@@ -526,35 +752,38 @@
 
 .lf-range::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 20px rgba(245,166,35,0.4), 0 2px 8px rgba(0,0,0,0.3);
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  box-shadow: 0 0 24px var(--gold-glow), 0 2px 8px rgba(0,0,0,0.4);
   cursor: pointer;
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  transition: transform 0.2s var(--ease-bounce), box-shadow 0.2s ease;
 }
 
 .lf-range::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 30px rgba(245,166,35,0.5), 0 2px 12px rgba(0,0,0,0.4);
+  transform: scale(1.2);
+  box-shadow: 0 0 40px var(--gold-glow), 0 4px 16px rgba(0,0,0,0.5);
+}
+
+.lf-range:active::-webkit-slider-thumb {
+  transform: scale(1.3);
 }
 
 .lf-range::-moz-range-thumb {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: var(--gold);
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
   border: none;
-  box-shadow: 0 0 20px rgba(245,166,35,0.4), 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 0 24px var(--gold-glow), 0 2px 8px rgba(0,0,0,0.4);
   cursor: pointer;
 }
 
 .lf-range-labels {
   display: flex;
   justify-content: space-between;
-  margin-top: 8px;
+  margin-top: 10px;
   font-size: 11px;
   color: var(--text-muted);
 }
@@ -562,13 +791,13 @@
 /* ---- Buttons ---- */
 .lf-actions {
   display: flex;
-  gap: 12px;
-  margin-top: 32px;
+  gap: 14px;
+  margin-top: 36px;
 }
 
 .lf-btn {
   flex: 1;
-  padding: 16px 24px;
+  padding: 17px 28px;
   font-family: var(--font-body);
   font-size: 15px;
   font-weight: 600;
@@ -578,8 +807,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  transition: all var(--transition);
+  gap: 10px;
+  transition: all 0.35s var(--ease);
   position: relative;
   overflow: hidden;
 }
@@ -589,20 +818,21 @@
 .lf-btn-primary {
   background: linear-gradient(135deg, var(--gold), var(--gold-dark));
   color: #000;
-  box-shadow: 0 4px 20px rgba(245,166,35,0.3);
+  box-shadow: 0 4px 24px rgba(245,166,35,0.3), 0 0 60px rgba(245,166,35,0.08);
+  font-weight: 700;
 }
 
 .lf-btn-primary:hover {
-  box-shadow: 0 6px 30px rgba(245,166,35,0.45);
-  transform: translateY(-1px);
+  box-shadow: 0 8px 40px rgba(245,166,35,0.45), 0 0 80px rgba(245,166,35,0.12);
+  transform: translateY(-2px);
 }
 
 .lf-btn-primary:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 10px rgba(245,166,35,0.3);
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 2px 12px rgba(245,166,35,0.3);
 }
 
-/* Shimmer effect on primary button */
+/* Shimmer */
 .lf-btn-primary::after {
   content: '';
   position: absolute;
@@ -610,12 +840,14 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 600ms ease;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  animation: lf-shimmer 3s ease-in-out infinite;
 }
 
-.lf-btn-primary:hover::after {
-  left: 100%;
+@keyframes lf-shimmer {
+  0% { left: -100%; }
+  50% { left: 100%; }
+  100% { left: 100%; }
 }
 
 .lf-btn-secondary {
@@ -625,375 +857,443 @@
 }
 
 .lf-btn-secondary:hover {
-  background: rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.08);
   color: var(--text-primary);
-  border-color: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.2);
+  transform: translateY(-1px);
 }
 
-.lf-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none !important;
-}
+.lf-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 
-/* ---- Spinner ---- */
+/* Spinner */
 .lf-spinner {
-  width: 18px;
-  height: 18px;
-  border: 2px solid transparent;
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid transparent;
   border-top-color: #000;
+  border-right-color: #000;
   border-radius: 50%;
-  animation: lf-spin 0.6s linear infinite;
+  animation: lf-spin 0.7s linear infinite;
   display: none;
 }
 
 .lf-btn.loading .lf-spinner { display: block; }
 .lf-btn.loading .lf-btn-text { display: none; }
+.lf-btn.loading svg:not(.lf-spinner) { display: none; }
 
-@keyframes lf-spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes lf-spin { to { transform: rotate(360deg); } }
 
 /* ---- Success screen ---- */
 .lf-success {
   display: none;
   text-align: center;
   padding: 20px 0;
-  animation: lf-step-in 600ms var(--ease) forwards;
 }
 
-.lf-success.active { display: block; }
+.lf-success.active {
+  display: block;
+  animation: lf-morph-in 0.7s var(--ease) forwards;
+}
+
+.lf-success-icon-wrap {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 28px;
+}
+
+.lf-success-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(48,209,88,0.2);
+  animation: lf-ring-expand 1s var(--ease) forwards;
+}
+
+@keyframes lf-ring-expand {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
 
 .lf-success-icon {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 24px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  background: rgba(48,209,88,0.1);
-  border: 2px solid rgba(48,209,88,0.3);
+  background: rgba(48,209,88,0.08);
+  border: 2px solid rgba(48,209,88,0.25);
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: lf-success-pop 600ms var(--ease) forwards;
+  animation: lf-success-pop 0.6s var(--ease-bounce) forwards;
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes lf-success-pop {
-  0% { transform: scale(0); opacity: 0; }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); opacity: 1; }
+  0% { transform: scale(0) rotate(-20deg); opacity: 0; }
+  60% { transform: scale(1.1) rotate(5deg); }
+  100% { transform: scale(1) rotate(0); opacity: 1; }
 }
 
-.lf-success-icon svg { width: 40px; height: 40px; color: var(--green); }
+.lf-success-icon svg { width: 44px; height: 44px; color: var(--green); }
 
 .lf-success-title {
   font-family: var(--font-heading);
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 800;
   margin-bottom: 12px;
+  animation: lf-fade-up 0.6s var(--ease) both;
+  animation-delay: 0.3s;
 }
 
 .lf-success-text {
   font-size: 15px;
   color: var(--text-secondary);
   line-height: 1.6;
-  max-width: 400px;
-  margin: 0 auto 24px;
+  max-width: 420px;
+  margin: 0 auto 28px;
+  animation: lf-fade-up 0.6s var(--ease) both;
+  animation-delay: 0.4s;
 }
 
 .lf-success-details {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.025);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
+  border-radius: 16px;
+  padding: 24px;
   text-align: left;
   margin-bottom: 24px;
+  animation: lf-fade-up 0.6s var(--ease) both;
+  animation-delay: 0.5s;
 }
 
 .lf-success-detail {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0;
+  align-items: center;
+  padding: 10px 0;
   border-bottom: 1px solid var(--border);
   font-size: 13px;
 }
 
 .lf-success-detail:last-child { border-bottom: none; }
-
 .lf-success-detail-label { color: var(--text-muted); }
-.lf-success-detail-value { color: var(--text-primary); font-weight: 500; }
+.lf-success-detail-value { color: var(--text-primary); font-weight: 600; }
 
 /* ---- Trust indicators ---- */
 .lf-trust {
   display: flex;
   justify-content: center;
-  gap: 24px;
-  margin-top: 32px;
-  padding-top: 24px;
+  gap: 28px;
+  margin-top: 36px;
+  padding-top: 28px;
   border-top: 1px solid var(--border);
 }
 
 .lf-trust-item {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   font-size: 11px;
+  font-weight: 500;
   color: var(--text-muted);
+  transition: color 0.3s ease;
 }
+
+.lf-trust-item:hover { color: var(--text-secondary); }
 
 .lf-trust-item svg { width: 14px; height: 14px; color: var(--green); }
 
-@media (max-width: 520px) {
-  .lf-card { padding: 32px 20px; }
-  .lf-title { font-size: 26px; }
-  .lf-range-value { font-size: 40px; }
-  .lf-trust { flex-direction: column; align-items: center; gap: 12px; }
+/* ---- Confetti canvas ---- */
+#lf-confetti {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 600px) {
+  .lf-card { padding: 36px 22px; }
+  .lf-title { font-size: 28px; }
+  .lf-range-value { font-size: 44px; }
+  .lf-trust { flex-direction: column; align-items: center; gap: 14px; }
   .lf-actions { flex-direction: column-reverse; }
   .lf-btn { width: 100%; }
+  .lf-progress-ring-container { gap: 16px; }
+  .lf-progress-ring-wrap { width: 44px; height: 44px; }
+  .lf-progress-ring { width: 44px; height: 44px; }
+}
+
+/* ---- Shake ---- */
+@keyframes lf-shake {
+  0%,100% { transform: translateX(0); }
+  15%,45%,75% { transform: translateX(-8px); }
+  30%,60%,90% { transform: translateX(8px); }
 }
 </style>
 </head>
 <body>
+
+<!-- Particle Canvas -->
+<canvas id="lf-particles"></canvas>
+
+<!-- Cursor Glow -->
+<div class="lf-cursor-glow" id="lf-cursor-glow"></div>
+
+<!-- Confetti Canvas -->
+<canvas id="lf-confetti"></canvas>
+
 <div class="lf-root">
   <div class="lf-container">
-    <div class="lf-glow"></div>
-    <div class="lf-card">
+    <div class="lf-card-wrapper">
+      <div class="lf-card" id="lf-card">
+        <div class="lf-spotlight" id="lf-spotlight"></div>
 
-      <!-- Header -->
-      <div class="lf-header">
-        <div class="lf-badge">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-          Soumission 100% gratuite
-        </div>
-        <h2 class="lf-title">Votre projet <span class="lf-title-gold">solaire</span> commence ici</h2>
-        <p class="lf-subtitle">Obtenez une soumission personnalisée en moins de 2 minutes.</p>
-      </div>
-
-      <!-- Step labels -->
-      <div class="lf-step-labels">
-        <span class="lf-step-label active" data-step="0">
-          <svg class="lf-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-          Coordonnées
-        </span>
-        <span class="lf-step-label" data-step="1">
-          <svg class="lf-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-          Objectif
-        </span>
-        <span class="lf-step-label" data-step="2">
-          <svg class="lf-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-          Propriété
-        </span>
-      </div>
-
-      <!-- Progress bar -->
-      <div class="lf-progress">
-        <div class="lf-progress-step active"><div class="lf-progress-fill"></div></div>
-        <div class="lf-progress-step"><div class="lf-progress-fill"></div></div>
-        <div class="lf-progress-step"><div class="lf-progress-fill"></div></div>
-      </div>
-
-      <!-- Steps -->
-      <div class="lf-steps">
-
-        <!-- Step 1: Coordonnées -->
-        <div class="lf-step active" data-step="0">
-          <div class="lf-step-header">
-            <div class="lf-step-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </div>
-            <div>
-              <div class="lf-step-title">Vos coordonnées</div>
-              <div class="lf-step-desc">Pour vous contacter avec votre soumission</div>
-            </div>
+        <!-- Header -->
+        <div class="lf-header">
+          <div class="lf-badge">
+            <div class="lf-badge-dot"></div>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            Soumission 100% gratuite
           </div>
-
-          <div class="lf-row">
-            <div class="lf-field">
-              <label class="lf-label">Prénom <span class="lf-required">*</span></label>
-              <input type="text" class="lf-input" id="lf-prenom" placeholder="Jean" required>
-              <div class="lf-error-msg">Veuillez entrer votre prénom</div>
-            </div>
-            <div class="lf-field">
-              <label class="lf-label">Nom <span class="lf-required">*</span></label>
-              <input type="text" class="lf-input" id="lf-nom" placeholder="Tremblay" required>
-              <div class="lf-error-msg">Veuillez entrer votre nom</div>
-            </div>
-          </div>
-
-          <div class="lf-field">
-            <label class="lf-label">Courriel <span class="lf-required">*</span></label>
-            <input type="email" class="lf-input" id="lf-email" placeholder="jean@exemple.com" required>
-            <div class="lf-error-msg">Veuillez entrer un courriel valide</div>
-          </div>
-
-          <div class="lf-field">
-            <label class="lf-label">Téléphone cellulaire <span class="lf-required">*</span></label>
-            <input type="tel" class="lf-input" id="lf-phone" placeholder="(514) 555-1234" required>
-            <div class="lf-error-msg">Veuillez entrer un numéro valide</div>
-          </div>
-
-          <div class="lf-field">
-            <label class="lf-label">Adresse complète <span class="lf-required">*</span></label>
-            <input type="text" class="lf-input" id="lf-adresse" placeholder="123 rue Principale, Blainville, QC" required>
-            <div class="lf-error-msg">Veuillez entrer votre adresse</div>
-          </div>
+          <h2 class="lf-title">Votre projet <span class="lf-title-gold">solaire</span><br>commence ici</h2>
+          <p class="lf-subtitle">Obtenez une soumission personnalisée en moins de 2 minutes.</p>
         </div>
 
-        <!-- Step 2: Objectif -->
-        <div class="lf-step" data-step="1">
-          <div class="lf-step-header">
-            <div class="lf-step-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            </div>
-            <div>
-              <div class="lf-step-title">Votre objectif</div>
-              <div class="lf-step-desc">Quel type de système vous intéresse ?</div>
-            </div>
+        <!-- Progress Ring + Step Indicators -->
+        <div class="lf-progress-ring-container">
+          <div class="lf-progress-ring-wrap">
+            <svg class="lf-progress-ring" viewBox="0 0 56 56">
+              <defs>
+                <linearGradient id="lf-ring-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#F5A623"/>
+                  <stop offset="100%" stop-color="#FFD700"/>
+                </linearGradient>
+              </defs>
+              <circle class="lf-progress-ring-bg" cx="28" cy="28" r="25"/>
+              <circle class="lf-progress-ring-fill" id="lf-ring-fill" cx="28" cy="28" r="25"/>
+            </svg>
+            <div class="lf-progress-ring-text" id="lf-ring-text">1/3</div>
           </div>
 
-          <div class="lf-options" id="lf-objectif-options">
-            <label class="lf-option">
-              <input type="radio" name="objectif" value="Mesurage net">
-              <div class="lf-option-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="lf-option-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-              </div>
-              <div class="lf-option-label">Mesurage net</div>
-              <div class="lf-option-desc">Réduire ma facture</div>
-            </label>
-            <label class="lf-option">
-              <input type="radio" name="objectif" value="Protection pannes">
-              <div class="lf-option-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="lf-option-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-              </div>
-              <div class="lf-option-label">Protection pannes</div>
-              <div class="lf-option-desc">Batterie de secours</div>
-            </label>
-            <label class="lf-option">
-              <input type="radio" name="objectif" value="Hybride">
-              <div class="lf-option-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
-              <div class="lf-option-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
-              </div>
-              <div class="lf-option-label">Hybride</div>
-              <div class="lf-option-desc">Solaire + stockage</div>
-            </label>
-          </div>
-
-          <div class="lf-range-container">
-            <label class="lf-label">Facture moyenne mensuelle d'électricité</label>
-            <div class="lf-range-display">
-              <div class="lf-range-value" id="lf-facture-display">150$</div>
-              <div class="lf-range-suffix">par mois</div>
+          <div class="lf-step-indicators">
+            <div class="lf-step-ind active" data-step="0">
+              <div class="lf-step-ind-num">1</div>
+              <span class="lf-step-ind-label">Coordonnées</span>
             </div>
-            <input type="range" class="lf-range" id="lf-facture" min="50" max="500" value="150" step="10">
-            <div class="lf-range-labels">
-              <span>50$</span>
-              <span>250$</span>
-              <span>500$+</span>
+            <div class="lf-step-ind" data-step="1">
+              <div class="lf-step-ind-num">2</div>
+              <span class="lf-step-ind-label">Objectif</span>
+            </div>
+            <div class="lf-step-ind" data-step="2">
+              <div class="lf-step-ind-num">3</div>
+              <span class="lf-step-ind-label">Propriété</span>
             </div>
           </div>
         </div>
 
-        <!-- Step 3: Propriété -->
-        <div class="lf-step" data-step="2">
-          <div class="lf-step-header">
-            <div class="lf-step-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0a1 1 0 01-1-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 01-1 1"/></svg>
+        <!-- Steps -->
+        <div class="lf-steps">
+
+          <!-- Step 1: Coordonnées -->
+          <div class="lf-step active" data-step="0">
+            <div class="lf-step-header">
+              <div class="lf-step-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div>
+                <div class="lf-step-title">Vos coordonnées</div>
+                <div class="lf-step-desc">Pour vous contacter avec votre soumission</div>
+              </div>
             </div>
-            <div>
-              <div class="lf-step-title">Votre propriété</div>
-              <div class="lf-step-desc">Quelques détails sur votre toiture</div>
+
+            <div class="lf-row">
+              <div class="lf-field">
+                <label class="lf-label">Prénom <span class="lf-required">*</span></label>
+                <input type="text" class="lf-input" id="lf-prenom" placeholder="Jean" required autocomplete="given-name">
+                <div class="lf-error-msg">Veuillez entrer votre prénom</div>
+              </div>
+              <div class="lf-field">
+                <label class="lf-label">Nom <span class="lf-required">*</span></label>
+                <input type="text" class="lf-input" id="lf-nom" placeholder="Tremblay" required autocomplete="family-name">
+                <div class="lf-error-msg">Veuillez entrer votre nom</div>
+              </div>
+            </div>
+
+            <div class="lf-field">
+              <label class="lf-label">Courriel <span class="lf-required">*</span></label>
+              <input type="email" class="lf-input" id="lf-email" placeholder="jean@exemple.com" required autocomplete="email">
+              <div class="lf-error-msg">Veuillez entrer un courriel valide</div>
+            </div>
+
+            <div class="lf-field">
+              <label class="lf-label">Téléphone cellulaire <span class="lf-required">*</span></label>
+              <input type="tel" class="lf-input" id="lf-phone" placeholder="(514) 555-1234" required autocomplete="tel">
+              <div class="lf-error-msg">Veuillez entrer un numéro valide</div>
+            </div>
+
+            <div class="lf-field">
+              <label class="lf-label">Adresse complète <span class="lf-required">*</span></label>
+              <input type="text" class="lf-input" id="lf-adresse" placeholder="123 rue Principale, Blainville, QC" required autocomplete="street-address">
+              <div class="lf-error-msg">Veuillez entrer votre adresse</div>
             </div>
           </div>
 
-          <div class="lf-row">
+          <!-- Step 2: Objectif -->
+          <div class="lf-step" data-step="1">
+            <div class="lf-step-header">
+              <div class="lf-step-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <div>
+                <div class="lf-step-title">Votre objectif</div>
+                <div class="lf-step-desc">Quel est votre but principal ?</div>
+              </div>
+            </div>
+
+            <div class="lf-options" id="lf-objectif-options">
+              <label class="lf-option">
+                <input type="radio" name="objectif" value="Mesurage net">
+                <div class="lf-option-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="lf-option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg></div>
+                <div class="lf-option-label">Mesurage net</div>
+                <div class="lf-option-desc">Réduire votre facture avec Hydro-Québec</div>
+              </label>
+              <label class="lf-option">
+                <input type="radio" name="objectif" value="Protection pannes">
+                <div class="lf-option-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="lf-option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+                <div class="lf-option-label">Protection pannes</div>
+                <div class="lf-option-desc">Batterie de secours pour les coupures</div>
+              </label>
+              <label class="lf-option">
+                <input type="radio" name="objectif" value="Hybride">
+                <div class="lf-option-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div class="lf-option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+                <div class="lf-option-label">Hybride</div>
+                <div class="lf-option-desc">Économies + protection combinées</div>
+              </label>
+            </div>
+
+            <div class="lf-range-container">
+              <label class="lf-label">Facture mensuelle d'électricité</label>
+              <div class="lf-range-display">
+                <div class="lf-range-value" id="lf-facture-display">150$</div>
+                <div class="lf-range-suffix">par mois en moyenne</div>
+              </div>
+              <input type="range" class="lf-range" id="lf-facture" min="50" max="500" value="150" step="10">
+              <div class="lf-range-labels">
+                <span>50$/mois</span>
+                <span>500$+/mois</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Propriété -->
+          <div class="lf-step" data-step="2">
+            <div class="lf-step-header">
+              <div class="lf-step-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              </div>
+              <div>
+                <div class="lf-step-title">Votre propriété</div>
+                <div class="lf-step-desc">Quelques détails sur votre toiture</div>
+              </div>
+            </div>
+
+            <div class="lf-row">
+              <div class="lf-field">
+                <label class="lf-label">Matériau de la toiture</label>
+                <select class="lf-select" id="lf-toiture">
+                  <option value="">Sélectionner...</option>
+                  <option>Bardeaux d'asphalte</option>
+                  <option>Tôle / Métal</option>
+                  <option>Membrane TPO/EPDM</option>
+                  <option>Ardoise</option>
+                  <option>Autre</option>
+                </select>
+              </div>
+              <div class="lf-field">
+                <label class="lf-label">Année de réfection</label>
+                <select class="lf-select" id="lf-annee">
+                  <option value="">Sélectionner...</option>
+                  <option>Moins de 5 ans</option>
+                  <option>5 à 10 ans</option>
+                  <option>10 à 20 ans</option>
+                  <option>Plus de 20 ans</option>
+                  <option>Je ne sais pas</option>
+                </select>
+              </div>
+            </div>
+
             <div class="lf-field">
-              <label class="lf-label">Matériau de la toiture</label>
-              <select class="lf-select" id="lf-toiture">
+              <label class="lf-label">Type de propriété</label>
+              <select class="lf-select" id="lf-type-propriete">
                 <option value="">Sélectionner...</option>
-                <option value="Bardeaux d'asphalte">Bardeaux d'asphalte</option>
-                <option value="Tôle / Métal">Tôle / Métal</option>
-                <option value="Membrane TPO/EPDM">Membrane TPO/EPDM</option>
-                <option value="Ardoise">Ardoise</option>
-                <option value="Autre">Autre</option>
+                <option>Maison unifamiliale</option>
+                <option>Jumelé / Semi-détaché</option>
+                <option>Maison de ville</option>
+                <option>Chalet</option>
+                <option>Commercial</option>
+                <option>Agricole</option>
               </select>
             </div>
+
             <div class="lf-field">
-              <label class="lf-label">Année de réfection</label>
-              <select class="lf-select" id="lf-annee">
-                <option value="">Sélectionner...</option>
-                <option value="Moins de 5 ans">Moins de 5 ans</option>
-                <option value="5 à 10 ans">5 à 10 ans</option>
-                <option value="10 à 20 ans">10 à 20 ans</option>
-                <option value="Plus de 20 ans">Plus de 20 ans</option>
-                <option value="Je ne sais pas">Je ne sais pas</option>
-              </select>
+              <label class="lf-label">Commentaires ou questions (optionnel)</label>
+              <textarea class="lf-textarea" id="lf-message" placeholder="Décrivez votre projet, vos questions ou toute information utile..."></textarea>
             </div>
           </div>
 
-          <div class="lf-field">
-            <label class="lf-label">Type de propriété</label>
-            <select class="lf-select" id="lf-type-propriete">
-              <option value="">Sélectionner...</option>
-              <option value="Maison unifamiliale">Maison unifamiliale</option>
-              <option value="Jumelé / Semi-détaché">Jumelé / Semi-détaché</option>
-              <option value="Maison de ville">Maison de ville</option>
-              <option value="Chalet">Chalet</option>
-              <option value="Commercial">Commercial</option>
-              <option value="Agricole">Agricole</option>
-            </select>
+        </div>
+
+        <!-- Actions -->
+        <div class="lf-actions" id="lf-actions">
+          <button class="lf-btn lf-btn-secondary" id="lf-prev" style="display:none">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5m7-7l-7 7 7 7" stroke="currentColor" stroke-width="2"/></svg>
+            <span>Retour</span>
+          </button>
+          <button class="lf-btn lf-btn-primary" id="lf-next">
+            <div class="lf-spinner"></div>
+            <span class="lf-btn-text">Continuer</span>
+            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2"/></svg>
+          </button>
+        </div>
+
+        <!-- Success -->
+        <div class="lf-success" id="lf-success">
+          <div class="lf-success-icon-wrap">
+            <div class="lf-success-ring"></div>
+            <div class="lf-success-ring" style="animation-delay:0.2s"></div>
+            <div class="lf-success-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
           </div>
+          <h3 class="lf-success-title">Demande envoyée !</h3>
+          <p class="lf-success-text">Merci pour votre confiance. Un expert Larks Solar vous contactera dans les <strong>24 prochaines heures</strong> avec votre soumission personnalisée.</p>
+          <div class="lf-success-details" id="lf-success-details"></div>
+        </div>
 
-          <div class="lf-field">
-            <label class="lf-label">Commentaires ou questions (optionnel)</label>
-            <textarea class="lf-textarea" id="lf-message" placeholder="Décrivez votre projet, vos questions ou toute information utile..."></textarea>
+        <!-- Trust -->
+        <div class="lf-trust">
+          <div class="lf-trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Certifié RBQ
+          </div>
+          <div class="lf-trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            Données sécurisées
+          </div>
+          <div class="lf-trust-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Réponse en 24h
           </div>
         </div>
 
-      </div><!-- /.lf-steps -->
-
-      <!-- Navigation buttons -->
-      <div class="lf-actions" id="lf-actions">
-        <button type="button" class="lf-btn lf-btn-secondary" id="lf-prev" style="display:none">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5m7-7l-7 7 7 7"/></svg>
-          <span class="lf-btn-text">Retour</span>
-        </button>
-        <button type="button" class="lf-btn lf-btn-primary" id="lf-next">
-          <span class="lf-btn-text">Continuer</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7l7 7-7 7"/></svg>
-          <div class="lf-spinner"></div>
-        </button>
       </div>
-
-      <!-- Success screen -->
-      <div class="lf-success" id="lf-success">
-        <div class="lf-success-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        </div>
-        <h3 class="lf-success-title">Demande envoyée !</h3>
-        <p class="lf-success-text">Merci pour votre confiance. Un expert Larks Solar vous contactera dans les <strong style="color:var(--gold)">24 prochaines heures</strong> avec votre soumission personnalisée.</p>
-        <div class="lf-success-details" id="lf-success-details"></div>
-      </div>
-
-      <!-- Trust indicators -->
-      <div class="lf-trust">
-        <div class="lf-trust-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-          Certifié RBQ
-        </div>
-        <div class="lf-trust-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-          Données sécurisées
-        </div>
-        <div class="lf-trust-item">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          Réponse en 24h
-        </div>
-      </div>
-
-    </div><!-- /.lf-card -->
-  </div><!-- /.lf-container -->
+    </div>
+  </div>
 </div>
 
 <script>
@@ -1001,35 +1301,250 @@
   'use strict';
 
   // ========================================================================
-  // CONFIG — Remplacer par vos vraies valeurs Monday.com
+  // CONFIG
   // ========================================================================
   const MONDAY_API_KEY = 'VOTRE_API_KEY_MONDAY';
   const MONDAY_BOARD_ID = 'VOTRE_BOARD_ID';
-  const MONDAY_GROUP_ID = 'VOTRE_GROUP_ID'; // optionnel
+  const MONDAY_GROUP_ID = 'VOTRE_GROUP_ID';
 
   // ========================================================================
-  // STATE
+  // PARTICLES SYSTEM
+  // ========================================================================
+  const particleCanvas = document.getElementById('lf-particles');
+  const pCtx = particleCanvas.getContext('2d');
+  let particles = [];
+  const PARTICLE_COUNT = 60;
+
+  function resizeParticles() {
+    particleCanvas.width = window.innerWidth;
+    particleCanvas.height = window.innerHeight;
+  }
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * particleCanvas.width;
+      this.y = Math.random() * particleCanvas.height;
+      this.size = Math.random() * 2.5 + 0.5;
+      this.speedX = (Math.random() - 0.5) * 0.3;
+      this.speedY = -Math.random() * 0.4 - 0.1;
+      this.opacity = Math.random() * 0.5 + 0.1;
+      this.pulse = Math.random() * Math.PI * 2;
+      this.pulseSpeed = Math.random() * 0.02 + 0.01;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      this.pulse += this.pulseSpeed;
+      if (this.y < -10 || this.x < -10 || this.x > particleCanvas.width + 10) this.reset();
+      if (this.y < -10) { this.y = particleCanvas.height + 10; }
+    }
+    draw() {
+      const o = this.opacity * (0.5 + 0.5 * Math.sin(this.pulse));
+      pCtx.beginPath();
+      pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      pCtx.fillStyle = `rgba(245, 166, 35, ${o})`;
+      pCtx.fill();
+      // Glow
+      pCtx.beginPath();
+      pCtx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
+      pCtx.fillStyle = `rgba(245, 166, 35, ${o * 0.15})`;
+      pCtx.fill();
+    }
+  }
+
+  function initParticles() {
+    resizeParticles();
+    particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
+  }
+
+  function animateParticles() {
+    pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          pCtx.beginPath();
+          pCtx.moveTo(particles[i].x, particles[i].y);
+          pCtx.lineTo(particles[j].x, particles[j].y);
+          pCtx.strokeStyle = `rgba(245, 166, 35, ${0.04 * (1 - dist / 120)})`;
+          pCtx.lineWidth = 0.5;
+          pCtx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(animateParticles);
+  }
+
+  window.addEventListener('resize', resizeParticles);
+  initParticles();
+  animateParticles();
+
+  // ========================================================================
+  // CURSOR GLOW
+  // ========================================================================
+  const cursorGlow = document.getElementById('lf-cursor-glow');
+  let mouseX = 0, mouseY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursorGlow.style.left = mouseX + 'px';
+    cursorGlow.style.top = mouseY + 'px';
+    cursorGlow.classList.add('active');
+  });
+
+  document.addEventListener('mouseleave', () => {
+    cursorGlow.classList.remove('active');
+  });
+
+  // ========================================================================
+  // 3D TILT + SPOTLIGHT
+  // ========================================================================
+  const card = document.getElementById('lf-card');
+  const spotlight = document.getElementById('lf-spotlight');
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+  if (!isMobile) {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      const rotateX = ((y - centerY) / centerY) * -3;
+      const rotateY = ((x - centerX) / centerX) * 3;
+
+      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      spotlight.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(245,166,35,0.06), transparent 60%)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'rotateX(0) rotateY(0)';
+    });
+  }
+
+  // ========================================================================
+  // CONFETTI SYSTEM
+  // ========================================================================
+  const confettiCanvas = document.getElementById('lf-confetti');
+  const cCtx = confettiCanvas.getContext('2d');
+  let confettiPieces = [];
+  let confettiActive = false;
+
+  function resizeConfetti() {
+    confettiCanvas.width = window.innerWidth;
+    confettiCanvas.height = window.innerHeight;
+  }
+  resizeConfetti();
+  window.addEventListener('resize', resizeConfetti);
+
+  class Confetti {
+    constructor() {
+      this.x = Math.random() * confettiCanvas.width;
+      this.y = -20;
+      this.size = Math.random() * 8 + 4;
+      this.speedY = Math.random() * 3 + 2;
+      this.speedX = (Math.random() - 0.5) * 4;
+      this.rotation = Math.random() * 360;
+      this.rotSpeed = (Math.random() - 0.5) * 10;
+      this.opacity = 1;
+      this.color = ['#F5A623', '#FFD700', '#FF8C00', '#FFB94D', '#30D158', '#fff'][Math.floor(Math.random() * 6)];
+      this.shape = Math.random() > 0.5 ? 'rect' : 'circle';
+    }
+    update() {
+      this.y += this.speedY;
+      this.x += this.speedX;
+      this.rotation += this.rotSpeed;
+      this.speedY += 0.05;
+      this.opacity -= 0.005;
+    }
+    draw() {
+      cCtx.save();
+      cCtx.translate(this.x, this.y);
+      cCtx.rotate((this.rotation * Math.PI) / 180);
+      cCtx.globalAlpha = Math.max(0, this.opacity);
+      cCtx.fillStyle = this.color;
+      if (this.shape === 'rect') {
+        cCtx.fillRect(-this.size / 2, -this.size / 4, this.size, this.size / 2);
+      } else {
+        cCtx.beginPath();
+        cCtx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
+        cCtx.fill();
+      }
+      cCtx.restore();
+    }
+  }
+
+  function launchConfetti() {
+    confettiActive = true;
+    confettiPieces = Array.from({ length: 120 }, () => new Confetti());
+    animateConfetti();
+  }
+
+  function animateConfetti() {
+    if (!confettiActive) return;
+    cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    confettiPieces = confettiPieces.filter(c => c.opacity > 0 && c.y < confettiCanvas.height + 20);
+    confettiPieces.forEach(c => { c.update(); c.draw(); });
+    if (confettiPieces.length > 0) {
+      requestAnimationFrame(animateConfetti);
+    } else {
+      confettiActive = false;
+      cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+    }
+  }
+
+  // ========================================================================
+  // FORM STATE
   // ========================================================================
   let currentStep = 0;
   const totalSteps = 3;
 
-  // DOM
   const steps = document.querySelectorAll('.lf-step');
-  const progressSteps = document.querySelectorAll('.lf-progress-step');
-  const stepLabels = document.querySelectorAll('.lf-step-label');
+  const stepInds = document.querySelectorAll('.lf-step-ind');
+  const ringFill = document.getElementById('lf-ring-fill');
+  const ringText = document.getElementById('lf-ring-text');
   const btnNext = document.getElementById('lf-next');
   const btnPrev = document.getElementById('lf-prev');
   const actionsDiv = document.getElementById('lf-actions');
   const successDiv = document.getElementById('lf-success');
   const successDetails = document.getElementById('lf-success-details');
 
-  // Range slider
+  const CIRCUMFERENCE = 2 * Math.PI * 25; // r=25
+
+  function updateProgress() {
+    const progress = (currentStep + 1) / totalSteps;
+    const offset = CIRCUMFERENCE * (1 - progress);
+    ringFill.style.strokeDashoffset = offset;
+    ringText.textContent = `${currentStep + 1}/${totalSteps}`;
+
+    stepInds.forEach((ind, i) => {
+      ind.classList.toggle('active', i === currentStep);
+      ind.classList.toggle('done', i < currentStep);
+      if (i < currentStep) {
+        ind.querySelector('.lf-step-ind-num').innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>';
+      }
+    });
+  }
+
+  // ========================================================================
+  // RANGE SLIDER
+  // ========================================================================
   const rangeInput = document.getElementById('lf-facture');
   const rangeDisplay = document.getElementById('lf-facture-display');
 
   rangeInput.addEventListener('input', function() {
     const val = this.value;
     rangeDisplay.textContent = val >= 500 ? '500$+' : val + '$';
+    rangeDisplay.classList.add('bumped');
+    setTimeout(() => rangeDisplay.classList.remove('bumped'), 150);
     updateRangeTrack(this);
   });
 
@@ -1039,8 +1554,16 @@
   }
   updateRangeTrack(rangeInput);
 
-  // Option cards
+  // ========================================================================
+  // OPTION CARDS with ripple
+  // ========================================================================
   document.querySelectorAll('.lf-option').forEach(opt => {
+    opt.addEventListener('mousemove', function(e) {
+      const rect = this.getBoundingClientRect();
+      this.style.setProperty('--ripple-x', ((e.clientX - rect.left) / rect.width * 100) + '%');
+      this.style.setProperty('--ripple-y', ((e.clientY - rect.top) / rect.height * 100) + '%');
+    });
+
     opt.addEventListener('click', function() {
       this.closest('.lf-options').querySelectorAll('.lf-option').forEach(o => o.classList.remove('selected'));
       this.classList.add('selected');
@@ -1048,7 +1571,9 @@
     });
   });
 
-  // Phone formatting
+  // ========================================================================
+  // PHONE FORMATTING
+  // ========================================================================
   const phoneInput = document.getElementById('lf-phone');
   phoneInput.addEventListener('input', function() {
     let val = this.value.replace(/\D/g, '');
@@ -1060,6 +1585,30 @@
     } else if (val.length > 0) {
       this.value = '(' + val;
     }
+  });
+
+  // ========================================================================
+  // REAL-TIME VALIDATION with checkmarks
+  // ========================================================================
+  const validationRules = {
+    'lf-prenom': v => v.length > 0,
+    'lf-nom': v => v.length > 0,
+    'lf-email': v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+    'lf-phone': v => v.replace(/\D/g, '').length >= 10,
+    'lf-adresse': v => v.length > 3,
+  };
+
+  Object.entries(validationRules).forEach(([id, rule]) => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', function() {
+      const field = this.closest('.lf-field');
+      field.classList.remove('has-error');
+      if (rule(this.value.trim())) {
+        field.classList.add('valid');
+      } else {
+        field.classList.remove('valid');
+      }
+    });
   });
 
   // ========================================================================
@@ -1083,35 +1632,20 @@
     const oldStepEl = steps[currentStep];
     const newStepEl = steps[newStep];
 
-    // Animate out
     oldStepEl.classList.remove('active');
     oldStepEl.classList.add('exiting');
 
     setTimeout(() => {
       oldStepEl.classList.remove('exiting');
       newStepEl.classList.add('active');
-
       currentStep = newStep;
-      updateUI();
-    }, 300);
+      updateProgress();
+      updateButtons();
+    }, 400);
   }
 
-  function updateUI() {
-    // Progress bar
-    progressSteps.forEach((ps, i) => {
-      ps.classList.toggle('active', i === currentStep);
-      ps.classList.toggle('done', i < currentStep);
-    });
-
-    // Step labels
-    stepLabels.forEach((sl, i) => {
-      sl.classList.toggle('active', i === currentStep);
-      sl.classList.toggle('done', i < currentStep);
-    });
-
-    // Buttons
+  function updateButtons() {
     btnPrev.style.display = currentStep === 0 ? 'none' : 'flex';
-
     if (currentStep === totalSteps - 1) {
       btnNext.querySelector('.lf-btn-text').textContent = 'Envoyer ma demande';
       btnNext.querySelector('svg:not(.lf-spinner)').innerHTML = '<path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" fill="none"/>';
@@ -1120,6 +1654,8 @@
       btnNext.querySelector('svg:not(.lf-spinner)').innerHTML = '<path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none"/>';
     }
   }
+
+  updateProgress();
 
   // ========================================================================
   // VALIDATION
@@ -1143,11 +1679,11 @@
         const isValid = f.validate ? f.validate(val) : val.length > 0;
         if (!isValid) {
           el.closest('.lf-field').classList.add('has-error');
+          el.closest('.lf-field').classList.remove('valid');
           valid = false;
-          // Shake animation
           el.style.animation = 'none';
           el.offsetHeight;
-          el.style.animation = 'lf-shake 0.4s ease';
+          el.style.animation = 'lf-shake 0.5s ease';
         }
       });
     }
@@ -1155,7 +1691,10 @@
     if (step === 1) {
       const selected = document.querySelector('input[name="objectif"]:checked');
       if (!selected) {
-        document.getElementById('lf-objectif-options').style.animation = 'lf-shake 0.4s ease';
+        const opts = document.getElementById('lf-objectif-options');
+        opts.style.animation = 'none';
+        opts.offsetHeight;
+        opts.style.animation = 'lf-shake 0.5s ease';
         valid = false;
       }
     }
@@ -1167,12 +1706,6 @@
     document.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
   }
 
-  // Shake animation (injected via CSS)
-  const shakeStyle = document.createElement('style');
-  shakeStyle.textContent = `@keyframes lf-shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}`;
-  document.head.appendChild(shakeStyle);
-
-  // Clear error on input
   document.querySelectorAll('.lf-input, .lf-select, .lf-textarea').forEach(el => {
     el.addEventListener('input', function() {
       this.closest('.lf-field')?.classList.remove('has-error');
@@ -1200,27 +1733,10 @@
       message: document.getElementById('lf-message').value.trim(),
     };
 
-    // ----------------------------------------------------------------
-    // ENVOI À MONDAY.COM (via API GraphQL)
-    // Décommentez et configurez quand vous aurez vos identifiants
-    // ----------------------------------------------------------------
+    // Monday.com API (uncomment when ready)
     /*
     try {
-      const columnValues = JSON.stringify({
-        // Adaptez les IDs de colonnes à votre board Monday.com
-        // Exemple :
-        // "text": data.prenom + ' ' + data.nom,
-        // "email": { "email": data.email, "text": data.email },
-        // "phone": { "phone": data.phone, "countryShortName": "CA" },
-        // "text0": data.adresse,
-        // "status": { "label": data.objectif },
-        // "numbers": parseInt(data.facture),
-        // "text1": data.toiture,
-        // "text2": data.annee_toiture,
-        // "text3": data.type_propriete,
-        // "long_text": { "text": data.message },
-      });
-
+      const columnValues = JSON.stringify({});
       const mutation = `mutation {
         create_item(
           board_id: ${MONDAY_BOARD_ID}
@@ -1229,7 +1745,6 @@
           column_values: ${JSON.stringify(columnValues)}
         ) { id }
       }`;
-
       await fetch('https://api.monday.com/v2', {
         method: 'POST',
         headers: {
@@ -1239,15 +1754,10 @@
         },
         body: JSON.stringify({ query: mutation })
       });
-    } catch (err) {
-      console.error('Erreur Monday.com:', err);
-    }
+    } catch (err) { console.error('Monday.com error:', err); }
     */
 
-    // ----------------------------------------------------------------
-    // ALTERNATIVE : Envoi via Make.com / Zapier Webhook
-    // Décommentez et remplacez l'URL par votre webhook
-    // ----------------------------------------------------------------
+    // Webhook alternative (uncomment when ready)
     /*
     try {
       await fetch('https://hook.us1.make.com/VOTRE_WEBHOOK_ID', {
@@ -1255,15 +1765,10 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-    } catch (err) {
-      console.error('Erreur webhook:', err);
-    }
+    } catch (err) { console.error('Webhook error:', err); }
     */
 
-    // Simulation d'envoi (à retirer en production)
     await new Promise(r => setTimeout(r, 1500));
-
-    // Afficher le succès
     showSuccess(data);
   }
 
@@ -1271,8 +1776,7 @@
     btnNext.classList.remove('loading');
     actionsDiv.style.display = 'none';
     document.querySelector('.lf-steps').style.display = 'none';
-    document.querySelector('.lf-progress').style.display = 'none';
-    document.querySelector('.lf-step-labels').style.display = 'none';
+    document.querySelector('.lf-progress-ring-container').style.display = 'none';
 
     successDetails.innerHTML = `
       <div class="lf-success-detail"><span class="lf-success-detail-label">Nom</span><span class="lf-success-detail-value">${data.prenom} ${data.nom}</span></div>
@@ -1283,6 +1787,7 @@
     `;
 
     successDiv.classList.add('active');
+    launchConfetti();
   }
 
 })();
