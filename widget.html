@@ -1,13 +1,15 @@
 <!-- ========================================================================
-     LARKS SOLAR — Formulaire v4.0 (Widget GoDaddy)
-     Copiez TOUT ce code et collez-le dans un bloc HTML personnalisé GoDaddy
+     LARKS SOLAR — Formulaire v5.0 Mobile-First (Widget GoDaddy)
+     90% du trafic est mobile — optimisé pour le pouce et l'expérience tactile
+     Copiez TOUT ce code dans un bloc HTML personnalisé GoDaddy
      ======================================================================== -->
+<meta charset="UTF-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
 
 <style>
-/* Encapsulated — all selectors prefixed with #lf-widget */
+/* ===== MOBILE-FIRST: Base = mobile, @media for desktop ===== */
 #lf-widget *, #lf-widget *::before, #lf-widget *::after { box-sizing: border-box; margin: 0; padding: 0; }
 #lf-widget {
   --gold: #F5A623; --gold-dark: #E8941A; --gold-light: #FFB94D;
@@ -16,7 +18,7 @@
   --border: rgba(255,255,255,0.06); --border-light: rgba(255,255,255,0.10);
   --text-primary: #F5F5F7; --text-secondary: #8E8E93; --text-muted: #48484A;
   --green: #30D158; --error: #FF453A;
-  --radius: 14px; --radius-xl: 24px; --radius-full: 9999px;
+  --radius: 14px; --radius-xl: 20px; --radius-full: 9999px;
   --font-heading: 'Syne', sans-serif; --font-body: 'Inter', sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -24,7 +26,9 @@
   font-family: var(--font-body); color: var(--text-primary);
   -webkit-font-smoothing: antialiased; position: relative;
   background: var(--bg); border-radius: var(--radius-xl); overflow: hidden;
-  max-width: 720px; margin: 40px auto; padding: 0;
+  max-width: 720px; margin: 20px auto; padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 #lf-widget.lf-light {
   --bg: #F5F5F7; --surface: #FFFFFF; --surface-2: #F0F0F2; --surface-elevated: #E8E8EC;
@@ -33,197 +37,196 @@
   --glow-color: rgba(245,166,35,0.06);
 }
 
-/* Particle Canvas */
-#lf-widget .lf-particles-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; border-radius: inherit; }
-#lf-widget.lf-light .lf-particles-canvas { opacity: 0.3; }
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  #lf-widget *, #lf-widget *::before, #lf-widget *::after {
+    animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
 
-/* Theme Toggle */
+/* Particle Canvas */
+#lf-widget .lf-particles { position: absolute; inset: 0; z-index: 0; pointer-events: none; border-radius: inherit; }
+#lf-widget.lf-light .lf-particles { opacity: 0.3; }
+
+/* Theme Toggle — 48px touch target */
 #lf-widget .lf-theme-toggle {
-  position: absolute; top: 16px; right: 16px; z-index: 10;
-  width: 40px; height: 40px; border-radius: 50%;
+  position: absolute; top: 12px; right: 12px; z-index: 10;
+  width: 48px; height: 48px; border-radius: 50%;
   border: 1px solid var(--border-light); background: var(--surface);
   cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: all 0.3s ease; box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s ease; box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
-#lf-widget .lf-theme-toggle:hover { transform: scale(1.1); border-color: var(--gold); }
-#lf-widget .lf-theme-toggle svg { width: 18px; height: 18px; color: var(--gold); transition: transform 0.5s var(--ease-bounce); }
-#lf-widget .lf-theme-toggle:hover svg { transform: rotate(30deg); }
+#lf-widget .lf-theme-toggle:active { transform: scale(0.9); }
+#lf-widget .lf-theme-toggle svg { width: 20px; height: 20px; color: var(--gold); }
 #lf-widget .lf-theme-toggle .lf-icon-moon { display: block; }
 #lf-widget .lf-theme-toggle .lf-icon-sun { display: none; }
 #lf-widget.lf-light .lf-theme-toggle .lf-icon-moon { display: none; }
 #lf-widget.lf-light .lf-theme-toggle .lf-icon-sun { display: block; }
 
-/* Inner Content */
-#lf-widget .lf-inner { position: relative; z-index: 1; padding: 48px 40px; }
-@media (max-width: 600px) { #lf-widget .lf-inner { padding: 32px 18px; } }
+/* Inner — mobile padding */
+#lf-widget .lf-inner { position: relative; z-index: 1; padding: 28px 16px 100px; }
+@media (min-width: 640px) { #lf-widget .lf-inner { padding: 48px 40px 48px; } }
 
 /* Availability */
-#lf-widget .lf-availability {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-bottom: 12px; font-size: 12px; color: var(--green); font-weight: 500;
-  animation: lfFadeUp 0.6s var(--ease) both; animation-delay: 0.1s;
+#lf-widget .lf-avail {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  margin-bottom: 8px; font-size: 11px; color: var(--green); font-weight: 500;
+  animation: lfFadeUp 0.6s var(--ease) both;
 }
 #lf-widget .lf-avail-dot {
-  width: 8px; height: 8px; border-radius: 50%; background: var(--green);
-  position: relative; animation: lfAvailPulse 2s ease-in-out infinite;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+  position: relative; flex-shrink: 0;
 }
 #lf-widget .lf-avail-dot::after {
   content: ''; position: absolute; inset: -4px; border-radius: 50%;
-  background: rgba(48,209,88,0.3); animation: lfAvailRing 2s ease-in-out infinite;
+  background: rgba(48,209,88,0.3); animation: lfPulse 2s ease-in-out infinite;
 }
-@keyframes lfAvailPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
-@keyframes lfAvailRing { 0%,100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.8); opacity: 0; } }
+@keyframes lfPulse { 0%,100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.8); opacity: 0; } }
+@keyframes lfFadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* Live Visitors */
-#lf-widget .lf-live-visitors {
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-  font-size: 11px; color: var(--text-muted); margin-bottom: 10px;
-  animation: lfFadeUp 0.6s var(--ease) both; animation-delay: 0.15s;
+#lf-widget .lf-live {
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+  font-size: 10px; color: var(--text-muted); margin-bottom: 10px;
 }
-#lf-widget .lf-live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: lfPulseDot 2s ease-in-out infinite; }
+#lf-widget .lf-live-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); animation: lfDot 2s ease-in-out infinite; }
+@keyframes lfDot { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
 
 /* Header */
-#lf-widget .lf-header { text-align: center; margin-bottom: 28px; }
+#lf-widget .lf-header { text-align: center; margin-bottom: 20px; }
 #lf-widget .lf-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 7px 18px; background: rgba(245,166,35,0.06);
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 14px; background: rgba(245,166,35,0.06);
   border: 1px solid rgba(245,166,35,0.12); border-radius: var(--radius-full);
-  font-size: 11px; font-weight: 700; color: var(--gold);
-  text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 20px;
+  font-size: 10px; font-weight: 700; color: var(--gold);
+  text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px;
   animation: lfBadgeIn 0.8s var(--ease-bounce) both; animation-delay: 0.2s;
 }
-@keyframes lfBadgeIn { from { opacity: 0; transform: translateY(-10px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
-#lf-widget .lf-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: lfPulseDot 2s ease-in-out infinite; }
-@keyframes lfPulseDot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.8; transform: scale(1.3); } }
-#lf-widget .lf-badge svg { width: 14px; height: 14px; }
+@keyframes lfBadgeIn { from { opacity: 0; transform: translateY(-8px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+#lf-widget .lf-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); animation: lfDot 2s ease-in-out infinite; }
+#lf-widget .lf-badge svg { width: 12px; height: 12px; }
 
+/* Title — mobile-first sizing */
 #lf-widget .lf-title {
-  font-family: var(--font-heading); font-size: 34px; font-weight: 800;
-  line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 12px;
-  animation: lfTitleIn 1s var(--ease) both; animation-delay: 0.4s;
+  font-family: var(--font-heading); font-size: 26px; font-weight: 800;
+  line-height: 1.15; letter-spacing: -0.03em; margin-bottom: 10px;
+  animation: lfTitleIn 1s var(--ease) both; animation-delay: 0.3s;
 }
-@keyframes lfTitleIn { from { opacity: 0; transform: translateY(20px); filter: blur(8px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+@media (min-width: 640px) { #lf-widget .lf-title { font-size: 34px; } }
+@keyframes lfTitleIn { from { opacity: 0; transform: translateY(16px); filter: blur(6px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 #lf-widget .lf-title-gold {
   background: linear-gradient(135deg, #F5A623 0%, #FFD700 30%, #FF8C00 60%, #F5A623 100%);
   background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; animation: lfGradientShift 4s ease-in-out infinite;
+  background-clip: text; animation: lfGrad 4s ease-in-out infinite;
 }
-@keyframes lfGradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+@keyframes lfGrad { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
-#lf-widget .lf-subtitle { font-size: 15px; color: var(--text-secondary); line-height: 1.5; min-height: 22px; animation: lfFadeUp 0.8s var(--ease) both; animation-delay: 0.6s; }
-#lf-widget .lf-typing-cursor { display: inline-block; width: 2px; height: 1em; background: var(--gold); margin-left: 2px; animation: lfBlink 0.8s ease-in-out infinite; vertical-align: text-bottom; }
+#lf-widget .lf-sub { font-size: 13px; color: var(--text-secondary); line-height: 1.5; min-height: 20px; }
+#lf-widget .lf-cursor { display: inline-block; width: 2px; height: 1em; background: var(--gold); margin-left: 2px; animation: lfBlink 0.8s ease-in-out infinite; vertical-align: text-bottom; }
 @keyframes lfBlink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
-@keyframes lfFadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Social Proof */
-#lf-widget .lf-social-proof {
-  display: flex; align-items: center; justify-content: center; gap: 14px;
-  padding: 12px 20px; background: rgba(255,255,255,0.02); border-radius: var(--radius);
-  margin-bottom: 14px; animation: lfFadeUp 0.8s var(--ease) both; animation-delay: 0.8s;
+/* Social Proof — compact on mobile */
+#lf-widget .lf-social {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 10px 14px; background: rgba(255,255,255,0.02); border-radius: var(--radius);
+  margin-bottom: 10px; flex-wrap: wrap;
 }
-#lf-widget.lf-light .lf-social-proof { background: rgba(0,0,0,0.03); }
+#lf-widget.lf-light .lf-social { background: rgba(0,0,0,0.03); }
 #lf-widget .lf-avatars { display: flex; }
 #lf-widget .lf-avatar {
-  width: 30px; height: 30px; border-radius: 50%; margin-left: -8px;
+  width: 26px; height: 26px; border-radius: 50%; margin-left: -6px;
   border: 2px solid var(--surface); display: flex; align-items: center;
-  justify-content: center; font-size: 10px; font-weight: 700; color: #fff;
+  justify-content: center; font-size: 9px; font-weight: 700; color: #fff; flex-shrink: 0;
 }
 #lf-widget .lf-avatar:first-child { margin-left: 0; }
-#lf-widget .lf-social-text { font-size: 13px; color: var(--text-secondary); }
+#lf-widget .lf-social-text { font-size: 12px; color: var(--text-secondary); }
 #lf-widget .lf-social-count { font-weight: 700; color: var(--gold); }
 
 /* Timer */
 #lf-widget .lf-timer {
-  text-align: center; font-size: 12px; color: var(--text-muted); margin-bottom: 24px;
-  animation: lfFadeUp 0.8s var(--ease) both; animation-delay: 0.9s;
+  text-align: center; font-size: 11px; color: var(--text-muted); margin-bottom: 20px;
 }
-#lf-widget .lf-timer svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px; color: var(--gold); }
+#lf-widget .lf-timer svg { width: 12px; height: 12px; vertical-align: -2px; margin-right: 3px; color: var(--gold); }
 
-/* Progress */
-#lf-widget .lf-progress-bar {
-  display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
-  animation: lfFadeUp 0.6s var(--ease) both; animation-delay: 0.3s;
+/* Progress — mobile compact */
+#lf-widget .lf-progress {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 22px;
 }
-#lf-widget .lf-ring { position: relative; width: 52px; height: 52px; flex-shrink: 0; }
+#lf-widget .lf-ring { position: relative; width: 44px; height: 44px; flex-shrink: 0; }
 #lf-widget .lf-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
 #lf-widget .lf-ring-bg { fill: none; stroke: var(--surface-2); stroke-width: 3; }
 #lf-widget .lf-ring-fill { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 0.8s var(--ease); }
 #lf-widget .lf-ring-text {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-heading); font-size: 13px; font-weight: 700;
+  font-family: var(--font-heading); font-size: 12px; font-weight: 700;
 }
-#lf-widget .lf-step-inds { display: flex; gap: 8px; flex: 1; }
-#lf-widget .lf-step-ind {
-  flex: 1; display: flex; align-items: center; gap: 8px;
-  padding: 9px 14px; border-radius: 12px; border: 1px solid var(--border);
-  background: transparent; transition: all 0.4s var(--ease);
+#lf-widget .lf-steps-nav { display: flex; gap: 6px; flex: 1; }
+#lf-widget .lf-step-nav {
+  flex: 1; display: flex; align-items: center; gap: 6px;
+  padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border);
+  background: transparent; transition: all 0.3s var(--ease);
 }
-#lf-widget .lf-step-ind.active { border-color: var(--gold); background: rgba(245,166,35,0.04); }
-#lf-widget .lf-step-ind.done { border-color: rgba(48,209,88,0.2); background: rgba(48,209,88,0.03); }
-#lf-widget .lf-step-ind-num {
-  width: 22px; height: 22px; border-radius: 8px; display: flex;
-  align-items: center; justify-content: center; font-size: 11px; font-weight: 700;
-  background: var(--surface-2); color: var(--text-muted); transition: all 0.3s ease;
+#lf-widget .lf-step-nav.active { border-color: var(--gold); background: rgba(245,166,35,0.04); }
+#lf-widget .lf-step-nav.done { border-color: rgba(48,209,88,0.2); background: rgba(48,209,88,0.03); }
+#lf-widget .lf-step-num {
+  width: 22px; height: 22px; border-radius: 7px; display: flex;
+  align-items: center; justify-content: center; font-size: 10px; font-weight: 700;
+  background: var(--surface-2); color: var(--text-muted); transition: all 0.3s ease; flex-shrink: 0;
 }
-#lf-widget .lf-step-ind.active .lf-step-ind-num { background: var(--gold); color: #000; }
-#lf-widget .lf-step-ind.done .lf-step-ind-num { background: var(--green); color: #fff; }
-#lf-widget .lf-step-ind-label { font-size: 11px; font-weight: 500; color: var(--text-muted); transition: color 0.3s ease; }
-#lf-widget .lf-step-ind.active .lf-step-ind-label { color: var(--text-primary); }
-@media (max-width: 520px) {
-  #lf-widget .lf-step-ind-label { display: none; }
-  #lf-widget .lf-step-ind { justify-content: center; padding: 9px; }
-  #lf-widget .lf-title { font-size: 26px; }
-  #lf-widget .lf-social-proof { flex-direction: column; gap: 8px; }
-}
+#lf-widget .lf-step-nav.active .lf-step-num { background: var(--gold); color: #000; }
+#lf-widget .lf-step-nav.done .lf-step-num { background: var(--green); color: #fff; }
+#lf-widget .lf-step-lbl { font-size: 10px; font-weight: 500; color: var(--text-muted); display: none; }
+#lf-widget .lf-step-nav.active .lf-step-lbl { color: var(--text-primary); }
+@media (min-width: 420px) { #lf-widget .lf-step-lbl { display: block; } }
 
 /* Steps */
-#lf-widget .lf-steps { position: relative; overflow: hidden; }
+#lf-widget .lf-steps { position: relative; }
 #lf-widget .lf-step { display: none; }
-#lf-widget .lf-step.active { display: block; animation: lfMorphIn 0.5s var(--ease) forwards; }
-@keyframes lfMorphIn { from { opacity: 0; transform: scale(0.96) translateY(12px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-#lf-widget .lf-step-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-#lf-widget .lf-step-icon {
-  width: 42px; height: 42px; border-radius: 14px;
+#lf-widget .lf-step.active { display: block; animation: lfMorphIn 0.4s var(--ease) forwards; }
+@keyframes lfMorphIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+#lf-widget .lf-step-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+#lf-widget .lf-step-ico {
+  width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
   background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.1);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
 }
-#lf-widget .lf-step-icon svg { width: 20px; height: 20px; color: var(--gold); }
-#lf-widget .lf-step-title { font-family: var(--font-heading); font-size: 20px; font-weight: 700; }
-#lf-widget .lf-step-desc { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+#lf-widget .lf-step-ico svg { width: 18px; height: 18px; color: var(--gold); }
+#lf-widget .lf-step-t { font-family: var(--font-heading); font-size: 18px; font-weight: 700; }
+#lf-widget .lf-step-d { font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
 
 /* Stagger */
-@keyframes lfStaggerIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes lfStagger { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 #lf-widget .lf-step.active .lf-field,
 #lf-widget .lf-step.active .lf-row,
-#lf-widget .lf-step.active .lf-options,
-#lf-widget .lf-step.active .lf-range-container { opacity: 0; animation: lfStaggerIn 0.5s var(--ease) forwards; }
-#lf-widget .lf-step.active .lf-field:nth-child(2) { animation-delay: 0.15s; }
-#lf-widget .lf-step.active .lf-field:nth-child(3) { animation-delay: 0.2s; }
-#lf-widget .lf-step.active .lf-field:nth-child(4) { animation-delay: 0.25s; }
-#lf-widget .lf-step.active .lf-field:nth-child(5) { animation-delay: 0.3s; }
-#lf-widget .lf-step.active .lf-row:nth-child(2) { animation-delay: 0.15s; }
-#lf-widget .lf-step.active .lf-options { animation-delay: 0.2s; }
-#lf-widget .lf-step.active .lf-range-container { animation-delay: 0.3s; }
+#lf-widget .lf-step.active .lf-opts,
+#lf-widget .lf-step.active .lf-range-wrap { opacity: 0; animation: lfStagger 0.4s var(--ease) forwards; }
+#lf-widget .lf-step.active > :nth-child(2) { animation-delay: 0.1s; }
+#lf-widget .lf-step.active > :nth-child(3) { animation-delay: 0.15s; }
+#lf-widget .lf-step.active > :nth-child(4) { animation-delay: 0.2s; }
+#lf-widget .lf-step.active > :nth-child(5) { animation-delay: 0.25s; }
 
-/* Inputs */
-#lf-widget .lf-field { margin-bottom: 18px; position: relative; }
-#lf-widget .lf-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-bottom: 7px; transition: color 0.3s ease; }
+/* Inputs — large touch targets */
+#lf-widget .lf-field { margin-bottom: 16px; position: relative; }
+#lf-widget .lf-label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
 #lf-widget .lf-field:focus-within .lf-label { color: var(--gold); }
-#lf-widget .lf-label .lf-required { color: var(--gold); margin-left: 2px; }
+#lf-widget .lf-req { color: var(--gold); margin-left: 2px; }
 #lf-widget .lf-input, #lf-widget .lf-select, #lf-widget .lf-textarea {
-  width: 100%; padding: 14px 16px; font-family: var(--font-body); font-size: 15px;
+  width: 100%; padding: 16px; font-family: var(--font-body); font-size: 16px;
   color: var(--text-primary); background: rgba(255,255,255,0.025);
-  border: 1px solid var(--border-light); border-radius: var(--radius);
-  outline: none; transition: all 0.35s var(--ease); -webkit-appearance: none; appearance: none;
+  border: 1.5px solid var(--border-light); border-radius: var(--radius);
+  outline: none; transition: all 0.3s var(--ease);
+  -webkit-appearance: none; appearance: none;
+  min-height: 52px;
 }
 #lf-widget.lf-light .lf-input, #lf-widget.lf-light .lf-select, #lf-widget.lf-light .lf-textarea { background: rgba(0,0,0,0.02); }
 #lf-widget .lf-input:focus, #lf-widget .lf-select:focus, #lf-widget .lf-textarea:focus {
-  border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,166,35,0.08), 0 0 30px rgba(245,166,35,0.06);
-  background: rgba(255,255,255,0.05); transform: translateY(-1px);
+  border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,166,35,0.1), 0 0 20px rgba(245,166,35,0.05);
+  background: rgba(255,255,255,0.04);
 }
-#lf-widget .lf-input.error { border-color: var(--error); box-shadow: 0 0 0 3px rgba(255,69,58,0.1); }
-#lf-widget .lf-input::placeholder, #lf-widget .lf-textarea::placeholder { color: var(--text-muted); }
-#lf-widget .lf-textarea { resize: none; min-height: 100px; }
+#lf-widget .lf-input.error { border-color: var(--error); box-shadow: 0 0 0 3px rgba(255,69,58,0.12); }
+#lf-widget .lf-input::placeholder, #lf-widget .lf-textarea::placeholder { color: var(--text-muted); font-size: 15px; }
+#lf-widget .lf-textarea { resize: none; min-height: 90px; }
 #lf-widget .lf-select {
   cursor: pointer;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238E8E93' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 6l3.5 4 3.5-4z'/%3E%3C/svg%3E");
@@ -232,114 +235,135 @@
 #lf-widget .lf-select option { background: var(--surface); color: var(--text-primary); }
 
 /* Microcopy */
-#lf-widget .lf-microcopy { font-size: 11px; color: var(--text-muted); margin-top: 5px; display: flex; align-items: center; gap: 4px; }
-#lf-widget .lf-microcopy svg { width: 12px; height: 12px; color: var(--green); flex-shrink: 0; }
+#lf-widget .lf-micro { font-size: 11px; color: var(--text-muted); margin-top: 5px; display: flex; align-items: flex-start; gap: 4px; line-height: 1.4; }
+#lf-widget .lf-micro svg { width: 12px; height: 12px; color: var(--green); flex-shrink: 0; margin-top: 1px; }
 
 /* Valid checkmark */
 #lf-widget .lf-field.valid .lf-input { border-color: rgba(48,209,88,0.3); }
 #lf-widget .lf-field.valid::after {
-  content: ''; position: absolute; right: 14px; top: 40px; width: 18px; height: 18px;
+  content: ''; position: absolute; right: 16px; top: 38px; width: 20px; height: 20px;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2330D158' stroke-width='3'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;
-  animation: lfCheckPop 0.3s var(--ease-bounce);
+  animation: lfCheck 0.3s var(--ease-bounce);
 }
-@keyframes lfCheckPop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-#lf-widget .lf-error-msg { font-size: 12px; color: var(--error); margin-top: 5px; display: none; animation: lfStaggerIn 0.3s ease; }
-#lf-widget .lf-field.has-error .lf-error-msg { display: block; }
+@keyframes lfCheck { from { transform: scale(0); } to { transform: scale(1); } }
+#lf-widget .lf-err { font-size: 12px; color: var(--error); margin-top: 5px; display: none; animation: lfFadeUp 0.3s ease; }
+#lf-widget .lf-field.has-error .lf-err { display: block; }
 #lf-widget .lf-field.has-error .lf-input, #lf-widget .lf-field.has-error .lf-select { border-color: var(--error); }
 
-/* Row */
-#lf-widget .lf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-@media (max-width: 520px) { #lf-widget .lf-row { grid-template-columns: 1fr; } }
+/* Row — stacked on mobile, side-by-side on desktop */
+#lf-widget .lf-row { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 480px) { #lf-widget .lf-row { grid-template-columns: 1fr 1fr; gap: 14px; } }
 
-/* Option cards */
-#lf-widget .lf-options { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 18px; }
-@media (max-width: 520px) { #lf-widget .lf-options { grid-template-columns: 1fr; } }
-#lf-widget .lf-option {
-  position: relative; cursor: pointer; padding: 20px 14px;
-  background: rgba(255,255,255,0.02); border: 1px solid var(--border-light);
-  border-radius: 16px; text-align: center; transition: all 0.4s var(--ease); overflow: hidden;
+/* Option cards — STACKED on mobile, 3 cols on desktop */
+#lf-widget .lf-opts { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 18px; }
+@media (min-width: 480px) { #lf-widget .lf-opts { grid-template-columns: 1fr 1fr 1fr; gap: 12px; } }
+#lf-widget .lf-opt {
+  position: relative; cursor: pointer;
+  padding: 16px; display: flex; align-items: center; gap: 14px;
+  background: rgba(255,255,255,0.02); border: 1.5px solid var(--border-light);
+  border-radius: 14px; transition: all 0.3s var(--ease); overflow: hidden;
+  min-height: 64px;
 }
-#lf-widget.lf-light .lf-option { background: rgba(0,0,0,0.02); }
-#lf-widget .lf-option:hover { border-color: rgba(245,166,35,0.3); transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 32px rgba(245,166,35,0.08); }
-#lf-widget .lf-option.selected {
-  border-color: var(--gold); background: rgba(245,166,35,0.05);
-  box-shadow: 0 0 30px rgba(245,166,35,0.12); transform: translateY(-4px) scale(1.02);
+@media (min-width: 480px) {
+  #lf-widget .lf-opt { flex-direction: column; text-align: center; padding: 18px 12px; gap: 8px; }
 }
-#lf-widget .lf-option input { position: absolute; opacity: 0; pointer-events: none; }
-#lf-widget .lf-option-icon {
-  width: 46px; height: 46px; margin: 0 auto 10px; border-radius: 14px;
+#lf-widget.lf-light .lf-opt { background: rgba(0,0,0,0.02); }
+#lf-widget .lf-opt:active { transform: scale(0.97); }
+#lf-widget .lf-opt.selected {
+  border-color: var(--gold); background: rgba(245,166,35,0.06);
+  box-shadow: 0 0 24px rgba(245,166,35,0.1);
+}
+#lf-widget .lf-opt input { position: absolute; opacity: 0; pointer-events: none; }
+#lf-widget .lf-opt-ico {
+  width: 42px; height: 42px; border-radius: 12px; flex-shrink: 0;
   background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.1);
-  display: flex; align-items: center; justify-content: center; transition: all 0.4s var(--ease);
+  display: flex; align-items: center; justify-content: center; transition: all 0.3s var(--ease);
 }
-#lf-widget .lf-option.selected .lf-option-icon { background: rgba(245,166,35,0.12); border-color: rgba(245,166,35,0.25); box-shadow: 0 0 24px var(--gold-glow); }
-#lf-widget .lf-option-icon svg { width: 20px; height: 20px; color: var(--gold); }
-#lf-widget .lf-option-label { font-size: 14px; font-weight: 600; line-height: 1.3; }
-#lf-widget .lf-option-desc { font-size: 11px; color: var(--text-muted); margin-top: 5px; line-height: 1.4; }
-#lf-widget .lf-option-check {
-  position: absolute; top: 8px; right: 8px; width: 20px; height: 20px;
+#lf-widget .lf-opt.selected .lf-opt-ico { background: rgba(245,166,35,0.12); border-color: rgba(245,166,35,0.25); box-shadow: 0 0 20px var(--gold-glow); }
+#lf-widget .lf-opt-ico svg { width: 20px; height: 20px; color: var(--gold); }
+#lf-widget .lf-opt-info { flex: 1; text-align: left; }
+@media (min-width: 480px) { #lf-widget .lf-opt-info { text-align: center; } }
+#lf-widget .lf-opt-label { font-size: 14px; font-weight: 600; line-height: 1.3; }
+#lf-widget .lf-opt-desc { font-size: 11px; color: var(--text-muted); margin-top: 2px; line-height: 1.3; }
+#lf-widget .lf-opt-chk {
+  position: absolute; top: 8px; right: 8px; width: 22px; height: 22px;
   border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center;
-  opacity: 0; transform: scale(0) rotate(-90deg); transition: all 0.4s var(--ease-bounce);
+  opacity: 0; transform: scale(0); transition: all 0.3s var(--ease-bounce);
 }
-#lf-widget .lf-option.selected .lf-option-check { opacity: 1; transform: scale(1) rotate(0deg); }
-#lf-widget .lf-option-check svg { width: 12px; height: 12px; color: #000; }
+#lf-widget .lf-opt.selected .lf-opt-chk { opacity: 1; transform: scale(1); }
+#lf-widget .lf-opt-chk svg { width: 12px; height: 12px; color: #000; }
 
-/* Range slider */
-#lf-widget .lf-range-container { margin-bottom: 18px; }
-#lf-widget .lf-range-display { text-align: center; margin-bottom: 18px; }
-#lf-widget .lf-range-value {
-  font-family: var(--font-heading); font-size: 52px; font-weight: 800;
+/* Range slider — BIG thumb for mobile */
+#lf-widget .lf-range-wrap { margin-bottom: 18px; }
+#lf-widget .lf-range-display { text-align: center; margin-bottom: 14px; }
+#lf-widget .lf-range-val {
+  font-family: var(--font-heading); font-size: 44px; font-weight: 800;
   background: linear-gradient(135deg, var(--gold), #FFD700, var(--gold-dark));
   background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; animation: lfGradientShift 3s ease-in-out infinite;
+  background-clip: text; animation: lfGrad 3s ease-in-out infinite;
   line-height: 1; transition: transform 0.15s ease;
 }
-#lf-widget .lf-range-value.bumped { transform: scale(1.08); }
-#lf-widget .lf-range-suffix { font-size: 15px; color: var(--text-secondary); margin-top: 5px; }
+@media (min-width: 640px) { #lf-widget .lf-range-val { font-size: 52px; } }
+#lf-widget .lf-range-val.bumped { transform: scale(1.06); }
+#lf-widget .lf-range-suf { font-size: 13px; color: var(--text-secondary); margin-top: 4px; }
 #lf-widget .lf-range {
-  -webkit-appearance: none; appearance: none; width: 100%; height: 10px;
-  border-radius: 5px; background: var(--surface-2); outline: none; cursor: pointer;
+  -webkit-appearance: none; appearance: none; width: 100%; height: 12px;
+  border-radius: 6px; background: var(--surface-2); outline: none; cursor: pointer;
+  touch-action: none;
 }
 #lf-widget .lf-range::-webkit-slider-thumb {
-  -webkit-appearance: none; width: 30px; height: 30px; border-radius: 50%;
+  -webkit-appearance: none; width: 44px; height: 44px; border-radius: 50%;
   background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  box-shadow: 0 0 24px var(--gold-glow), 0 2px 8px rgba(0,0,0,0.4); cursor: pointer;
-  transition: transform 0.2s var(--ease-bounce);
+  box-shadow: 0 0 20px var(--gold-glow), 0 2px 8px rgba(0,0,0,0.4); cursor: pointer;
 }
-#lf-widget .lf-range::-webkit-slider-thumb:hover { transform: scale(1.2); }
 #lf-widget .lf-range::-moz-range-thumb {
-  width: 30px; height: 30px; border-radius: 50%;
+  width: 44px; height: 44px; border-radius: 50%;
   background: linear-gradient(135deg, var(--gold), var(--gold-light));
-  border: none; box-shadow: 0 0 24px var(--gold-glow), 0 2px 8px rgba(0,0,0,0.4); cursor: pointer;
+  border: none; box-shadow: 0 0 20px var(--gold-glow), 0 2px 8px rgba(0,0,0,0.4); cursor: pointer;
 }
-#lf-widget .lf-range-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--text-muted); }
+#lf-widget .lf-range-labels { display: flex; justify-content: space-between; margin-top: 6px; font-size: 10px; color: var(--text-muted); }
 
-/* Buttons */
-#lf-widget .lf-actions { display: flex; gap: 12px; margin-top: 32px; }
+/* Buttons — STICKY on mobile */
+#lf-widget .lf-actions {
+  display: flex; gap: 10px;
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+  padding: 12px 16px; padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  background: var(--bg); border-top: 1px solid var(--border-light);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+}
+#lf-widget.lf-light .lf-actions { background: var(--bg); box-shadow: 0 -4px 20px rgba(0,0,0,0.08); }
+@media (min-width: 640px) {
+  #lf-widget .lf-actions {
+    position: static; padding: 0; margin-top: 28px;
+    background: transparent; border-top: none; box-shadow: none;
+  }
+}
 #lf-widget .lf-btn {
-  flex: 1; padding: 16px 24px; font-family: var(--font-body); font-size: 15px; font-weight: 600;
+  flex: 1; padding: 16px 20px; font-family: var(--font-body); font-size: 15px; font-weight: 600;
   border: none; border-radius: var(--radius); cursor: pointer;
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  transition: all 0.35s var(--ease); position: relative; overflow: hidden;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all 0.3s var(--ease); position: relative; overflow: hidden;
+  min-height: 52px;
 }
 #lf-widget .lf-btn svg { width: 18px; height: 18px; }
 #lf-widget .lf-btn-primary {
   background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #000;
-  box-shadow: 0 4px 24px rgba(245,166,35,0.3); font-weight: 700;
+  box-shadow: 0 4px 20px rgba(245,166,35,0.3); font-weight: 700;
 }
-#lf-widget .lf-btn-primary:hover { box-shadow: 0 8px 40px rgba(245,166,35,0.45); transform: translateY(-2px); }
-#lf-widget .lf-btn-primary:active { transform: translateY(0) scale(0.98); }
+#lf-widget .lf-btn-primary:active { transform: scale(0.97); box-shadow: 0 2px 10px rgba(245,166,35,0.2); }
 #lf-widget .lf-btn-primary::after {
   content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
   animation: lfShimmer 3s ease-in-out infinite;
 }
 @keyframes lfShimmer { 0% { left: -100%; } 50% { left: 100%; } 100% { left: 100%; } }
-#lf-widget .lf-btn-secondary {
+#lf-widget .lf-btn-sec {
   background: rgba(255,255,255,0.04); color: var(--text-secondary); border: 1px solid var(--border-light);
+  flex: 0 0 auto; padding: 16px;
 }
-#lf-widget.lf-light .lf-btn-secondary { background: rgba(0,0,0,0.04); }
-#lf-widget .lf-btn-secondary:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); transform: translateY(-1px); }
-#lf-widget .lf-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+#lf-widget.lf-light .lf-btn-sec { background: rgba(0,0,0,0.04); }
+#lf-widget .lf-btn-sec:active { transform: scale(0.97); }
+#lf-widget .lf-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 #lf-widget .lf-spinner { width: 20px; height: 20px; border: 2.5px solid transparent; border-top-color: #000; border-right-color: #000; border-radius: 50%; animation: lfSpin 0.7s linear infinite; display: none; }
 #lf-widget .lf-btn.loading .lf-spinner { display: block; }
 #lf-widget .lf-btn.loading .lf-btn-text { display: none; }
@@ -347,162 +371,160 @@
 @keyframes lfSpin { to { transform: rotate(360deg); } }
 
 /* Success */
-#lf-widget .lf-success { display: none; text-align: center; padding: 20px 0; }
-#lf-widget .lf-success.active { display: block; animation: lfMorphIn 0.7s var(--ease) forwards; }
-#lf-widget .lf-success-icon-wrap { position: relative; width: 90px; height: 90px; margin: 0 auto 24px; }
-#lf-widget .lf-success-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(48,209,88,0.2); animation: lfRingExpand 1s var(--ease) forwards; }
-@keyframes lfRingExpand { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
-#lf-widget .lf-success-icon {
+#lf-widget .lf-success { display: none; text-align: center; padding: 10px 0; }
+#lf-widget .lf-success.active { display: block; animation: lfMorphIn 0.6s var(--ease) forwards; }
+#lf-widget .lf-success-ico-wrap { position: relative; width: 80px; height: 80px; margin: 0 auto 20px; }
+#lf-widget .lf-success-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid rgba(48,209,88,0.2); animation: lfRingExp 1s var(--ease) forwards; }
+@keyframes lfRingExp { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+#lf-widget .lf-success-ico {
   width: 100%; height: 100%; border-radius: 50%; background: rgba(48,209,88,0.08);
   border: 2px solid rgba(48,209,88,0.25); display: flex; align-items: center; justify-content: center;
 }
-#lf-widget .lf-success-icon svg { width: 40px; height: 40px; color: var(--green); animation: lfCheckPop 0.6s var(--ease-bounce) 0.3s both; }
-#lf-widget .lf-success-title { font-family: var(--font-heading); font-size: 26px; font-weight: 800; margin-bottom: 10px; }
-#lf-widget .lf-success-text { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; }
-#lf-widget .lf-success-details { text-align: left; padding: 18px 20px; background: rgba(255,255,255,0.02); border-radius: var(--radius); border: 1px solid var(--border); }
+#lf-widget .lf-success-ico svg { width: 36px; height: 36px; color: var(--green); animation: lfCheck 0.5s var(--ease-bounce) 0.3s both; }
+#lf-widget .lf-success-title { font-family: var(--font-heading); font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+#lf-widget .lf-success-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; }
+#lf-widget .lf-success-details { text-align: left; padding: 14px 16px; background: rgba(255,255,255,0.02); border-radius: var(--radius); border: 1px solid var(--border); }
 #lf-widget.lf-light .lf-success-details { background: rgba(0,0,0,0.02); }
-#lf-widget .lf-detail-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+#lf-widget .lf-detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
 #lf-widget .lf-detail-row:last-child { border-bottom: none; }
 #lf-widget .lf-detail-label { color: var(--text-muted); }
-#lf-widget .lf-detail-value { font-weight: 600; }
+#lf-widget .lf-detail-value { font-weight: 600; text-align: right; max-width: 60%; word-break: break-word; }
 
 /* Testimonials */
-#lf-widget .lf-testimonials { margin-top: 20px; padding: 18px; background: rgba(255,255,255,0.015); border-radius: var(--radius); border: 1px solid var(--border); min-height: 130px; }
-#lf-widget.lf-light .lf-testimonials { background: rgba(0,0,0,0.015); }
-#lf-widget .lf-testimonial { display: none; animation: lfFadeUp 0.5s var(--ease) forwards; }
-#lf-widget .lf-testimonial.active { display: block; }
-#lf-widget .lf-testimonial-stars { display: flex; gap: 2px; margin-bottom: 8px; }
-#lf-widget .lf-testimonial-stars svg { width: 15px; height: 15px; fill: var(--gold); }
-#lf-widget .lf-testimonial-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; font-style: italic; margin-bottom: 8px; }
-#lf-widget .lf-testimonial-author { font-size: 12px; font-weight: 600; }
-#lf-widget .lf-testimonial-location { font-size: 11px; color: var(--text-muted); }
-#lf-widget .lf-testimonial-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
-#lf-widget .lf-testimonial-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: all 0.3s ease; }
-#lf-widget .lf-testimonial-dot.active { background: var(--gold); transform: scale(1.3); }
+#lf-widget .lf-testi { margin-top: 18px; padding: 14px; background: rgba(255,255,255,0.015); border-radius: var(--radius); border: 1px solid var(--border); min-height: 110px; }
+#lf-widget.lf-light .lf-testi { background: rgba(0,0,0,0.015); }
+#lf-widget .lf-test { display: none; animation: lfFadeUp 0.4s var(--ease) forwards; }
+#lf-widget .lf-test.active { display: block; }
+#lf-widget .lf-test-stars { display: flex; gap: 2px; margin-bottom: 6px; }
+#lf-widget .lf-test-stars svg { width: 14px; height: 14px; fill: var(--gold); }
+#lf-widget .lf-test-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; font-style: italic; margin-bottom: 6px; }
+#lf-widget .lf-test-author { font-size: 11px; font-weight: 600; }
+#lf-widget .lf-test-loc { font-size: 10px; color: var(--text-muted); }
+#lf-widget .lf-test-dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+#lf-widget .lf-test-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted); cursor: pointer; transition: all 0.3s ease; padding: 0; border: none; }
+#lf-widget .lf-test-dot.active { background: var(--gold); transform: scale(1.3); }
 
 /* Trust */
-#lf-widget .lf-trust { display: flex; justify-content: center; gap: 20px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border); flex-wrap: wrap; }
-#lf-widget .lf-trust-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); }
-#lf-widget .lf-trust-item svg { width: 15px; height: 15px; color: var(--gold); }
+#lf-widget .lf-trust { display: flex; justify-content: center; gap: 14px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+#lf-widget .lf-trust-item { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-muted); }
+#lf-widget .lf-trust-item svg { width: 14px; height: 14px; color: var(--gold); }
 
 /* Exit Intent Overlay */
-#lf-widget .lf-exit-overlay {
+#lf-widget .lf-exit-ov {
   position: fixed; inset: 0; z-index: 99999;
-  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-  display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease;
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(6px);
+  display: none; align-items: flex-end; justify-content: center;
+  opacity: 0; transition: opacity 0.3s ease;
 }
-#lf-widget .lf-exit-overlay.active { display: flex; opacity: 1; }
-#lf-widget .lf-exit-popup {
+@media (min-width: 640px) { #lf-widget .lf-exit-ov { align-items: center; } }
+#lf-widget .lf-exit-ov.active { display: flex; opacity: 1; }
+#lf-widget .lf-exit-pop {
   background: var(--surface); border: 1px solid var(--border-light);
-  border-radius: var(--radius-xl); padding: 40px 32px; max-width: 420px; width: 90%;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: 32px 20px; padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  max-width: 420px; width: 100%;
   text-align: center; position: relative;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.5); animation: lfPopupIn 0.5s var(--ease-bounce) forwards;
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.4); animation: lfSlideUp 0.4s var(--ease) forwards;
 }
-@keyframes lfPopupIn { from { opacity: 0; transform: scale(0.85) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@media (min-width: 640px) {
+  #lf-widget .lf-exit-pop { border-radius: var(--radius-xl); padding: 36px 28px; animation: lfPopIn 0.4s var(--ease-bounce) forwards; }
+}
+@keyframes lfSlideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes lfPopIn { from { opacity: 0; transform: scale(0.9) translateY(16px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 #lf-widget .lf-exit-close {
-  position: absolute; top: 14px; right: 14px; width: 30px; height: 30px;
+  position: absolute; top: 12px; right: 12px; width: 36px; height: 36px;
   border-radius: 50%; border: 1px solid var(--border-light); background: transparent;
   cursor: pointer; display: flex; align-items: center; justify-content: center;
-  transition: all 0.3s ease; color: var(--text-muted);
+  color: var(--text-muted);
 }
-#lf-widget .lf-exit-close:hover { border-color: var(--gold); color: var(--gold); transform: rotate(90deg); }
+#lf-widget .lf-exit-close:active { transform: scale(0.9); }
 #lf-widget .lf-exit-close svg { width: 14px; height: 14px; }
-#lf-widget .lf-exit-icon {
-  width: 60px; height: 60px; margin: 0 auto 18px; border-radius: 50%;
+#lf-widget .lf-exit-ico {
+  width: 52px; height: 52px; margin: 0 auto 14px; border-radius: 50%;
   background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.15);
   display: flex; align-items: center; justify-content: center;
 }
-#lf-widget .lf-exit-icon svg { width: 26px; height: 26px; color: var(--gold); }
-#lf-widget .lf-exit-title { font-family: var(--font-heading); font-size: 20px; font-weight: 800; margin-bottom: 8px; }
-#lf-widget .lf-exit-text { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px; }
+#lf-widget .lf-exit-ico svg { width: 24px; height: 24px; color: var(--gold); }
+#lf-widget .lf-exit-title { font-family: var(--font-heading); font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+#lf-widget .lf-exit-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px; }
 #lf-widget .lf-exit-cta {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 13px 28px; border-radius: var(--radius); border: none; cursor: pointer;
-  font-family: var(--font-body); font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  padding: 16px; border-radius: var(--radius); border: none; cursor: pointer;
+  font-family: var(--font-body); font-size: 15px; font-weight: 700;
   background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #000;
-  box-shadow: 0 4px 24px rgba(245,166,35,0.3); transition: all 0.35s var(--ease);
+  box-shadow: 0 4px 20px rgba(245,166,35,0.3); min-height: 52px;
 }
-#lf-widget .lf-exit-cta:hover { box-shadow: 0 8px 40px rgba(245,166,35,0.45); transform: translateY(-2px); }
+#lf-widget .lf-exit-cta:active { transform: scale(0.97); }
 #lf-widget .lf-exit-cta svg { width: 16px; height: 16px; }
-#lf-widget .lf-exit-dismiss { display: block; margin-top: 12px; font-size: 11px; color: var(--text-muted); background: none; border: none; cursor: pointer; text-decoration: underline; }
+#lf-widget .lf-exit-dismiss { display: block; margin: 10px auto 0; font-size: 12px; color: var(--text-muted); background: none; border: none; cursor: pointer; text-decoration: underline; padding: 8px; }
 </style>
 
 <div id="lf-widget">
-  <!-- Particle Canvas -->
-  <canvas class="lf-particles-canvas" id="lf-w-particles"></canvas>
+  <canvas class="lf-particles" id="lf-w-particles"></canvas>
 
-  <!-- Theme Toggle -->
-  <button class="lf-theme-toggle" id="lf-w-theme">
+  <button class="lf-theme-toggle" id="lf-w-theme" aria-label="Changer le thème">
     <svg class="lf-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
     <svg class="lf-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
   </button>
 
-  <!-- Exit Intent -->
-  <div class="lf-exit-overlay" id="lf-w-exit-overlay">
-    <div class="lf-exit-popup">
-      <button class="lf-exit-close" id="lf-w-exit-close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-      <div class="lf-exit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg></div>
+  <!-- Exit Intent — slides up as bottom sheet on mobile -->
+  <div class="lf-exit-ov" id="lf-w-exit-ov">
+    <div class="lf-exit-pop">
+      <button class="lf-exit-close" id="lf-w-exit-close" aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+      <div class="lf-exit-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg></div>
       <h3 class="lf-exit-title">Attendez !</h3>
-      <p class="lf-exit-text">Votre soumission est <strong>100% gratuite</strong> et sans engagement. Un expert Larks Solar peut répondre à toutes vos questions en moins de 24h.</p>
+      <p class="lf-exit-text">Votre soumission est <strong>100% gratuite</strong> et sans engagement. Un expert peut répondre à toutes vos questions en moins de 24h.</p>
       <button class="lf-exit-cta" id="lf-w-exit-cta">Obtenir ma soumission gratuite <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2"/></svg></button>
-      <button class="lf-exit-dismiss" id="lf-w-exit-dismiss">Non merci, je quitte</button>
+      <button class="lf-exit-dismiss" id="lf-w-exit-dismiss">Non merci</button>
     </div>
   </div>
 
   <div class="lf-inner">
-    <!-- Availability -->
-    <div class="lf-availability"><div class="lf-avail-dot"></div><span>Un expert est disponible maintenant</span></div>
+    <div class="lf-avail"><div class="lf-avail-dot"></div><span>Un expert est disponible maintenant</span></div>
+    <div class="lf-live"><span class="lf-live-dot"></span><span><strong id="lf-w-visitors">4</strong> autres propriétaires consultent cette page</span></div>
 
-    <!-- Live Visitors -->
-    <div class="lf-live-visitors"><span class="lf-live-dot"></span><span><strong id="lf-w-visitors">4</strong> autres propriétaires consultent cette page</span></div>
-
-    <!-- Header -->
     <div class="lf-header">
       <div class="lf-badge"><span class="lf-badge-dot"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Soumission 100% gratuite</div>
       <h2 class="lf-title" id="lf-w-title">Votre projet <span class="lf-title-gold">solaire</span><br>commence ici</h2>
-      <p class="lf-subtitle"><span id="lf-w-typing"></span><span class="lf-typing-cursor"></span></p>
+      <p class="lf-sub"><span id="lf-w-typing"></span><span class="lf-cursor"></span></p>
     </div>
 
-    <!-- Social Proof -->
-    <div class="lf-social-proof">
+    <div class="lf-social">
       <div class="lf-avatars">
         <div class="lf-avatar" style="background:#E74C3C">JT</div>
         <div class="lf-avatar" style="background:#3498DB">ML</div>
         <div class="lf-avatar" style="background:#27AE60">SB</div>
         <div class="lf-avatar" style="background:#F39C12">PL</div>
       </div>
-      <div class="lf-social-text">Déjà <span class="lf-social-count" id="lf-w-count">0</span> propriétaires québécois nous font confiance</div>
+      <div class="lf-social-text">Déjà <span class="lf-social-count" id="lf-w-count">0</span> propriétaires nous font confiance</div>
     </div>
 
-    <!-- Timer -->
-    <div class="lf-timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Évaluation gratuite — offre se termine dans <strong id="lf-w-timer">--</strong></div>
+    <div class="lf-timer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Offre se termine dans <strong id="lf-w-timer">--</strong></div>
 
-    <!-- Progress -->
-    <div class="lf-progress-bar">
+    <div class="lf-progress">
       <div class="lf-ring">
         <svg viewBox="0 0 60 60"><circle class="lf-ring-bg" cx="30" cy="30" r="25"/><circle class="lf-ring-fill" id="lf-w-ring" cx="30" cy="30" r="25" stroke-dasharray="157.08" stroke-dashoffset="104.72"/></svg>
         <div class="lf-ring-text" id="lf-w-ring-text">1/3</div>
       </div>
-      <div class="lf-step-inds">
-        <div class="lf-step-ind active"><div class="lf-step-ind-num">1</div><div class="lf-step-ind-label">Objectif</div></div>
-        <div class="lf-step-ind"><div class="lf-step-ind-num">2</div><div class="lf-step-ind-label">Propriété</div></div>
-        <div class="lf-step-ind"><div class="lf-step-ind-num">3</div><div class="lf-step-ind-label">Coordonnées</div></div>
+      <div class="lf-steps-nav">
+        <div class="lf-step-nav active"><div class="lf-step-num">1</div><div class="lf-step-lbl">Objectif</div></div>
+        <div class="lf-step-nav"><div class="lf-step-num">2</div><div class="lf-step-lbl">Propriété</div></div>
+        <div class="lf-step-nav"><div class="lf-step-num">3</div><div class="lf-step-lbl">Coordonnées</div></div>
       </div>
     </div>
 
-    <!-- Steps -->
     <div class="lf-steps" id="lf-w-steps">
       <!-- Step 1: Objectif -->
       <div class="lf-step active" data-step="0">
-        <div class="lf-step-header"><div class="lf-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="lf-step-title">Votre objectif</div><div class="lf-step-desc">Quel est votre but principal ?</div></div></div>
-        <div class="lf-options" id="lf-w-options">
-          <label class="lf-option"><input type="radio" name="lf_objectif" value="Mesurage net"><div class="lf-option-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="lf-option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg></div><div class="lf-option-label">Mesurage net</div><div class="lf-option-desc">Réduire votre facture avec Hydro-Québec</div></label>
-          <label class="lf-option"><input type="radio" name="lf_objectif" value="Protection pannes"><div class="lf-option-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="lf-option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="lf-option-label">Protection pannes</div><div class="lf-option-desc">Batterie de secours pour les coupures</div></label>
-          <label class="lf-option"><input type="radio" name="lf_objectif" value="Hybride"><div class="lf-option-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="lf-option-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="lf-option-label">Hybride</div><div class="lf-option-desc">Économies + protection combinées</div></label>
+        <div class="lf-step-hdr"><div class="lf-step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="lf-step-t">Votre objectif</div><div class="lf-step-d">Quel est votre but principal ?</div></div></div>
+        <div class="lf-opts" id="lf-w-opts">
+          <label class="lf-opt"><input type="radio" name="lf_obj" value="Mesurage net"><div class="lf-opt-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="lf-opt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg></div><div class="lf-opt-info"><div class="lf-opt-label">Mesurage net</div><div class="lf-opt-desc">Réduire votre facture avec Hydro-Québec</div></div></label>
+          <label class="lf-opt"><input type="radio" name="lf_obj" value="Protection pannes"><div class="lf-opt-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="lf-opt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="lf-opt-info"><div class="lf-opt-label">Protection pannes</div><div class="lf-opt-desc">Batterie de secours pour les coupures</div></div></label>
+          <label class="lf-opt"><input type="radio" name="lf_obj" value="Hybride"><div class="lf-opt-chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><div class="lf-opt-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="lf-opt-info"><div class="lf-opt-label">Hybride</div><div class="lf-opt-desc">Économies + protection combinées</div></div></label>
         </div>
-        <div class="lf-range-container">
+        <div class="lf-range-wrap">
           <label class="lf-label">Facture mensuelle d'électricité</label>
-          <div class="lf-range-display"><div class="lf-range-value" id="lf-w-facture-display">150$</div><div class="lf-range-suffix">par mois en moyenne</div></div>
+          <div class="lf-range-display"><div class="lf-range-val" id="lf-w-fdisp">150$</div><div class="lf-range-suf">par mois en moyenne</div></div>
           <input type="range" class="lf-range" id="lf-w-facture" min="50" max="500" value="150" step="10">
           <div class="lf-range-labels"><span>50$/mois</span><span>500$+/mois</span></div>
         </div>
@@ -510,51 +532,50 @@
 
       <!-- Step 2: Propriété -->
       <div class="lf-step" data-step="1">
-        <div class="lf-step-header"><div class="lf-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div class="lf-step-title">Votre propriété</div><div class="lf-step-desc">Quelques détails sur votre toiture</div></div></div>
+        <div class="lf-step-hdr"><div class="lf-step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div class="lf-step-t">Votre propriété</div><div class="lf-step-d">Quelques détails sur votre toiture</div></div></div>
         <div class="lf-row">
           <div class="lf-field"><label class="lf-label">Matériau de la toiture</label><select class="lf-select" id="lf-w-toiture"><option value="">Sélectionner...</option><option>Bardeaux d'asphalte</option><option>Tôle / Métal</option><option>Membrane TPO/EPDM</option><option>Ardoise</option><option>Autre</option></select></div>
           <div class="lf-field"><label class="lf-label">Année de réfection</label><select class="lf-select" id="lf-w-annee"><option value="">Sélectionner...</option><option>Moins de 5 ans</option><option>5 à 10 ans</option><option>10 à 20 ans</option><option>Plus de 20 ans</option><option>Je ne sais pas</option></select></div>
         </div>
         <div class="lf-field"><label class="lf-label">Type de propriété</label><select class="lf-select" id="lf-w-type"><option value="">Sélectionner...</option><option>Maison unifamiliale</option><option>Jumelé / Semi-détaché</option><option>Maison de ville</option><option>Chalet</option><option>Commercial</option><option>Agricole</option></select></div>
-        <div class="lf-field"><label class="lf-label">Commentaires ou questions (optionnel)</label><textarea class="lf-textarea" id="lf-w-message" placeholder="Décrivez votre projet, vos questions ou toute information utile..."></textarea></div>
+        <div class="lf-field"><label class="lf-label">Commentaires (optionnel)</label><textarea class="lf-textarea" id="lf-w-msg" placeholder="Décrivez votre projet ou posez vos questions..."></textarea></div>
       </div>
 
       <!-- Step 3: Coordonnées -->
       <div class="lf-step" data-step="2">
-        <div class="lf-step-header"><div class="lf-step-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="lf-step-title">Vos coordonnées</div><div class="lf-step-desc">Pour recevoir votre soumission personnalisée</div></div></div>
+        <div class="lf-step-hdr"><div class="lf-step-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div><div class="lf-step-t">Vos coordonnées</div><div class="lf-step-d">Pour recevoir votre soumission</div></div></div>
         <div class="lf-row">
-          <div class="lf-field"><label class="lf-label">Prénom <span class="lf-required">*</span></label><input type="text" class="lf-input" id="lf-w-prenom" placeholder="Jean" required><div class="lf-error-msg">Veuillez entrer votre prénom</div></div>
-          <div class="lf-field"><label class="lf-label">Nom <span class="lf-required">*</span></label><input type="text" class="lf-input" id="lf-w-nom" placeholder="Tremblay" required><div class="lf-error-msg">Veuillez entrer votre nom</div></div>
+          <div class="lf-field"><label class="lf-label">Prénom <span class="lf-req">*</span></label><input type="text" class="lf-input" id="lf-w-prenom" placeholder="Jean" autocomplete="given-name" required><div class="lf-err">Veuillez entrer votre prénom</div></div>
+          <div class="lf-field"><label class="lf-label">Nom <span class="lf-req">*</span></label><input type="text" class="lf-input" id="lf-w-nom" placeholder="Tremblay" autocomplete="family-name" required><div class="lf-err">Veuillez entrer votre nom</div></div>
         </div>
-        <div class="lf-field"><label class="lf-label">Courriel <span class="lf-required">*</span></label><input type="email" class="lf-input" id="lf-w-email" placeholder="jean@exemple.com" required><div class="lf-error-msg">Veuillez entrer un courriel valide</div><div class="lf-microcopy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Pour votre soumission uniquement. Aucun spam, jamais.</div></div>
-        <div class="lf-field"><label class="lf-label">Téléphone <span class="lf-required">*</span></label><input type="tel" class="lf-input" id="lf-w-phone" placeholder="(514) 555-1234" required><div class="lf-error-msg">Veuillez entrer un numéro valide</div><div class="lf-microcopy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> Un expert vous appellera pour valider les détails, sans pression.</div></div>
-        <div class="lf-field"><label class="lf-label">Adresse complète <span class="lf-required">*</span></label><input type="text" class="lf-input" id="lf-w-adresse" placeholder="123 rue Principale, Blainville, QC" required><div class="lf-error-msg">Veuillez entrer votre adresse</div><div class="lf-microcopy"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Pour évaluer l'ensoleillement de votre toiture.</div></div>
+        <div class="lf-field"><label class="lf-label">Courriel <span class="lf-req">*</span></label><input type="email" class="lf-input" id="lf-w-email" placeholder="jean@exemple.com" inputmode="email" autocomplete="email" required><div class="lf-err">Veuillez entrer un courriel valide</div><div class="lf-micro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Pour votre soumission uniquement. Aucun spam.</div></div>
+        <div class="lf-field"><label class="lf-label">Téléphone <span class="lf-req">*</span></label><input type="tel" class="lf-input" id="lf-w-phone" placeholder="(514) 555-1234" inputmode="tel" autocomplete="tel" required><div class="lf-err">Veuillez entrer un numéro valide</div><div class="lf-micro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg> Un expert vous appellera, sans pression.</div></div>
+        <div class="lf-field"><label class="lf-label">Adresse <span class="lf-req">*</span></label><input type="text" class="lf-input" id="lf-w-adresse" placeholder="123 rue Principale, Blainville" autocomplete="street-address" required><div class="lf-err">Veuillez entrer votre adresse</div><div class="lf-micro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Pour évaluer l'ensoleillement de votre toiture.</div></div>
       </div>
     </div>
 
-    <!-- Actions -->
+    <!-- Actions — sticky on mobile -->
     <div class="lf-actions" id="lf-w-actions">
-      <button class="lf-btn lf-btn-secondary" id="lf-w-prev" style="display:none"><svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5m7-7l-7 7 7 7" stroke="currentColor" stroke-width="2"/></svg><span>Retour</span></button>
+      <button class="lf-btn lf-btn-sec" id="lf-w-prev" style="display:none" aria-label="Retour"><svg viewBox="0 0 24 24" fill="none"><path d="M19 12H5m7-7l-7 7 7 7" stroke="currentColor" stroke-width="2"/></svg></button>
       <button class="lf-btn lf-btn-primary" id="lf-w-next"><div class="lf-spinner"></div><span class="lf-btn-text" id="lf-w-btn-text">Voir mon potentiel solaire</span><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2"/></svg></button>
     </div>
 
     <!-- Success -->
     <div class="lf-success" id="lf-w-success">
-      <div class="lf-success-icon-wrap"><div class="lf-success-ring"></div><div class="lf-success-ring" style="animation-delay:0.2s"></div><div class="lf-success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+      <div class="lf-success-ico-wrap"><div class="lf-success-ring"></div><div class="lf-success-ring" style="animation-delay:0.2s"></div><div class="lf-success-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div></div>
       <h3 class="lf-success-title">Demande envoyée !</h3>
-      <p class="lf-success-text">Merci pour votre confiance. Un expert Larks Solar vous contactera dans les <strong>24 prochaines heures</strong>.</p>
-      <div class="lf-success-details" id="lf-w-success-details"></div>
+      <p class="lf-success-text">Un expert Larks Solar vous contactera dans les <strong>24 prochaines heures</strong>.</p>
+      <div class="lf-success-details" id="lf-w-success-det"></div>
     </div>
 
     <!-- Testimonials -->
-    <div class="lf-testimonials" id="lf-w-testimonials">
-      <div class="lf-testimonial active" data-index="0"><div class="lf-testimonial-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="lf-testimonial-text">"Installation impeccable et équipe super professionnelle. Ma facture d'Hydro a baissé de 85% dès le premier mois !"</div><div class="lf-testimonial-author">Jean-Pierre Tremblay</div><div class="lf-testimonial-location">Blainville, QC</div></div>
-      <div class="lf-testimonial" data-index="1"><div class="lf-testimonial-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="lf-testimonial-text">"Pendant la panne de verglas, on était les seuls du quartier avec l'électricité grâce à notre batterie Larks Solar."</div><div class="lf-testimonial-author">Marie-Claude Lavoie</div><div class="lf-testimonial-location">Saint-Jérôme, QC</div></div>
-      <div class="lf-testimonial" data-index="2"><div class="lf-testimonial-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="lf-testimonial-text">"Le processus de soumission était rapide et transparent. Aucune surprise, que du positif. Je recommande à 100% !"</div><div class="lf-testimonial-author">Stéphane Bouchard</div><div class="lf-testimonial-location">Laval, QC</div></div>
-      <div class="lf-testimonial-dots"><div class="lf-testimonial-dot active" data-index="0"></div><div class="lf-testimonial-dot" data-index="1"></div><div class="lf-testimonial-dot" data-index="2"></div></div>
+    <div class="lf-testi" id="lf-w-testi">
+      <div class="lf-test active" data-i="0"><div class="lf-test-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="lf-test-text">"Installation impeccable et équipe super pro. Ma facture d'Hydro a baissé de 85% dès le premier mois !"</div><div class="lf-test-author">Jean-Pierre Tremblay</div><div class="lf-test-loc">Blainville, QC</div></div>
+      <div class="lf-test" data-i="1"><div class="lf-test-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="lf-test-text">"Pendant la panne de verglas, on était les seuls avec l'électricité grâce à notre batterie Larks Solar."</div><div class="lf-test-author">Marie-Claude Lavoie</div><div class="lf-test-loc">Saint-Jérôme, QC</div></div>
+      <div class="lf-test" data-i="2"><div class="lf-test-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div><div class="lf-test-text">"Processus rapide et transparent. Aucune surprise, que du positif. Je recommande à 100% !"</div><div class="lf-test-author">Stéphane Bouchard</div><div class="lf-test-loc">Laval, QC</div></div>
+      <div class="lf-test-dots"><button class="lf-test-dot active" data-i="0" aria-label="Témoignage 1"></button><button class="lf-test-dot" data-i="1" aria-label="Témoignage 2"></button><button class="lf-test-dot" data-i="2" aria-label="Témoignage 3"></button></div>
     </div>
 
-    <!-- Trust -->
     <div class="lf-trust">
       <div class="lf-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Certifié RBQ</div>
       <div class="lf-trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg> Données sécurisées</div>
@@ -566,171 +587,183 @@
 <script>
 (function(){
   'use strict';
-  const W = document.getElementById('lf-widget');
-  if (!W) return;
+  var W=document.getElementById('lf-widget');if(!W)return;
+  var isMobile='ontouchstart' in window||navigator.maxTouchPoints>0;
 
   // A/B Title
-  const titles = [
-    {t:'Votre projet <span class="lf-title-gold">solaire</span><br>commence ici',id:'A'},
-    {t:'Passez au <span class="lf-title-gold">solaire</span><br>en toute confiance',id:'B'},
-    {t:'Votre maison mérite<br>le <span class="lf-title-gold">solaire</span>',id:'C'}
-  ];
-  let abV = localStorage.getItem('lf_ab_v');
-  if (!abV || !titles.find(v=>v.id===abV)) { abV = titles[Math.floor(Math.random()*titles.length)].id; localStorage.setItem('lf_ab_v',abV); }
-  document.getElementById('lf-w-title').innerHTML = titles.find(v=>v.id===abV).t;
+  var titles=[{t:'Votre projet <span class="lf-title-gold">solaire</span><br>commence ici',id:'A'},{t:'Passez au <span class="lf-title-gold">solaire</span><br>en toute confiance',id:'B'},{t:'Votre maison mérite<br>le <span class="lf-title-gold">solaire</span>',id:'C'}];
+  var abV=localStorage.getItem('lf_ab');if(!abV||!titles.find(function(v){return v.id===abV})){abV=titles[Math.floor(Math.random()*titles.length)].id;localStorage.setItem('lf_ab',abV);}
+  document.getElementById('lf-w-title').innerHTML=titles.find(function(v){return v.id===abV}).t;
 
   // Theme
-  const thBtn = document.getElementById('lf-w-theme');
-  if (localStorage.getItem('lf_theme')==='light') W.classList.add('lf-light');
-  thBtn.addEventListener('click',()=>{ W.classList.toggle('lf-light'); localStorage.setItem('lf_theme',W.classList.contains('lf-light')?'light':'dark'); });
+  var thBtn=document.getElementById('lf-w-theme');
+  if(localStorage.getItem('lf_theme')==='light')W.classList.add('lf-light');
+  thBtn.addEventListener('click',function(){W.classList.toggle('lf-light');localStorage.setItem('lf_theme',W.classList.contains('lf-light')?'light':'dark');});
 
   // Typing
-  const typEl = document.getElementById('lf-w-typing');
-  const phrases = ['Obtenez une soumission personnalisée en moins de 2 minutes.','Plus de 800 familles québécoises nous font confiance.','Certifié RBQ. Installation garantie 25 ans.'];
-  let pI=0,cI=0,isDel=false;
-  function typ(){
-    const c=phrases[pI];
-    if(!isDel){typEl.textContent=c.substring(0,cI+1);cI++;if(cI===c.length){setTimeout(()=>{isDel=true;typ()},3000);return;}setTimeout(typ,35);}
-    else{typEl.textContent=c.substring(0,cI-1);cI--;if(cI===0){isDel=false;pI=(pI+1)%phrases.length;setTimeout(typ,500);return;}setTimeout(typ,20);}
-  }
-  setTimeout(typ,1200);
+  var typEl=document.getElementById('lf-w-typing');
+  var phrases=['Soumission personnalisée en moins de 2 minutes.','Plus de 800 familles québécoises nous font confiance.','Certifié RBQ. Garantie 25 ans.'];
+  var pI=0,cI=0,isDel=false;
+  function typ(){var c=phrases[pI];if(!isDel){typEl.textContent=c.substring(0,cI+1);cI++;if(cI===c.length){setTimeout(function(){isDel=true;typ()},3000);return;}setTimeout(typ,40);}else{typEl.textContent=c.substring(0,cI-1);cI--;if(cI===0){isDel=false;pI=(pI+1)%phrases.length;setTimeout(typ,500);return;}setTimeout(typ,25);}}
+  setTimeout(typ,1000);
 
   // Social count
-  const scEl=document.getElementById('lf-w-count');let sc=0;
-  function ac(){const inc=Math.ceil(847/60);if(sc<847){sc=Math.min(sc+inc,847);scEl.textContent=sc.toLocaleString('fr-CA');requestAnimationFrame(ac);}}
-  setTimeout(ac,1000);
+  var scEl=document.getElementById('lf-w-count'),sc=0;
+  function ac(){var inc=Math.ceil(847/50);if(sc<847){sc=Math.min(sc+inc,847);scEl.textContent=sc;requestAnimationFrame(ac);}}
+  setTimeout(ac,800);
 
   // Live visitors
-  const vEl=document.getElementById('lf-w-visitors');let cv=Math.floor(Math.random()*4)+3;vEl.textContent=cv;
-  setInterval(()=>{cv=Math.max(2,Math.min(8,cv+(Math.random()>0.5?1:-1)));vEl.textContent=cv;},15000);
+  var vEl=document.getElementById('lf-w-visitors'),cv=Math.floor(Math.random()*4)+3;vEl.textContent=cv;
+  setInterval(function(){cv=Math.max(2,Math.min(8,cv+(Math.random()>0.5?1:-1)));vEl.textContent=cv;},15000);
 
   // Timer
-  const tmEl=document.getElementById('lf-w-timer');
-  function uTm(){const n=new Date(),e=new Date(n.getFullYear(),n.getMonth()+1,0,23,59,59),d=e-n;if(d<=0){tmEl.textContent='Dernière chance!';return;}tmEl.textContent=`${Math.floor(d/864e5)}j ${Math.floor(d%864e5/36e5)}h ${Math.floor(d%36e5/6e4)}m ${Math.floor(d%6e4/1e3)}s`;}
+  var tmEl=document.getElementById('lf-w-timer');
+  function uTm(){var n=new Date(),e=new Date(n.getFullYear(),n.getMonth()+1,0,23,59,59),d=e-n;if(d<=0){tmEl.textContent='Dernière chance!';return;}tmEl.textContent=Math.floor(d/864e5)+'j '+Math.floor(d%864e5/36e5)+'h '+Math.floor(d%36e5/6e4)+'m '+Math.floor(d%6e4/1e3)+'s';}
   uTm();setInterval(uTm,1000);
 
-  // Testimonials
-  const tests=W.querySelectorAll('.lf-testimonial'),dots=W.querySelectorAll('.lf-testimonial-dot');let cT=0;
-  function sT(i){tests.forEach(t=>t.classList.remove('active'));dots.forEach(d=>d.classList.remove('active'));tests[i].classList.add('active');dots[i].classList.add('active');cT=i;}
-  dots.forEach(d=>d.addEventListener('click',()=>sT(parseInt(d.dataset.index))));
-  setInterval(()=>sT((cT+1)%tests.length),6000);
+  // Testimonials — swipe support on mobile
+  var tests=W.querySelectorAll('.lf-test'),dots=W.querySelectorAll('.lf-test-dot'),cT=0;
+  function sT(i){tests.forEach(function(t){t.classList.remove('active')});dots.forEach(function(d){d.classList.remove('active')});tests[i].classList.add('active');dots[i].classList.add('active');cT=i;}
+  dots.forEach(function(d){d.addEventListener('click',function(){sT(parseInt(d.dataset.i))})});
+  var tInt=setInterval(function(){sT((cT+1)%tests.length)},6000);
+  // Swipe on testimonials
+  var tBox=document.getElementById('lf-w-testi'),tSx=0;
+  tBox.addEventListener('touchstart',function(e){tSx=e.touches[0].clientX},{passive:true});
+  tBox.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-tSx;if(Math.abs(dx)>40){clearInterval(tInt);if(dx<0)sT((cT+1)%tests.length);else sT((cT-1+tests.length)%tests.length);}},{passive:true});
 
-  // Particles
-  const pCv=document.getElementById('lf-w-particles'),pCx=pCv.getContext('2d');let parts=[];
-  function rP(){const r=W.getBoundingClientRect();pCv.width=r.width;pCv.height=r.height;}
-  class P{constructor(){this.reset();}reset(){this.x=Math.random()*pCv.width;this.y=Math.random()*pCv.height;this.s=Math.random()*2+0.5;this.sx=(Math.random()-0.5)*0.3;this.sy=-Math.random()*0.3-0.1;this.o=Math.random()*0.4+0.1;this.p=Math.random()*Math.PI*2;this.ps=Math.random()*0.02+0.01;}update(){this.x+=this.sx;this.y+=this.sy;this.p+=this.ps;if(this.y<-10||this.x<-10||this.x>pCv.width+10)this.reset();if(this.y<-10){this.y=pCv.height+10;}}draw(){const o=this.o*(0.5+0.5*Math.sin(this.p));pCx.beginPath();pCx.arc(this.x,this.y,this.s,0,Math.PI*2);pCx.fillStyle=`rgba(245,166,35,${o})`;pCx.fill();}}
-  function iP(){rP();parts=Array.from({length:40},()=>new P());}
-  function aP(){pCx.clearRect(0,0,pCv.width,pCv.height);parts.forEach(p=>{p.update();p.draw();});requestAnimationFrame(aP);}
+  // Particles — fewer on mobile
+  var pCv=document.getElementById('lf-w-particles'),pCx=pCv.getContext('2d'),parts=[];
+  var pCount=isMobile?18:40;
+  function rP(){var r=W.getBoundingClientRect();pCv.width=r.width;pCv.height=r.height;}
+  function P(){this.x=Math.random()*pCv.width;this.y=Math.random()*pCv.height;this.s=Math.random()*1.8+0.4;this.sx=(Math.random()-0.5)*0.2;this.sy=-Math.random()*0.2-0.05;this.o=Math.random()*0.3+0.1;this.p=Math.random()*Math.PI*2;this.ps=Math.random()*0.015+0.005;}
+  P.prototype.update=function(){this.x+=this.sx;this.y+=this.sy;this.p+=this.ps;if(this.y<-10){this.y=pCv.height+10;this.x=Math.random()*pCv.width;}};
+  P.prototype.draw=function(){var o=this.o*(0.5+0.5*Math.sin(this.p));pCx.beginPath();pCx.arc(this.x,this.y,this.s,0,Math.PI*2);pCx.fillStyle='rgba(245,166,35,'+o+')';pCx.fill();};
+  function iP(){rP();parts=[];for(var i=0;i<pCount;i++)parts.push(new P());}
+  function aP(){pCx.clearRect(0,0,pCv.width,pCv.height);for(var i=0;i<parts.length;i++){parts[i].update();parts[i].draw();}requestAnimationFrame(aP);}
   window.addEventListener('resize',rP);iP();aP();
 
   // Form state
-  let step=0;const total=3;
-  const ctas=['Voir mon potentiel solaire','Presque terminé !','Obtenir ma soumission gratuite'];
-  const steps=W.querySelectorAll('.lf-step'),inds=W.querySelectorAll('.lf-step-ind');
-  const ring=document.getElementById('lf-w-ring'),rTxt=document.getElementById('lf-w-ring-text');
-  const nBtn=document.getElementById('lf-w-next'),pBtn=document.getElementById('lf-w-prev'),bTxt=document.getElementById('lf-w-btn-text');
-  const acts=document.getElementById('lf-w-actions'),succ=document.getElementById('lf-w-success'),sDet=document.getElementById('lf-w-success-details');
-  const CIR=2*Math.PI*25;
+  var step=0,total=3;
+  var ctas=['Voir mon potentiel solaire','Presque terminé !','Obtenir ma soumission gratuite'];
+  var steps=W.querySelectorAll('.lf-step'),navs=W.querySelectorAll('.lf-step-nav');
+  var ring=document.getElementById('lf-w-ring'),rTxt=document.getElementById('lf-w-ring-text');
+  var nBtn=document.getElementById('lf-w-next'),pBtn=document.getElementById('lf-w-prev'),bTxt=document.getElementById('lf-w-btn-text');
+  var acts=document.getElementById('lf-w-actions'),succ=document.getElementById('lf-w-success'),sDet=document.getElementById('lf-w-success-det');
+  var CIR=2*Math.PI*25;
 
   function uProg(){
-    ring.style.strokeDashoffset=CIR*(1-(step+1)/total);rTxt.textContent=`${step+1}/${total}`;
-    inds.forEach((ind,i)=>{ind.classList.toggle('active',i===step);ind.classList.toggle('done',i<step);if(i<step)ind.querySelector('.lf-step-ind-num').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>';});
+    ring.style.strokeDashoffset=CIR*(1-(step+1)/total);rTxt.textContent=(step+1)+'/'+total;
+    navs.forEach(function(n,i){n.classList.toggle('active',i===step);n.classList.toggle('done',i<step);if(i<step)n.querySelector('.lf-step-num').innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" width="12" height="12"><polyline points="20 6 9 17 4 12"/></svg>';});
     bTxt.textContent=ctas[step]||'Continuer';
-    if(step===total-1)nBtn.querySelector('svg:not(.lf-spinner)').innerHTML='<path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" fill="none"/>';
-    else nBtn.querySelector('svg:not(.lf-spinner)').innerHTML='<path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2"/>';
+    var arrow=nBtn.querySelector('svg:not(.lf-spinner)');
+    if(step===total-1)arrow.innerHTML='<path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" fill="none"/>';
+    else arrow.innerHTML='<path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2"/>';
+  }
+
+  // Scroll to top of widget on step change (mobile)
+  function scrollToTop(){
+    if(isMobile){
+      W.scrollIntoView({behavior:'smooth',block:'start'});
+    }
   }
 
   // Range
-  const rIn=document.getElementById('lf-w-facture'),rDisp=document.getElementById('lf-w-facture-display');
-  rIn.addEventListener('input',function(){const v=parseInt(this.value);rDisp.textContent=v>=500?'500$+':v+'$';rDisp.classList.add('bumped');setTimeout(()=>rDisp.classList.remove('bumped'),150);});
+  var rIn=document.getElementById('lf-w-facture'),rDisp=document.getElementById('lf-w-fdisp');
+  rIn.addEventListener('input',function(){var v=parseInt(this.value);rDisp.textContent=v>=500?'500$+':v+'$';rDisp.classList.add('bumped');setTimeout(function(){rDisp.classList.remove('bumped')},150);if(isMobile&&navigator.vibrate)navigator.vibrate(5);});
 
   // Options
-  W.querySelectorAll('.lf-option').forEach(o=>{o.addEventListener('click',function(){W.querySelectorAll('.lf-option').forEach(x=>x.classList.remove('selected'));this.classList.add('selected');this.querySelector('input').checked=true;});});
+  W.querySelectorAll('.lf-opt').forEach(function(o){o.addEventListener('click',function(){W.querySelectorAll('.lf-opt').forEach(function(x){x.classList.remove('selected')});this.classList.add('selected');this.querySelector('input').checked=true;if(isMobile&&navigator.vibrate)navigator.vibrate(10);})});
 
   // Validation
   function val(s){
     if(s<2)return true;
-    let ok=true;
-    [{id:'lf-w-prenom',t:v=>v.trim().length>=2},{id:'lf-w-nom',t:v=>v.trim().length>=2},{id:'lf-w-email',t:v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)},{id:'lf-w-phone',t:v=>v.replace(/\D/g,'').length>=10},{id:'lf-w-adresse',t:v=>v.trim().length>=5}].forEach(f=>{
-      const el=document.getElementById(f.id),p=el.closest('.lf-field');
+    var ok=true;
+    [{id:'lf-w-prenom',t:function(v){return v.trim().length>=2}},{id:'lf-w-nom',t:function(v){return v.trim().length>=2}},{id:'lf-w-email',t:function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)}},{id:'lf-w-phone',t:function(v){return v.replace(/\D/g,'').length>=10}},{id:'lf-w-adresse',t:function(v){return v.trim().length>=5}}].forEach(function(f){
+      var el=document.getElementById(f.id),p=el.closest('.lf-field');
       if(!f.t(el.value)){p.classList.add('has-error');p.classList.remove('valid');el.classList.add('error');ok=false;}
       else{p.classList.remove('has-error');p.classList.add('valid');el.classList.remove('error');}
     });
-    if(!ok){const fe=W.querySelector('.lf-field.has-error .lf-input');if(fe)fe.focus();}
+    if(!ok){var fe=W.querySelector('.lf-field.has-error .lf-input');if(fe){fe.focus();fe.scrollIntoView({behavior:'smooth',block:'center'});}if(isMobile&&navigator.vibrate)navigator.vibrate([30,50,30]);}
     return ok;
   }
 
   // Real-time validation
-  ['lf-w-prenom','lf-w-nom','lf-w-email','lf-w-phone','lf-w-adresse'].forEach(id=>{
-    const el=document.getElementById(id);
+  ['lf-w-prenom','lf-w-nom','lf-w-email','lf-w-phone','lf-w-adresse'].forEach(function(id){
+    var el=document.getElementById(id);
     el.addEventListener('input',function(){
-      const p=this.closest('.lf-field');
-      const vs={'lf-w-prenom':v=>v.trim().length>=2,'lf-w-nom':v=>v.trim().length>=2,'lf-w-email':v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),'lf-w-phone':v=>v.replace(/\D/g,'').length>=10,'lf-w-adresse':v=>v.trim().length>=5};
+      var p=this.closest('.lf-field');
+      var vs={'lf-w-prenom':function(v){return v.trim().length>=2},'lf-w-nom':function(v){return v.trim().length>=2},'lf-w-email':function(v){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)},'lf-w-phone':function(v){return v.replace(/\D/g,'').length>=10},'lf-w-adresse':function(v){return v.trim().length>=5}};
       if(vs[id](this.value)){p.classList.remove('has-error');p.classList.add('valid');this.classList.remove('error');}else{p.classList.remove('valid');}
     });
   });
 
   // Phone format
   document.getElementById('lf-w-phone').addEventListener('input',function(){
-    let d=this.value.replace(/\D/g,'').substring(0,10);
-    if(d.length>=7)this.value=`(${d.substring(0,3)}) ${d.substring(3,6)}-${d.substring(6)}`;
-    else if(d.length>=4)this.value=`(${d.substring(0,3)}) ${d.substring(3)}`;
-    else if(d.length>0)this.value=`(${d}`;
+    var d=this.value.replace(/\D/g,'').substring(0,10);
+    if(d.length>=7)this.value='('+d.substring(0,3)+') '+d.substring(3,6)+'-'+d.substring(6);
+    else if(d.length>=4)this.value='('+d.substring(0,3)+') '+d.substring(3);
+    else if(d.length>0)this.value='('+d;
   });
 
   // Navigation
   nBtn.addEventListener('click',function(){
     if(!val(step))return;
-    if(step<total-1){steps[step].classList.remove('active');step++;steps[step].classList.add('active');pBtn.style.display='flex';uProg();}
+    if(isMobile&&navigator.vibrate)navigator.vibrate(15);
+    if(step<total-1){steps[step].classList.remove('active');step++;steps[step].classList.add('active');pBtn.style.display='flex';uProg();scrollToTop();}
     else submit();
   });
-  pBtn.addEventListener('click',function(){if(step>0){steps[step].classList.remove('active');step--;steps[step].classList.add('active');if(step===0)pBtn.style.display='none';uProg();}});
+  pBtn.addEventListener('click',function(){
+    if(step>0){if(isMobile&&navigator.vibrate)navigator.vibrate(10);steps[step].classList.remove('active');step--;steps[step].classList.add('active');if(step===0)pBtn.style.display='none';uProg();scrollToTop();}
+  });
 
   // Submit
   function submit(){
     nBtn.classList.add('loading');nBtn.disabled=true;
-    const fd={
-      objectif:W.querySelector('input[name="lf_objectif"]:checked')?.value||'Non spécifié',
+    var fd={
+      objectif:(W.querySelector('input[name="lf_obj"]:checked')||{}).value||'Non spécifié',
       facture:rIn.value+'$/mois',toiture:document.getElementById('lf-w-toiture').value||'Non spécifié',
       annee:document.getElementById('lf-w-annee').value||'Non spécifié',
       type:document.getElementById('lf-w-type').value||'Non spécifié',
-      message:document.getElementById('lf-w-message').value,
+      message:document.getElementById('lf-w-msg').value,
       prenom:document.getElementById('lf-w-prenom').value,nom:document.getElementById('lf-w-nom').value,
       email:document.getElementById('lf-w-email').value,phone:document.getElementById('lf-w-phone').value,
       adresse:document.getElementById('lf-w-adresse').value
     };
 
-    // ===== MONDAY.COM INTEGRATION =====
-    // Décommentez et configurez les 3 lignes ci-dessous :
-    // const MONDAY_API_KEY = 'VOTRE_API_KEY_MONDAY';
-    // const MONDAY_BOARD_ID = 'VOTRE_BOARD_ID';
-    // const MONDAY_GROUP_ID = 'VOTRE_GROUP_ID';
-    //
-    // fetch('https://api.monday.com/v2', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json', 'Authorization': MONDAY_API_KEY },
-    //   body: JSON.stringify({ query: `mutation { create_item(board_id: ${MONDAY_BOARD_ID}, group_id: "${MONDAY_GROUP_ID}", item_name: "${fd.prenom} ${fd.nom}", column_values: "${JSON.stringify({email:{email:fd.email,text:fd.email},phone:{phone:fd.phone,countryShortName:'CA'},text:fd.adresse,text0:fd.objectif,numbers:parseInt(fd.facture)}).replace(/"/g,'\\"')}") { id } }` })
-    // });
+    // ===== MONDAY.COM — Décommentez et configurez =====
+    // var MONDAY_KEY = 'VOTRE_API_KEY';
+    // var BOARD_ID = 'VOTRE_BOARD_ID';
+    // var GROUP_ID = 'VOTRE_GROUP_ID';
+    // fetch('https://api.monday.com/v2',{method:'POST',headers:{'Content-Type':'application/json','Authorization':MONDAY_KEY},body:JSON.stringify({query:'mutation{create_item(board_id:'+BOARD_ID+',group_id:"'+GROUP_ID+'",item_name:"'+fd.prenom+' '+fd.nom+'",column_values:"'+JSON.stringify({email:{email:fd.email,text:fd.email},phone:{phone:fd.phone,countryShortName:"CA"},text:fd.adresse,text0:fd.objectif,numbers:parseInt(fd.facture)}).replace(/"/g,'\\"')+'"){id}}'})});
 
-    setTimeout(()=>{
+    setTimeout(function(){
       nBtn.classList.remove('loading');acts.style.display='none';
       document.getElementById('lf-w-steps').style.display='none';
-      W.querySelector('.lf-progress-bar').style.display='none';
-      document.getElementById('lf-w-testimonials').style.display='none';
-      sDet.innerHTML=`<div class="lf-detail-row"><span class="lf-detail-label">Nom</span><span class="lf-detail-value">${fd.prenom} ${fd.nom}</span></div><div class="lf-detail-row"><span class="lf-detail-label">Courriel</span><span class="lf-detail-value">${fd.email}</span></div><div class="lf-detail-row"><span class="lf-detail-label">Téléphone</span><span class="lf-detail-value">${fd.phone}</span></div><div class="lf-detail-row"><span class="lf-detail-label">Objectif</span><span class="lf-detail-value">${fd.objectif}</span></div><div class="lf-detail-row"><span class="lf-detail-label">Facture</span><span class="lf-detail-value">${fd.facture}</span></div>`;
+      W.querySelector('.lf-progress').style.display='none';
+      document.getElementById('lf-w-testi').style.display='none';
+      sDet.innerHTML='<div class="lf-detail-row"><span class="lf-detail-label">Nom</span><span class="lf-detail-value">'+fd.prenom+' '+fd.nom+'</span></div><div class="lf-detail-row"><span class="lf-detail-label">Courriel</span><span class="lf-detail-value">'+fd.email+'</span></div><div class="lf-detail-row"><span class="lf-detail-label">Téléphone</span><span class="lf-detail-value">'+fd.phone+'</span></div><div class="lf-detail-row"><span class="lf-detail-label">Objectif</span><span class="lf-detail-value">'+fd.objectif+'</span></div><div class="lf-detail-row"><span class="lf-detail-label">Facture</span><span class="lf-detail-value">'+fd.facture+'</span></div>';
       succ.classList.add('active');
+      scrollToTop();
+      if(isMobile&&navigator.vibrate)navigator.vibrate([50,100,50]);
     },1800);
   }
 
-  // Exit Intent
-  const exOv=document.getElementById('lf-w-exit-overlay');let exShown=false;
-  function showEx(){if(exShown)return;exShown=true;exOv.style.display='flex';requestAnimationFrame(()=>exOv.classList.add('active'));}
-  function hideEx(){exOv.classList.remove('active');setTimeout(()=>{exOv.style.display='none';},400);}
-  document.addEventListener('mouseout',e=>{if(e.clientY<=0&&!exShown)showEx();});
+  // Exit Intent — mouseout on desktop, timer on mobile
+  var exOv=document.getElementById('lf-w-exit-ov'),exShown=false;
+  function showEx(){if(exShown)return;exShown=true;exOv.style.display='flex';requestAnimationFrame(function(){exOv.classList.add('active')});}
+  function hideEx(){exOv.classList.remove('active');setTimeout(function(){exOv.style.display='none'},300);}
+  if(!isMobile){document.addEventListener('mouseout',function(e){if(e.clientY<=0&&!exShown)showEx()});}
+  else{setTimeout(function(){if(!exShown&&step<total-1)showEx()},45000);}
   document.getElementById('lf-w-exit-close').addEventListener('click',hideEx);
   document.getElementById('lf-w-exit-dismiss').addEventListener('click',hideEx);
-  document.getElementById('lf-w-exit-cta').addEventListener('click',()=>{hideEx();W.scrollIntoView({behavior:'smooth',block:'center'});});
-  exOv.addEventListener('click',e=>{if(e.target===exOv)hideEx();});
+  document.getElementById('lf-w-exit-cta').addEventListener('click',function(){hideEx();W.scrollIntoView({behavior:'smooth',block:'start'});});
+  exOv.addEventListener('click',function(e){if(e.target===exOv)hideEx()});
+
+  // localStorage save/restore
+  function save(){try{localStorage.setItem('lf_data',JSON.stringify({step:step,obj:(W.querySelector('input[name="lf_obj"]:checked')||{}).value||'',facture:rIn.value,toiture:document.getElementById('lf-w-toiture').value,annee:document.getElementById('lf-w-annee').value,type:document.getElementById('lf-w-type').value,msg:document.getElementById('lf-w-msg').value,prenom:document.getElementById('lf-w-prenom').value,nom:document.getElementById('lf-w-nom').value,email:document.getElementById('lf-w-email').value,phone:document.getElementById('lf-w-phone').value,adresse:document.getElementById('lf-w-adresse').value}))}catch(e){}}
+  function restore(){try{var d=JSON.parse(localStorage.getItem('lf_data'));if(!d)return;if(d.obj){var r=W.querySelector('input[name="lf_obj"][value="'+d.obj+'"]');if(r){r.checked=true;r.closest('.lf-opt').classList.add('selected');}}if(d.facture){rIn.value=d.facture;var v=parseInt(d.facture);rDisp.textContent=v>=500?'500$+':v+'$';}if(d.toiture)document.getElementById('lf-w-toiture').value=d.toiture;if(d.annee)document.getElementById('lf-w-annee').value=d.annee;if(d.type)document.getElementById('lf-w-type').value=d.type;if(d.msg)document.getElementById('lf-w-msg').value=d.msg;if(d.prenom)document.getElementById('lf-w-prenom').value=d.prenom;if(d.nom)document.getElementById('lf-w-nom').value=d.nom;if(d.email)document.getElementById('lf-w-email').value=d.email;if(d.phone)document.getElementById('lf-w-phone').value=d.phone;if(d.adresse)document.getElementById('lf-w-adresse').value=d.adresse;if(d.step>0&&d.step<total){for(var i=0;i<d.step;i++){steps[i].classList.remove('active');}step=d.step;steps[step].classList.add('active');if(step>0)pBtn.style.display='flex';uProg();}}catch(e){}}
+  restore();
+  setInterval(save,3000);
 
   uProg();
 })();
