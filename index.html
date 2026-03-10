@@ -7,15 +7,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 <style>
 /* ========================================================================
-   LARKS SOLAR — Formulaire Ultra-Dynamique v3.0
-   All v2 features + Lottie, Typing, Parallax, Social Proof, Testimonials,
-   Timer, Availability, localStorage, Haptic, Analytics, Progress Bar,
-   Theme Toggle
+   LARKS SOLAR — Formulaire Ultra-Dynamique v4.0 (CRO Optimized)
+   v3 features + Reordered Steps, Benefit CTAs, Microcopy, Exit-Intent,
+   Live Visitors Counter, A/B Title Testing
    ======================================================================== */
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
 :root {
@@ -46,7 +43,6 @@
   --glow-color: rgba(245,166,35,0.04);
 }
 
-/* Light theme */
 html.light {
   --bg: #F5F5F7;
   --surface: #FFFFFF;
@@ -75,21 +71,11 @@ body {
 
 /* ---- Theme Toggle ---- */
 .lf-theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--border-light);
-  background: var(--surface);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  position: fixed; top: 20px; right: 20px; z-index: 100;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--border-light); background: var(--surface);
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s ease; box-shadow: 0 2px 12px rgba(0,0,0,0.1);
 }
 .lf-theme-toggle:hover { transform: scale(1.1); border-color: var(--gold); }
 .lf-theme-toggle svg { width: 20px; height: 20px; color: var(--gold); transition: transform 0.5s var(--ease-bounce); }
@@ -99,195 +85,115 @@ body {
 html.light .lf-theme-toggle .lf-icon-moon { display: none; }
 html.light .lf-theme-toggle .lf-icon-sun { display: block; }
 
-/* ---- Micro Progress Bar (top of page) ---- */
+/* ---- Micro Progress Bar ---- */
 .lf-micro-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
+  position: fixed; top: 0; left: 0; height: 3px;
   background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
-  background-size: 200% auto;
-  animation: lf-gradient-shift 3s ease-in-out infinite;
-  z-index: 999;
-  transition: width 0.6s var(--ease);
-  box-shadow: 0 0 12px var(--gold-glow);
-  border-radius: 0 2px 2px 0;
+  background-size: 200% auto; animation: lf-gradient-shift 3s ease-in-out infinite;
+  z-index: 999; transition: width 0.6s var(--ease);
+  box-shadow: 0 0 12px var(--gold-glow); border-radius: 0 2px 2px 0;
 }
 
 /* ---- Particle Canvas ---- */
-#lf-particles {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
+#lf-particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
 html.light #lf-particles { opacity: 0.3; }
 
 /* ---- Cursor Glow ---- */
 .lf-cursor-glow {
-  position: fixed;
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
+  position: fixed; width: 400px; height: 400px; border-radius: 50%;
   background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 1;
-  transform: translate(-50%, -50%);
-  transition: opacity 0.3s ease;
-  opacity: 0;
+  pointer-events: none; z-index: 1; transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease; opacity: 0;
 }
 .lf-cursor-glow.active { opacity: 1; }
 html.light .lf-cursor-glow { background: radial-gradient(circle, rgba(245,166,35,0.04) 0%, transparent 70%); }
 
 /* ---- Main Layout ---- */
 .lf-root {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 32px 16px;
+  position: relative; z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; padding: 32px 16px;
 }
-
-.lf-container {
-  width: 100%;
-  max-width: 720px;
-  position: relative;
-  perspective: 1200px;
-}
+.lf-container { width: 100%; max-width: 720px; position: relative; perspective: 1200px; }
 
 /* ---- Animated Gradient Border ---- */
 .lf-card-wrapper {
-  position: relative;
-  border-radius: var(--radius-xl);
-  padding: 1px;
+  position: relative; border-radius: var(--radius-xl); padding: 1px;
   background: linear-gradient(135deg, rgba(245,166,35,0.3), rgba(245,166,35,0), rgba(245,166,35,0.15), rgba(245,166,35,0));
-  background-size: 300% 300%;
-  animation: lf-border-flow 6s ease infinite;
+  background-size: 300% 300%; animation: lf-border-flow 6s ease infinite;
 }
-
 @keyframes lf-border-flow {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
-/* ---- Card with 3D Tilt ---- */
+/* ---- Card ---- */
 .lf-card {
   position: relative;
   background: linear-gradient(145deg, rgba(20,20,24,0.92) 0%, rgba(8,8,12,0.98) 100%);
   backdrop-filter: blur(40px) saturate(200%);
   -webkit-backdrop-filter: blur(40px) saturate(200%);
-  border-radius: var(--radius-xl);
-  padding: 52px 44px;
+  border-radius: var(--radius-xl); padding: 52px 44px;
   box-shadow: 0 0 0 1px rgba(255,255,255,0.04) inset, 0 2px 4px rgba(0,0,0,0.3), 0 12px 48px rgba(0,0,0,0.5), 0 0 120px var(--glow-color);
   transition: transform 0.15s ease-out, box-shadow 0.4s ease, background 0.5s ease;
-  transform-style: preserve-3d;
-  overflow: hidden;
-  will-change: transform;
+  transform-style: preserve-3d; overflow: hidden; will-change: transform;
 }
 html.light .lf-card {
   background: linear-gradient(145deg, rgba(255,255,255,0.95) 0%, rgba(245,245,247,0.98) 100%);
-  box-shadow: 0 0 0 1px rgba(0,0,0,0.04) inset, 0 2px 4px rgba(0,0,0,0.05), 0 12px 48px rgba(0,0,0,0.08), 0 0 120px rgba(245,166,35,0.04);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.04) inset, 0 2px 4px rgba(0,0,0,0.05), 0 12px 48px rgba(0,0,0,0.08);
 }
-.lf-card:hover {
-  box-shadow: 0 0 0 1px rgba(245,166,35,0.08) inset, 0 12px 60px rgba(0,0,0,0.6), 0 0 80px rgba(245,166,35,0.06);
-}
-html.light .lf-card:hover {
-  box-shadow: 0 0 0 1px rgba(245,166,35,0.08) inset, 0 12px 60px rgba(0,0,0,0.1), 0 0 80px rgba(245,166,35,0.06);
-}
-
-/* Noise overlay */
+.lf-card:hover { box-shadow: 0 0 0 1px rgba(245,166,35,0.08) inset, 0 12px 60px rgba(0,0,0,0.6), 0 0 80px rgba(245,166,35,0.06); }
+html.light .lf-card:hover { box-shadow: 0 0 0 1px rgba(245,166,35,0.08) inset, 0 12px 60px rgba(0,0,0,0.1); }
 .lf-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
+  content: ''; position: absolute; inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.4;
-  border-radius: inherit;
+  pointer-events: none; z-index: 0; opacity: 0.4; border-radius: inherit;
 }
-
-.lf-spotlight {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
+.lf-spotlight { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 0; opacity: 0; transition: opacity 0.4s ease; }
 .lf-card:hover .lf-spotlight { opacity: 1; }
 .lf-card > * { position: relative; z-index: 1; }
 
-/* ---- Availability Indicator ---- */
+/* ---- Availability ---- */
 .lf-availability {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 16px;
-  font-size: 12px;
-  color: var(--green);
-  font-weight: 500;
-  animation: lf-fade-up 0.6s var(--ease) both;
-  animation-delay: 0.1s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-bottom: 16px; font-size: 12px; color: var(--green); font-weight: 500;
+  animation: lf-fade-up 0.6s var(--ease) both; animation-delay: 0.1s;
 }
 .lf-avail-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--green);
-  position: relative;
-  animation: lf-avail-pulse 2s ease-in-out infinite;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+  position: relative; animation: lf-avail-pulse 2s ease-in-out infinite;
 }
 .lf-avail-dot::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: rgba(48,209,88,0.3);
-  animation: lf-avail-ring 2s ease-in-out infinite;
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  background: rgba(48,209,88,0.3); animation: lf-avail-ring 2s ease-in-out infinite;
 }
-@keyframes lf-avail-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
+@keyframes lf-avail-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+@keyframes lf-avail-ring { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.8); opacity: 0; } }
+
+/* ---- Live Visitors Counter ---- */
+.lf-live-visitors {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: 11px; color: var(--text-muted); margin-bottom: 12px;
+  animation: lf-fade-up 0.6s var(--ease) both; animation-delay: 0.15s;
 }
-@keyframes lf-avail-ring {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.8); opacity: 0; }
+.lf-live-visitors .lf-live-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
+  animation: lf-pulse-dot 2s ease-in-out infinite;
 }
 
 /* ---- Header ---- */
 .lf-header { text-align: center; margin-bottom: 32px; }
-
 .lf-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 20px;
-  background: rgba(245,166,35,0.06);
-  border: 1px solid rgba(245,166,35,0.12);
-  border-radius: var(--radius-full);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--gold);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  margin-bottom: 24px;
-  animation: lf-badge-in 0.8s var(--ease-bounce) both;
-  animation-delay: 0.2s;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 20px; background: rgba(245,166,35,0.06);
+  border: 1px solid rgba(245,166,35,0.12); border-radius: var(--radius-full);
+  font-size: 11px; font-weight: 700; color: var(--gold);
+  text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 24px;
+  animation: lf-badge-in 0.8s var(--ease-bounce) both; animation-delay: 0.2s;
 }
-@keyframes lf-badge-in {
-  from { opacity: 0; transform: translateY(-10px) scale(0.9); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-.lf-badge-dot {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--gold);
-  animation: lf-pulse-dot 2s ease-in-out infinite;
-}
+@keyframes lf-badge-in { from { opacity: 0; transform: translateY(-10px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.lf-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: lf-pulse-dot 2s ease-in-out infinite; }
 @keyframes lf-pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 var(--gold-glow); }
   50% { opacity: 0.8; transform: scale(1.3); box-shadow: 0 0 12px 4px var(--gold-glow); }
@@ -295,213 +201,103 @@ html.light .lf-card:hover {
 .lf-badge svg { width: 14px; height: 14px; }
 
 .lf-title {
-  font-family: var(--font-heading);
-  font-size: 36px;
-  font-weight: 800;
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  margin-bottom: 14px;
-  animation: lf-title-in 1s var(--ease) both;
-  animation-delay: 0.4s;
+  font-family: var(--font-heading); font-size: 36px; font-weight: 800;
+  line-height: 1.08; letter-spacing: -0.03em; margin-bottom: 14px;
+  animation: lf-title-in 1s var(--ease) both; animation-delay: 0.4s;
 }
-@keyframes lf-title-in {
-  from { opacity: 0; transform: translateY(20px); filter: blur(8px); }
-  to { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
+@keyframes lf-title-in { from { opacity: 0; transform: translateY(20px); filter: blur(8px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
 .lf-title-gold {
   background: linear-gradient(135deg, #F5A623 0%, #FFD700 30%, #FF8C00 60%, #F5A623 100%);
-  background-size: 300% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: lf-gradient-shift 4s ease-in-out infinite;
+  background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; animation: lf-gradient-shift 4s ease-in-out infinite;
 }
-@keyframes lf-gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+@keyframes lf-gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
 .lf-subtitle {
-  font-size: 16px;
-  color: var(--text-secondary);
-  line-height: 1.5;
-  min-height: 24px;
-  animation: lf-fade-up 0.8s var(--ease) both;
-  animation-delay: 0.6s;
+  font-size: 16px; color: var(--text-secondary); line-height: 1.5;
+  min-height: 24px; animation: lf-fade-up 0.8s var(--ease) both; animation-delay: 0.6s;
 }
-@keyframes lf-fade-up {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+.lf-typing-cursor { display: inline-block; width: 2px; height: 1em; background: var(--gold); margin-left: 2px; animation: lf-blink 0.8s ease-in-out infinite; vertical-align: text-bottom; }
+@keyframes lf-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes lf-fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Typing cursor */
-.lf-typing-cursor {
-  display: inline-block;
-  width: 2px;
-  height: 1em;
-  background: var(--gold);
-  margin-left: 2px;
-  animation: lf-blink 0.8s step-end infinite;
-  vertical-align: text-bottom;
-}
-@keyframes lf-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
-}
-
-/* ---- Social Proof Counter ---- */
+/* ---- Social Proof ---- */
 .lf-social-proof {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-  padding: 12px 20px;
-  background: rgba(48,209,88,0.04);
-  border: 1px solid rgba(48,209,88,0.1);
-  border-radius: var(--radius);
-  animation: lf-fade-up 0.6s var(--ease) both;
-  animation-delay: 0.65s;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  padding: 14px 24px; background: rgba(255,255,255,0.02); border-radius: var(--radius);
+  margin-bottom: 16px; animation: lf-fade-up 0.8s var(--ease) both; animation-delay: 0.8s;
 }
-.lf-social-proof-avatars {
-  display: flex;
-  margin-right: 4px;
+html.light .lf-social-proof { background: rgba(0,0,0,0.03); }
+.lf-avatars { display: flex; }
+.lf-avatar {
+  width: 32px; height: 32px; border-radius: 50%; margin-left: -8px;
+  border: 2px solid var(--surface); display: flex; align-items: center;
+  justify-content: center; font-size: 11px; font-weight: 700; color: #fff;
 }
-.lf-social-proof-avatar {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid var(--surface);
-  margin-left: -8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: #fff;
-}
-.lf-social-proof-avatar:first-child { margin-left: 0; }
-.lf-social-proof-text {
-  font-size: 13px;
-  color: var(--text-secondary);
-  line-height: 1.4;
-}
-.lf-social-proof-count {
-  font-weight: 700;
-  color: var(--green);
-  font-variant-numeric: tabular-nums;
-}
+.lf-avatar:first-child { margin-left: 0; }
+.lf-social-text { font-size: 13px; color: var(--text-secondary); }
+.lf-social-count { font-weight: 700; color: var(--gold); }
 
-/* ---- Timer / Urgency ---- */
+/* ---- Timer ---- */
 .lf-timer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 24px;
-  font-size: 12px;
-  color: var(--gold);
-  font-weight: 600;
-  animation: lf-fade-up 0.6s var(--ease) both;
-  animation-delay: 0.7s;
+  text-align: center; font-size: 12px; color: var(--text-muted); margin-bottom: 28px;
+  animation: lf-fade-up 0.8s var(--ease) both; animation-delay: 0.9s;
 }
-.lf-timer svg { width: 14px; height: 14px; }
-.lf-timer-countdown { font-variant-numeric: tabular-nums; }
+.lf-timer svg { width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px; color: var(--gold); }
 
-/* ---- Circular Progress ---- */
-.lf-progress-ring-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 32px;
-  margin-bottom: 40px;
-  animation: lf-fade-up 0.6s var(--ease) both;
-  animation-delay: 0.7s;
+/* ---- Progress Ring + Steps ---- */
+.lf-progress-bar {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 32px;
+  animation: lf-fade-up 0.6s var(--ease) both; animation-delay: 0.3s;
 }
-.lf-progress-ring-wrap { position: relative; width: 56px; height: 56px; flex-shrink: 0; }
-.lf-progress-ring { transform: rotate(-90deg); width: 56px; height: 56px; }
-.lf-progress-ring-bg { fill: none; stroke: var(--surface-2); stroke-width: 3; }
-.lf-progress-ring-fill {
-  fill: none; stroke: url(#lf-ring-gradient); stroke-width: 3;
-  stroke-linecap: round; stroke-dasharray: 157; stroke-dashoffset: 157;
-  transition: stroke-dashoffset 0.8s var(--ease);
-}
-.lf-progress-ring-text {
+.lf-ring { position: relative; width: 56px; height: 56px; flex-shrink: 0; }
+.lf-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.lf-ring-bg { fill: none; stroke: var(--surface-2); stroke-width: 3; }
+.lf-ring-fill { fill: none; stroke: var(--gold); stroke-width: 3; stroke-linecap: round; transition: stroke-dashoffset 0.8s var(--ease); }
+.lf-ring-text {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-heading); font-size: 16px; font-weight: 700; color: var(--gold);
+  font-family: var(--font-heading); font-size: 14px; font-weight: 700; color: var(--text-primary);
 }
-
-/* Step indicators */
-.lf-step-indicators { display: flex; gap: 8px; flex: 1; }
+.lf-step-inds { display: flex; gap: 8px; flex: 1; }
 .lf-step-ind {
   flex: 1; display: flex; align-items: center; gap: 10px;
-  padding: 12px 16px; border-radius: 12px;
-  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
-  transition: all 0.5s var(--ease); cursor: default; position: relative; overflow: hidden;
+  padding: 10px 16px; border-radius: 12px; border: 1px solid var(--border);
+  background: transparent; transition: all 0.4s var(--ease); cursor: default;
 }
-html.light .lf-step-ind { background: rgba(0,0,0,0.02); }
-.lf-step-ind::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(245,166,35,0.06), transparent);
-  opacity: 0; transition: opacity 0.4s ease;
-}
-.lf-step-ind.active { border-color: rgba(245,166,35,0.25); background: rgba(245,166,35,0.04); }
-.lf-step-ind.active::before { opacity: 1; }
+.lf-step-ind.active { border-color: var(--gold); background: rgba(245,166,35,0.04); }
 .lf-step-ind.done { border-color: rgba(48,209,88,0.2); background: rgba(48,209,88,0.03); }
 .lf-step-ind-num {
-  width: 28px; height: 28px; border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; background: var(--surface-2); color: var(--text-muted);
-  transition: all 0.4s var(--ease); flex-shrink: 0; position: relative; z-index: 1;
+  width: 24px; height: 24px; border-radius: 8px; display: flex;
+  align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+  background: var(--surface-2); color: var(--text-muted); transition: all 0.3s ease;
 }
-.lf-step-ind.active .lf-step-ind-num { background: var(--gold); color: #000; box-shadow: 0 0 20px var(--gold-glow); }
+.lf-step-ind.active .lf-step-ind-num { background: var(--gold); color: #000; }
 .lf-step-ind.done .lf-step-ind-num { background: var(--green); color: #fff; }
-.lf-step-ind-label { font-size: 12px; font-weight: 600; color: var(--text-muted); transition: color 0.4s ease; position: relative; z-index: 1; }
-.lf-step-ind.active .lf-step-ind-label { color: var(--gold); }
-.lf-step-ind.done .lf-step-ind-label { color: var(--green); }
-
+.lf-step-ind-label { font-size: 12px; font-weight: 500; color: var(--text-muted); transition: color 0.3s ease; }
+.lf-step-ind.active .lf-step-ind-label { color: var(--text-primary); }
 @media (max-width: 600px) {
   .lf-step-ind-label { display: none; }
   .lf-step-ind { justify-content: center; padding: 10px; }
+  .lf-card { padding: 36px 20px; }
 }
 
-/* ---- Steps container ---- */
-.lf-steps { position: relative; min-height: 300px; }
-.lf-step { display: none; position: absolute; width: 100%; top: 0; left: 0; }
-.lf-step.active { display: block; position: relative; animation: lf-morph-in 0.7s var(--ease) forwards; }
-@keyframes lf-morph-in {
-  0% { opacity: 0; transform: translateY(30px) scale(0.97); filter: blur(6px); }
-  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-}
-.lf-step.exiting { display: block; animation: lf-morph-out 0.4s var(--ease) forwards; }
-@keyframes lf-morph-out {
-  0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-  100% { opacity: 0; transform: translateY(-20px) scale(0.97); filter: blur(4px); }
-}
-
-/* ---- Step header with Lottie ---- */
-.lf-step-header {
-  display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
-  opacity: 0; animation: lf-stagger-in 0.5s var(--ease) forwards; animation-delay: 0.1s;
-}
-.lf-step.active .lf-step-header { animation-play-state: running; }
+/* ---- Steps ---- */
+.lf-steps { position: relative; overflow: hidden; }
+.lf-step { display: none; }
+.lf-step.active { display: block; animation: lf-morph-in 0.5s var(--ease) forwards; }
+@keyframes lf-morph-in { from { opacity: 0; transform: scale(0.96) translateY(12px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.lf-step-header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
 .lf-step-icon {
-  width: 48px; height: 48px; border-radius: 14px;
-  background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.12);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; transition: all 0.4s var(--ease); position: relative; overflow: hidden;
+  width: 44px; height: 44px; border-radius: 14px;
+  background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.1);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
-.lf-step-icon lottie-player { width: 32px; height: 32px; }
-.lf-step-icon svg { width: 22px; height: 22px; color: var(--gold); position: relative; z-index: 1; }
-.lf-step-title { font-family: var(--font-heading); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.lf-step-icon svg { width: 22px; height: 22px; color: var(--gold); }
+.lf-step-title { font-family: var(--font-heading); font-size: 22px; font-weight: 700; }
 .lf-step-desc { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
 
-/* ---- Staggered field animations ---- */
-@keyframes lf-stagger-in {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+/* Stagger animation */
+@keyframes lf-stagger-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
 .lf-step.active .lf-field,
 .lf-step.active .lf-row,
 .lf-step.active .lf-options,
@@ -516,7 +312,7 @@ html.light .lf-step-ind { background: rgba(0,0,0,0.02); }
 .lf-step.active .lf-options { animation-delay: 0.2s; }
 .lf-step.active .lf-range-container { animation-delay: 0.3s; }
 
-/* ---- Floating Labels ---- */
+/* ---- Inputs ---- */
 .lf-field { margin-bottom: 20px; position: relative; }
 .lf-label {
   display: block; font-size: 13px; font-weight: 600; color: var(--text-secondary);
@@ -525,25 +321,18 @@ html.light .lf-step-ind { background: rgba(0,0,0,0.02); }
 .lf-field:focus-within .lf-label { color: var(--gold); }
 .lf-label .lf-required { color: var(--gold); margin-left: 2px; }
 
-/* ---- Inputs with glow ---- */
 .lf-input, .lf-select, .lf-textarea {
   width: 100%; padding: 15px 18px; font-family: var(--font-body); font-size: 15px;
   color: var(--text-primary); background: rgba(255,255,255,0.025);
   border: 1px solid var(--border-light); border-radius: var(--radius);
   outline: none; transition: all 0.35s var(--ease); -webkit-appearance: none; appearance: none;
 }
-html.light .lf-input, html.light .lf-select, html.light .lf-textarea {
-  background: rgba(0,0,0,0.02);
-}
-.lf-input:hover, .lf-select:hover, .lf-textarea:hover {
-  border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.04);
-}
-html.light .lf-input:hover, html.light .lf-select:hover, html.light .lf-textarea:hover {
-  border-color: rgba(0,0,0,0.18); background: rgba(0,0,0,0.04);
-}
+html.light .lf-input, html.light .lf-select, html.light .lf-textarea { background: rgba(0,0,0,0.02); }
+.lf-input:hover, .lf-select:hover, .lf-textarea:hover { border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.04); }
+html.light .lf-input:hover, html.light .lf-select:hover, html.light .lf-textarea:hover { border-color: rgba(0,0,0,0.18); background: rgba(0,0,0,0.04); }
 .lf-input:focus, .lf-select:focus, .lf-textarea:focus {
   border-color: var(--gold);
-  box-shadow: 0 0 0 3px rgba(245,166,35,0.08), 0 0 30px rgba(245,166,35,0.06), 0 0 60px rgba(245,166,35,0.03);
+  box-shadow: 0 0 0 3px rgba(245,166,35,0.08), 0 0 30px rgba(245,166,35,0.06);
   background: rgba(255,255,255,0.05); transform: translateY(-1px);
 }
 .lf-input.error { border-color: var(--error); box-shadow: 0 0 0 3px rgba(255,69,58,0.1); }
@@ -556,20 +345,24 @@ html.light .lf-input:hover, html.light .lf-select:hover, html.light .lf-textarea
 }
 .lf-select option { background: var(--surface); color: var(--text-primary); }
 
-/* Input valid checkmark */
+/* Microcopy reassurance */
+.lf-microcopy {
+  font-size: 11px; color: var(--text-muted); margin-top: 6px;
+  display: flex; align-items: center; gap: 4px;
+}
+.lf-microcopy svg { width: 12px; height: 12px; color: var(--green); flex-shrink: 0; }
+
+/* Valid checkmark */
 .lf-field.valid .lf-input { border-color: rgba(48,209,88,0.3); }
 .lf-field.valid::after {
   content: ''; position: absolute; right: 14px; top: 42px; width: 18px; height: 18px;
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2330D158' stroke-width='3'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/contain no-repeat;
   animation: lf-check-pop 0.3s var(--ease-bounce);
 }
-@keyframes lf-check-pop {
-  from { transform: scale(0); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
+@keyframes lf-check-pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .lf-error-msg { font-size: 12px; color: var(--error); margin-top: 6px; display: none; animation: lf-stagger-in 0.3s ease; }
 .lf-field.has-error .lf-error-msg { display: block; }
-.lf-field.has-error .lf-input, .lf-field.has-error .lf-select, .lf-field.has-error .lf-textarea { border-color: var(--error); }
+.lf-field.has-error .lf-input, .lf-field.has-error .lf-select { border-color: var(--error); }
 
 /* ---- Row ---- */
 .lf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -593,22 +386,19 @@ html.light .lf-option { background: rgba(0,0,0,0.02); }
 .lf-option:hover { border-color: rgba(245,166,35,0.3); transform: translateY(-4px) scale(1.02); box-shadow: 0 8px 32px rgba(245,166,35,0.08); }
 .lf-option.selected {
   border-color: var(--gold); background: rgba(245,166,35,0.05);
-  box-shadow: 0 0 30px rgba(245,166,35,0.12), 0 0 60px rgba(245,166,35,0.04);
-  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 0 30px rgba(245,166,35,0.12); transform: translateY(-4px) scale(1.02);
 }
 .lf-option input { position: absolute; opacity: 0; pointer-events: none; }
 .lf-option-icon {
   width: 48px; height: 48px; margin: 0 auto 12px; border-radius: 14px;
   background: rgba(245,166,35,0.06); border: 1px solid rgba(245,166,35,0.1);
   display: flex; align-items: center; justify-content: center; transition: all 0.4s var(--ease);
-  overflow: hidden;
 }
 .lf-option.selected .lf-option-icon {
   background: rgba(245,166,35,0.12); border-color: rgba(245,166,35,0.25);
   box-shadow: 0 0 24px var(--gold-glow); transform: scale(1.05);
 }
 .lf-option-icon svg { width: 22px; height: 22px; color: var(--gold); }
-.lf-option-icon lottie-player { width: 32px; height: 32px; }
 .lf-option-label { font-size: 14px; font-weight: 600; line-height: 1.3; }
 .lf-option-desc { font-size: 11px; color: var(--text-muted); margin-top: 6px; line-height: 1.4; }
 .lf-option-check {
@@ -639,9 +429,9 @@ html.light .lf-option { background: rgba(0,0,0,0.02); }
   -webkit-appearance: none; width: 32px; height: 32px; border-radius: 50%;
   background: linear-gradient(135deg, var(--gold), var(--gold-light));
   box-shadow: 0 0 24px var(--gold-glow), 0 2px 8px rgba(0,0,0,0.4);
-  cursor: pointer; transition: transform 0.2s var(--ease-bounce), box-shadow 0.2s ease;
+  cursor: pointer; transition: transform 0.2s var(--ease-bounce);
 }
-.lf-range::-webkit-slider-thumb:hover { transform: scale(1.2); box-shadow: 0 0 40px var(--gold-glow), 0 4px 16px rgba(0,0,0,0.5); }
+.lf-range::-webkit-slider-thumb:hover { transform: scale(1.2); }
 .lf-range:active::-webkit-slider-thumb { transform: scale(1.3); }
 .lf-range::-moz-range-thumb {
   width: 32px; height: 32px; border-radius: 50%;
@@ -663,8 +453,8 @@ html.light .lf-option { background: rgba(0,0,0,0.02); }
   background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #000;
   box-shadow: 0 4px 24px rgba(245,166,35,0.3), 0 0 60px rgba(245,166,35,0.08); font-weight: 700;
 }
-.lf-btn-primary:hover { box-shadow: 0 8px 40px rgba(245,166,35,0.45), 0 0 80px rgba(245,166,35,0.12); transform: translateY(-2px); }
-.lf-btn-primary:active { transform: translateY(0) scale(0.98); box-shadow: 0 2px 12px rgba(245,166,35,0.3); }
+.lf-btn-primary:hover { box-shadow: 0 8px 40px rgba(245,166,35,0.45); transform: translateY(-2px); }
+.lf-btn-primary:active { transform: translateY(0) scale(0.98); }
 .lf-btn-primary::after {
   content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
@@ -675,7 +465,7 @@ html.light .lf-option { background: rgba(0,0,0,0.02); }
   background: rgba(255,255,255,0.04); color: var(--text-secondary); border: 1px solid var(--border-light);
 }
 html.light .lf-btn-secondary { background: rgba(0,0,0,0.04); }
-.lf-btn-secondary:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); border-color: rgba(255,255,255,0.2); transform: translateY(-1px); }
+.lf-btn-secondary:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); transform: translateY(-1px); }
 .lf-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 .lf-spinner { width: 20px; height: 20px; border: 2.5px solid transparent; border-top-color: #000; border-right-color: #000; border-radius: 50%; animation: lf-spin 0.7s linear infinite; display: none; }
 .lf-btn.loading .lf-spinner { display: block; }
@@ -683,7 +473,7 @@ html.light .lf-btn-secondary { background: rgba(0,0,0,0.04); }
 .lf-btn.loading svg:not(.lf-spinner) { display: none; }
 @keyframes lf-spin { to { transform: rotate(360deg); } }
 
-/* ---- Success screen ---- */
+/* ---- Success ---- */
 .lf-success { display: none; text-align: center; padding: 20px 0; }
 .lf-success.active { display: block; animation: lf-morph-in 0.7s var(--ease) forwards; }
 .lf-success-icon-wrap { position: relative; width: 100px; height: 100px; margin: 0 auto 28px; }
@@ -692,161 +482,122 @@ html.light .lf-btn-secondary { background: rgba(0,0,0,0.04); }
 .lf-success-icon {
   width: 100%; height: 100%; border-radius: 50%; background: rgba(48,209,88,0.08);
   border: 2px solid rgba(48,209,88,0.25); display: flex; align-items: center; justify-content: center;
-  animation: lf-success-pop 0.6s var(--ease-bounce) forwards; position: relative; z-index: 1;
 }
-@keyframes lf-success-pop {
-  0% { transform: scale(0) rotate(-20deg); opacity: 0; }
-  60% { transform: scale(1.1) rotate(5deg); }
-  100% { transform: scale(1) rotate(0); opacity: 1; }
+.lf-success-icon svg { width: 44px; height: 44px; color: var(--green); animation: lf-check-pop 0.6s var(--ease-bounce) 0.3s both; }
+.lf-success-title { font-family: var(--font-heading); font-size: 28px; font-weight: 800; margin-bottom: 12px; }
+.lf-success-text { font-size: 15px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 28px; }
+.lf-success-details {
+  text-align: left; padding: 20px 24px; background: rgba(255,255,255,0.02);
+  border-radius: var(--radius); border: 1px solid var(--border);
 }
-.lf-success-icon svg { width: 44px; height: 44px; color: var(--green); }
-.lf-success-title { font-family: var(--font-heading); font-size: 30px; font-weight: 800; margin-bottom: 12px; animation: lf-fade-up 0.6s var(--ease) both; animation-delay: 0.3s; }
-.lf-success-text { font-size: 15px; color: var(--text-secondary); line-height: 1.6; max-width: 420px; margin: 0 auto 28px; animation: lf-fade-up 0.6s var(--ease) both; animation-delay: 0.4s; }
-.lf-success-details { background: rgba(255,255,255,0.025); border: 1px solid var(--border); border-radius: 16px; padding: 24px; text-align: left; margin-bottom: 24px; animation: lf-fade-up 0.6s var(--ease) both; animation-delay: 0.5s; }
-html.light .lf-success-details { background: rgba(0,0,0,0.025); }
-.lf-success-detail { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-.lf-success-detail:last-child { border-bottom: none; }
-.lf-success-detail-label { color: var(--text-muted); }
-.lf-success-detail-value { color: var(--text-primary); font-weight: 600; }
+html.light .lf-success-details { background: rgba(0,0,0,0.02); }
+.lf-detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+.lf-detail-row:last-child { border-bottom: none; }
+.lf-detail-label { color: var(--text-muted); }
+.lf-detail-value { font-weight: 600; color: var(--text-primary); }
 
 /* ---- Testimonials ---- */
 .lf-testimonials {
-  margin-top: 24px;
-  padding: 20px;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  position: relative;
-  overflow: hidden;
-  min-height: 100px;
+  margin-top: 24px; padding: 20px; background: rgba(255,255,255,0.015);
+  border-radius: var(--radius); border: 1px solid var(--border); position: relative; min-height: 140px;
 }
-html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
-.lf-testimonial {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.5s var(--ease);
-  position: absolute;
-  inset: 20px;
-}
-.lf-testimonial.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-.lf-testimonial-stars {
-  display: flex;
-  gap: 2px;
-  margin-bottom: 10px;
-}
-.lf-testimonial-stars svg { width: 14px; height: 14px; color: var(--gold); fill: var(--gold); }
-.lf-testimonial-text {
-  font-size: 13px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  font-style: italic;
-  margin-bottom: 10px;
-}
-.lf-testimonial-author {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-.lf-testimonial-location {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-.lf-testimonial-dots {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 12px;
-}
+html.light .lf-testimonials { background: rgba(0,0,0,0.015); }
+.lf-testimonial { display: none; animation: lf-fade-up 0.5s var(--ease) forwards; }
+.lf-testimonial.active { display: block; }
+.lf-testimonial-stars { display: flex; gap: 2px; margin-bottom: 10px; }
+.lf-testimonial-stars svg { width: 16px; height: 16px; fill: var(--gold); }
+.lf-testimonial-text { font-size: 14px; color: var(--text-secondary); line-height: 1.6; font-style: italic; margin-bottom: 10px; }
+.lf-testimonial-author { font-size: 13px; font-weight: 600; }
+.lf-testimonial-location { font-size: 12px; color: var(--text-muted); }
+.lf-testimonial-dots { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
 .lf-testimonial-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--text-muted);
-  transition: all 0.3s ease;
-  cursor: pointer;
+  width: 8px; height: 8px; border-radius: 50%; background: var(--text-muted);
+  cursor: pointer; transition: all 0.3s ease;
 }
-.lf-testimonial-dot.active {
-  background: var(--gold);
-  transform: scale(1.3);
-}
+.lf-testimonial-dot.active { background: var(--gold); transform: scale(1.3); }
 
-/* ---- Trust indicators ---- */
+/* ---- Trust ---- */
 .lf-trust {
-  display: flex; justify-content: center; gap: 28px; margin-top: 20px;
+  display: flex; justify-content: center; gap: 24px; margin-top: 20px;
   padding-top: 20px; border-top: 1px solid var(--border);
 }
-.lf-trust-item {
-  display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 500;
-  color: var(--text-muted); transition: color 0.3s ease;
-}
-.lf-trust-item:hover { color: var(--text-secondary); }
-.lf-trust-item svg { width: 14px; height: 14px; color: var(--green); }
-
-/* ---- Confetti canvas ---- */
-#lf-confetti { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
+.lf-trust-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); }
+.lf-trust-item svg { width: 16px; height: 16px; color: var(--gold); }
 
 /* ---- Saved indicator ---- */
 .lf-saved-indicator {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 100;
-  padding: 10px 16px;
-  background: var(--surface-elevated);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius);
-  font-size: 12px;
-  color: var(--green);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.4s var(--ease);
-  pointer-events: none;
+  position: fixed; bottom: 20px; right: 20px; z-index: 100;
+  padding: 8px 16px; border-radius: var(--radius-full);
+  background: rgba(48,209,88,0.1); border: 1px solid rgba(48,209,88,0.2);
+  font-size: 12px; color: var(--green); font-weight: 500;
+  opacity: 0; transform: translateY(10px); transition: all 0.4s var(--ease);
 }
-.lf-saved-indicator.visible {
-  opacity: 1;
-  transform: translateY(0);
+.lf-saved-indicator.visible { opacity: 1; transform: translateY(0); }
+
+/* ---- EXIT INTENT POPUP ---- */
+.lf-exit-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.4s ease;
 }
-.lf-saved-indicator svg { width: 14px; height: 14px; }
+.lf-exit-overlay.active { display: flex; opacity: 1; }
+.lf-exit-popup {
+  background: var(--surface); border: 1px solid var(--border-light);
+  border-radius: var(--radius-xl); padding: 44px 36px; max-width: 440px; width: 90%;
+  text-align: center; position: relative;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5); animation: lf-popup-in 0.5s var(--ease-bounce) forwards;
+}
+html.light .lf-exit-popup { box-shadow: 0 24px 80px rgba(0,0,0,0.15); }
+@keyframes lf-popup-in { from { opacity: 0; transform: scale(0.85) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.lf-exit-close {
+  position: absolute; top: 16px; right: 16px; width: 32px; height: 32px;
+  border-radius: 50%; border: 1px solid var(--border-light); background: transparent;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s ease; color: var(--text-muted);
+}
+.lf-exit-close:hover { border-color: var(--gold); color: var(--gold); transform: rotate(90deg); }
+.lf-exit-close svg { width: 16px; height: 16px; }
+.lf-exit-icon {
+  width: 64px; height: 64px; margin: 0 auto 20px; border-radius: 50%;
+  background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.15);
+  display: flex; align-items: center; justify-content: center;
+}
+.lf-exit-icon svg { width: 28px; height: 28px; color: var(--gold); }
+.lf-exit-title { font-family: var(--font-heading); font-size: 22px; font-weight: 800; margin-bottom: 10px; }
+.lf-exit-text { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; }
+.lf-exit-cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; border-radius: var(--radius); border: none; cursor: pointer;
+  font-family: var(--font-body); font-size: 15px; font-weight: 700;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #000;
+  box-shadow: 0 4px 24px rgba(245,166,35,0.3); transition: all 0.35s var(--ease);
+}
+.lf-exit-cta:hover { box-shadow: 0 8px 40px rgba(245,166,35,0.45); transform: translateY(-2px); }
+.lf-exit-cta svg { width: 18px; height: 18px; }
+.lf-exit-dismiss {
+  display: block; margin-top: 14px; font-size: 12px; color: var(--text-muted);
+  background: none; border: none; cursor: pointer; text-decoration: underline;
+  transition: color 0.3s ease;
+}
+.lf-exit-dismiss:hover { color: var(--text-secondary); }
+
+/* ---- Confetti Canvas ---- */
+#lf-confetti { position: fixed; inset: 0; z-index: 9998; pointer-events: none; }
 
 /* ---- Responsive ---- */
-@media (max-width: 600px) {
-  .lf-card { padding: 36px 22px; }
+@media (max-width: 520px) {
   .lf-title { font-size: 28px; }
   .lf-range-value { font-size: 44px; }
-  .lf-trust { flex-direction: column; align-items: center; gap: 14px; }
-  .lf-actions { flex-direction: column-reverse; }
-  .lf-btn { width: 100%; }
-  .lf-progress-ring-container { gap: 16px; }
-  .lf-progress-ring-wrap { width: 44px; height: 44px; }
-  .lf-progress-ring { width: 44px; height: 44px; }
-  .lf-theme-toggle { top: 12px; right: 12px; width: 38px; height: 38px; }
-  .lf-social-proof { flex-direction: column; text-align: center; }
-}
-
-/* ---- Shake ---- */
-@keyframes lf-shake {
-  0%,100% { transform: translateX(0); }
-  15%,45%,75% { transform: translateX(-8px); }
-  30%,60%,90% { transform: translateX(8px); }
+  .lf-trust { flex-direction: column; align-items: center; gap: 12px; }
+  .lf-social-proof { flex-direction: column; gap: 8px; }
 }
 </style>
 </head>
 <body>
 
 <!-- Micro Progress Bar -->
-<div class="lf-micro-progress" id="lf-micro-progress" style="width: 0%"></div>
-
-<!-- Theme Toggle -->
-<button class="lf-theme-toggle" id="lf-theme-toggle" aria-label="Changer le thème">
-  <svg class="lf-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-  <svg class="lf-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-</button>
+<div class="lf-micro-progress" id="lf-micro-progress" style="width:0%"></div>
 
 <!-- Particle Canvas -->
 <canvas id="lf-particles"></canvas>
@@ -857,12 +608,32 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
 <!-- Confetti Canvas -->
 <canvas id="lf-confetti"></canvas>
 
-<!-- Saved Indicator -->
-<div class="lf-saved-indicator" id="lf-saved-indicator">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-  Progression sauvegardée
+<!-- Theme Toggle -->
+<button class="lf-theme-toggle" id="lf-theme-toggle" aria-label="Changer le thème">
+  <svg class="lf-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+  <svg class="lf-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+
+<!-- Exit Intent Popup -->
+<div class="lf-exit-overlay" id="lf-exit-overlay">
+  <div class="lf-exit-popup">
+    <button class="lf-exit-close" id="lf-exit-close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="lf-exit-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg>
+    </div>
+    <h3 class="lf-exit-title">Attendez !</h3>
+    <p class="lf-exit-text">Votre soumission est <strong>100% gratuite</strong> et sans engagement. Un expert Larks Solar peut répondre à toutes vos questions en moins de 24h.</p>
+    <button class="lf-exit-cta" id="lf-exit-cta">
+      Obtenir ma soumission gratuite
+      <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2"/></svg>
+    </button>
+    <button class="lf-exit-dismiss" id="lf-exit-dismiss">Non merci, je quitte</button>
+  </div>
 </div>
 
+<!-- Main -->
 <div class="lf-root">
   <div class="lf-container">
     <div class="lf-card-wrapper">
@@ -875,118 +646,70 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
           <span>Un expert est disponible maintenant</span>
         </div>
 
+        <!-- Live Visitors -->
+        <div class="lf-live-visitors" id="lf-live-visitors">
+          <span class="lf-live-dot"></span>
+          <span><strong id="lf-visitor-count">4</strong> autres propriétaires consultent cette page</span>
+        </div>
+
         <!-- Header -->
         <div class="lf-header">
           <div class="lf-badge">
-            <div class="lf-badge-dot"></div>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            <span class="lf-badge-dot"></span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Soumission 100% gratuite
           </div>
-          <h2 class="lf-title">Votre projet <span class="lf-title-gold">solaire</span><br>commence ici</h2>
-          <p class="lf-subtitle" id="lf-subtitle"></p>
+          <h1 class="lf-title" id="lf-title">Votre projet <span class="lf-title-gold">solaire</span><br>commence ici</h1>
+          <p class="lf-subtitle" id="lf-subtitle"><span id="lf-typing"></span><span class="lf-typing-cursor"></span></p>
         </div>
 
         <!-- Social Proof -->
         <div class="lf-social-proof">
-          <div class="lf-social-proof-avatars">
-            <div class="lf-social-proof-avatar" style="background: #2563EB;">JT</div>
-            <div class="lf-social-proof-avatar" style="background: #7C3AED;">ML</div>
-            <div class="lf-social-proof-avatar" style="background: #059669;">SB</div>
-            <div class="lf-social-proof-avatar" style="background: #DC2626;">PL</div>
+          <div class="lf-avatars">
+            <div class="lf-avatar" style="background:#E74C3C">JT</div>
+            <div class="lf-avatar" style="background:#3498DB">ML</div>
+            <div class="lf-avatar" style="background:#27AE60">SB</div>
+            <div class="lf-avatar" style="background:#F39C12">PL</div>
           </div>
-          <div class="lf-social-proof-text">
-            Déjà <span class="lf-social-proof-count" id="lf-counter">0</span> propriétaires québécois nous font confiance
-          </div>
+          <div class="lf-social-text">Déjà <span class="lf-social-count" id="lf-social-count">0</span> propriétaires québécois nous font confiance</div>
         </div>
 
         <!-- Timer -->
         <div class="lf-timer">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          <span>Évaluation gratuite — offre se termine dans <span class="lf-timer-countdown" id="lf-timer"></span></span>
+          Évaluation gratuite — offre se termine dans <strong id="lf-timer">--</strong>
         </div>
 
-        <!-- Progress Ring + Step Indicators -->
-        <div class="lf-progress-ring-container">
-          <div class="lf-progress-ring-wrap">
-            <svg class="lf-progress-ring" viewBox="0 0 56 56">
-              <defs>
-                <linearGradient id="lf-ring-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stop-color="#F5A623"/>
-                  <stop offset="100%" stop-color="#FFD700"/>
-                </linearGradient>
-              </defs>
-              <circle class="lf-progress-ring-bg" cx="28" cy="28" r="25"/>
-              <circle class="lf-progress-ring-fill" id="lf-ring-fill" cx="28" cy="28" r="25"/>
+        <!-- Progress -->
+        <div class="lf-progress-bar">
+          <div class="lf-ring">
+            <svg viewBox="0 0 60 60">
+              <circle class="lf-ring-bg" cx="30" cy="30" r="25"/>
+              <circle class="lf-ring-fill" id="lf-ring-fill" cx="30" cy="30" r="25" stroke-dasharray="157.08" stroke-dashoffset="104.72"/>
             </svg>
-            <div class="lf-progress-ring-text" id="lf-ring-text">1/3</div>
+            <div class="lf-ring-text" id="lf-ring-text">1/3</div>
           </div>
-
-          <div class="lf-step-indicators">
-            <div class="lf-step-ind active" data-step="0">
+          <div class="lf-step-inds">
+            <div class="lf-step-ind active">
               <div class="lf-step-ind-num">1</div>
-              <span class="lf-step-ind-label">Coordonnées</span>
+              <div class="lf-step-ind-label">Objectif</div>
             </div>
-            <div class="lf-step-ind" data-step="1">
+            <div class="lf-step-ind">
               <div class="lf-step-ind-num">2</div>
-              <span class="lf-step-ind-label">Objectif</span>
+              <div class="lf-step-ind-label">Propriété</div>
             </div>
-            <div class="lf-step-ind" data-step="2">
+            <div class="lf-step-ind">
               <div class="lf-step-ind-num">3</div>
-              <span class="lf-step-ind-label">Propriété</span>
+              <div class="lf-step-ind-label">Coordonnées</div>
             </div>
           </div>
         </div>
 
-        <!-- Steps -->
-        <div class="lf-steps">
+        <!-- Steps Container -->
+        <div class="lf-steps" id="lf-steps">
 
-          <!-- Step 1: Coordonnées -->
+          <!-- Step 1: Objectif (EASY QUESTION FIRST - CRO) -->
           <div class="lf-step active" data-step="0">
-            <div class="lf-step-header">
-              <div class="lf-step-icon">
-                <lottie-player src="https://lottie.host/e7e40e76-d977-4dcd-b8b2-2e8e1e8e2e8e/user-icon.json" background="transparent" speed="1" loop autoplay></lottie-player>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              </div>
-              <div>
-                <div class="lf-step-title">Vos coordonnées</div>
-                <div class="lf-step-desc">Pour vous contacter avec votre soumission</div>
-              </div>
-            </div>
-
-            <div class="lf-row">
-              <div class="lf-field">
-                <label class="lf-label">Prénom <span class="lf-required">*</span></label>
-                <input type="text" class="lf-input" id="lf-prenom" placeholder="Jean" required autocomplete="given-name">
-                <div class="lf-error-msg">Veuillez entrer votre prénom</div>
-              </div>
-              <div class="lf-field">
-                <label class="lf-label">Nom <span class="lf-required">*</span></label>
-                <input type="text" class="lf-input" id="lf-nom" placeholder="Tremblay" required autocomplete="family-name">
-                <div class="lf-error-msg">Veuillez entrer votre nom</div>
-              </div>
-            </div>
-
-            <div class="lf-field">
-              <label class="lf-label">Courriel <span class="lf-required">*</span></label>
-              <input type="email" class="lf-input" id="lf-email" placeholder="jean@exemple.com" required autocomplete="email">
-              <div class="lf-error-msg">Veuillez entrer un courriel valide</div>
-            </div>
-
-            <div class="lf-field">
-              <label class="lf-label">Téléphone cellulaire <span class="lf-required">*</span></label>
-              <input type="tel" class="lf-input" id="lf-phone" placeholder="(514) 555-1234" required autocomplete="tel" inputmode="tel">
-              <div class="lf-error-msg">Veuillez entrer un numéro valide</div>
-            </div>
-
-            <div class="lf-field">
-              <label class="lf-label">Adresse complète <span class="lf-required">*</span></label>
-              <input type="text" class="lf-input" id="lf-adresse" placeholder="123 rue Principale, Blainville, QC" required autocomplete="street-address">
-              <div class="lf-error-msg">Veuillez entrer votre adresse</div>
-            </div>
-          </div>
-
-          <!-- Step 2: Objectif -->
-          <div class="lf-step" data-step="1">
             <div class="lf-step-header">
               <div class="lf-step-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
@@ -997,7 +720,7 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
               </div>
             </div>
 
-            <div class="lf-options" id="lf-objectif-options">
+            <div class="lf-options" id="lf-options">
               <label class="lf-option">
                 <input type="radio" name="objectif" value="Mesurage net">
                 <div class="lf-option-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
@@ -1035,8 +758,8 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
             </div>
           </div>
 
-          <!-- Step 3: Propriété -->
-          <div class="lf-step" data-step="2">
+          <!-- Step 2: Propriété -->
+          <div class="lf-step" data-step="1">
             <div class="lf-step-header">
               <div class="lf-step-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -1091,6 +814,62 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
             </div>
           </div>
 
+          <!-- Step 3: Coordonnées (LAST - CRO: ask contact info after commitment) -->
+          <div class="lf-step" data-step="2">
+            <div class="lf-step-header">
+              <div class="lf-step-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <div>
+                <div class="lf-step-title">Vos coordonnées</div>
+                <div class="lf-step-desc">Pour recevoir votre soumission personnalisée</div>
+              </div>
+            </div>
+
+            <div class="lf-row">
+              <div class="lf-field">
+                <label class="lf-label">Prénom <span class="lf-required">*</span></label>
+                <input type="text" class="lf-input" id="lf-prenom" placeholder="Jean" required>
+                <div class="lf-error-msg">Veuillez entrer votre prénom</div>
+              </div>
+              <div class="lf-field">
+                <label class="lf-label">Nom <span class="lf-required">*</span></label>
+                <input type="text" class="lf-input" id="lf-nom" placeholder="Tremblay" required>
+                <div class="lf-error-msg">Veuillez entrer votre nom</div>
+              </div>
+            </div>
+
+            <div class="lf-field">
+              <label class="lf-label">Courriel <span class="lf-required">*</span></label>
+              <input type="email" class="lf-input" id="lf-email" placeholder="jean@exemple.com" required>
+              <div class="lf-error-msg">Veuillez entrer un courriel valide</div>
+              <div class="lf-microcopy">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Pour vous envoyer votre soumission uniquement. Aucun spam, jamais.
+              </div>
+            </div>
+
+            <div class="lf-field">
+              <label class="lf-label">Téléphone cellulaire <span class="lf-required">*</span></label>
+              <input type="tel" class="lf-input" id="lf-phone" placeholder="(514) 555-1234" required>
+              <div class="lf-error-msg">Veuillez entrer un numéro valide</div>
+              <div class="lf-microcopy">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+                Un expert vous appellera pour valider les détails, sans pression.
+              </div>
+            </div>
+
+            <div class="lf-field">
+              <label class="lf-label">Adresse complète <span class="lf-required">*</span></label>
+              <input type="text" class="lf-input" id="lf-adresse" placeholder="123 rue Principale, Blainville, QC" required>
+              <div class="lf-error-msg">Veuillez entrer votre adresse</div>
+              <div class="lf-microcopy">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Pour évaluer l'ensoleillement et l'orientation de votre toiture.
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <!-- Actions -->
@@ -1101,7 +880,7 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
           </button>
           <button class="lf-btn lf-btn-primary" id="lf-next">
             <div class="lf-spinner"></div>
-            <span class="lf-btn-text">Continuer</span>
+            <span class="lf-btn-text" id="lf-btn-text">Voir mon potentiel solaire</span>
             <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2"/></svg>
           </button>
         </div>
@@ -1123,37 +902,19 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
         <!-- Testimonials -->
         <div class="lf-testimonials" id="lf-testimonials">
           <div class="lf-testimonial active" data-index="0">
-            <div class="lf-testimonial-stars">
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
+            <div class="lf-testimonial-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
             <div class="lf-testimonial-text">"Installation impeccable et équipe super professionnelle. Ma facture d'Hydro a baissé de 85% dès le premier mois !"</div>
             <div class="lf-testimonial-author">Jean-Pierre Tremblay</div>
             <div class="lf-testimonial-location">Blainville, QC</div>
           </div>
           <div class="lf-testimonial" data-index="1">
-            <div class="lf-testimonial-stars">
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
+            <div class="lf-testimonial-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
             <div class="lf-testimonial-text">"Pendant la panne de verglas, on était les seuls du quartier avec l'électricité grâce à notre batterie Larks Solar."</div>
             <div class="lf-testimonial-author">Marie-Claude Lavoie</div>
             <div class="lf-testimonial-location">Saint-Jérôme, QC</div>
           </div>
           <div class="lf-testimonial" data-index="2">
-            <div class="lf-testimonial-stars">
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-              <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
+            <div class="lf-testimonial-stars"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
             <div class="lf-testimonial-text">"Le processus de soumission était rapide et transparent. Aucune surprise, que du positif. Je recommande à 100% !"</div>
             <div class="lf-testimonial-author">Stéphane Bouchard</div>
             <div class="lf-testimonial-location">Laval, QC</div>
@@ -1180,147 +941,145 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
             Réponse en 24h
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </div>
+
+<!-- Saved Indicator -->
+<div class="lf-saved-indicator" id="lf-saved">Progression sauvegardée</div>
 
 <script>
 (function() {
   'use strict';
 
   // ========================================================================
-  // CONFIG
+  // A/B TITLE TESTING
   // ========================================================================
-  const MONDAY_API_KEY = 'VOTRE_API_KEY_MONDAY';
-  const MONDAY_BOARD_ID = 'VOTRE_BOARD_ID';
-  const MONDAY_GROUP_ID = 'VOTRE_GROUP_ID';
-  const STORAGE_KEY = 'larks_solar_form_v3';
+  const titleVariants = [
+    { title: 'Votre projet <span class="lf-title-gold">solaire</span><br>commence ici', id: 'A' },
+    { title: 'Passez au <span class="lf-title-gold">solaire</span><br>en toute confiance', id: 'B' },
+    { title: 'Votre maison mérite<br>le <span class="lf-title-gold">solaire</span>', id: 'C' }
+  ];
+
+  // Pick a variant (persist in localStorage for consistency)
+  let abVariant = localStorage.getItem('lf_ab_variant');
+  if (!abVariant || !titleVariants.find(v => v.id === abVariant)) {
+    abVariant = titleVariants[Math.floor(Math.random() * titleVariants.length)].id;
+    localStorage.setItem('lf_ab_variant', abVariant);
+  }
+  const chosenTitle = titleVariants.find(v => v.id === abVariant);
+  document.getElementById('lf-title').innerHTML = chosenTitle.title;
 
   // ========================================================================
   // ANALYTICS TRACKER
   // ========================================================================
   const analytics = {
+    sessionId: Date.now().toString(36) + Math.random().toString(36).substr(2),
     startTime: Date.now(),
-    stepTimes: {},
+    stepTimes: [Date.now()],
+    abVariant: abVariant,
     events: [],
     track(event, data = {}) {
-      const entry = { event, timestamp: Date.now(), elapsed: Date.now() - this.startTime, ...data };
-      this.events.push(entry);
+      this.events.push({ event, data, time: Date.now() - this.startTime });
       console.log('[Larks Analytics]', event, data);
-    },
-    trackStep(step) {
-      this.stepTimes[step] = Date.now();
-      this.track('step_view', { step });
-    },
-    trackStepComplete(step) {
-      const duration = this.stepTimes[step] ? Date.now() - this.stepTimes[step] : 0;
-      this.track('step_complete', { step, duration_ms: duration });
-    },
-    trackSubmit(data) {
-      this.track('form_submit', { total_time_ms: Date.now() - this.startTime, fields: Object.keys(data).length });
-    },
-    trackAbandonment(step) {
-      this.track('abandonment', { step, time_spent_ms: Date.now() - this.startTime });
     }
   };
-
-  // Track page load
-  analytics.track('page_load');
-  analytics.trackStep(0);
-
-  // Track abandonment on page leave
-  window.addEventListener('beforeunload', () => {
-    if (!document.querySelector('.lf-success.active')) {
-      analytics.trackAbandonment(currentStep);
-    }
-  });
+  analytics.track('form_loaded', { variant: abVariant });
 
   // ========================================================================
   // THEME TOGGLE
   // ========================================================================
   const themeToggle = document.getElementById('lf-theme-toggle');
-  const savedTheme = localStorage.getItem('larks_theme');
+  const savedTheme = localStorage.getItem('lf_theme');
   if (savedTheme === 'light') document.documentElement.classList.add('light');
 
   themeToggle.addEventListener('click', () => {
     document.documentElement.classList.toggle('light');
     const isLight = document.documentElement.classList.contains('light');
-    localStorage.setItem('larks_theme', isLight ? 'light' : 'dark');
-    analytics.track('theme_toggle', { theme: isLight ? 'light' : 'dark' });
-    // Haptic feedback
-    if (navigator.vibrate) navigator.vibrate(10);
+    localStorage.setItem('lf_theme', isLight ? 'light' : 'dark');
+    if (navigator.vibrate) navigator.vibrate(15);
   });
 
   // ========================================================================
   // TYPING EFFECT
   // ========================================================================
-  const subtitleEl = document.getElementById('lf-subtitle');
-  const typingText = 'Obtenez une soumission personnalisée en moins de 2 minutes.';
-  let charIndex = 0;
+  const typingEl = document.getElementById('lf-typing');
+  const phrases = [
+    'Obtenez une soumission personnalisée en moins de 2 minutes.',
+    'Plus de 800 familles québécoises nous font confiance.',
+    'Certifié RBQ. Installation garantie 25 ans.'
+  ];
+  let phraseIndex = 0, charIndex = 0, isDeleting = false;
 
-  function typeText() {
-    if (charIndex <= typingText.length) {
-      subtitleEl.innerHTML = typingText.slice(0, charIndex) + '<span class="lf-typing-cursor"></span>';
+  function typeEffect() {
+    const current = phrases[phraseIndex];
+    if (!isDeleting) {
+      typingEl.textContent = current.substring(0, charIndex + 1);
       charIndex++;
-      setTimeout(typeText, 30 + Math.random() * 30);
-    } else {
-      // Remove cursor after typing
-      setTimeout(() => {
-        subtitleEl.innerHTML = typingText;
-      }, 2000);
-    }
-  }
-  setTimeout(typeText, 800);
-
-  // ========================================================================
-  // SOCIAL PROOF COUNTER (animated)
-  // ========================================================================
-  const counterEl = document.getElementById('lf-counter');
-  const targetCount = 847;
-  let currentCount = 0;
-
-  function animateCounter() {
-    const duration = 2000;
-    const startTime = Date.now();
-    function update() {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      // Ease out cubic
-      const eased = 1 - Math.pow(1 - progress, 3);
-      currentCount = Math.round(eased * targetCount);
-      counterEl.textContent = currentCount.toLocaleString('fr-CA');
-      if (progress < 1) requestAnimationFrame(update);
-    }
-    update();
-  }
-
-  // Trigger counter when visible
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCounter();
-        observer.disconnect();
+      if (charIndex === current.length) {
+        setTimeout(() => { isDeleting = true; typeEffect(); }, 3000);
+        return;
       }
-    });
-  }, { threshold: 0.5 });
-  observer.observe(counterEl);
+      setTimeout(typeEffect, 35);
+    } else {
+      typingEl.textContent = current.substring(0, charIndex - 1);
+      charIndex--;
+      if (charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        setTimeout(typeEffect, 500);
+        return;
+      }
+      setTimeout(typeEffect, 20);
+    }
+  }
+  setTimeout(typeEffect, 1200);
 
   // ========================================================================
-  // TIMER COUNTDOWN (end of month)
+  // SOCIAL PROOF COUNTER
+  // ========================================================================
+  const socialCount = document.getElementById('lf-social-count');
+  const targetCount = 847;
+  let countCurrent = 0;
+
+  function animateCount() {
+    const increment = Math.ceil(targetCount / 60);
+    if (countCurrent < targetCount) {
+      countCurrent = Math.min(countCurrent + increment, targetCount);
+      socialCount.textContent = countCurrent.toLocaleString('fr-CA');
+      requestAnimationFrame(animateCount);
+    }
+  }
+  setTimeout(animateCount, 1000);
+
+  // ========================================================================
+  // LIVE VISITORS COUNTER
+  // ========================================================================
+  const visitorCountEl = document.getElementById('lf-visitor-count');
+  let currentVisitors = Math.floor(Math.random() * 4) + 3; // 3-6
+  visitorCountEl.textContent = currentVisitors;
+
+  setInterval(() => {
+    const change = Math.random() > 0.5 ? 1 : -1;
+    currentVisitors = Math.max(2, Math.min(8, currentVisitors + change));
+    visitorCountEl.textContent = currentVisitors;
+  }, 15000);
+
+  // ========================================================================
+  // COUNTDOWN TIMER
   // ========================================================================
   const timerEl = document.getElementById('lf-timer');
-
   function updateTimer() {
     const now = new Date();
     const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59);
     const diff = endOfMonth - now;
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-    timerEl.textContent = `${days}j ${String(hours).padStart(2,'0')}h ${String(minutes).padStart(2,'0')}m ${String(seconds).padStart(2,'0')}s`;
+    if (diff <= 0) { timerEl.textContent = 'Dernière chance !'; return; }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    timerEl.textContent = `${d}j ${h}h ${m}m ${s}s`;
   }
   updateTimer();
   setInterval(updateTimer, 1000);
@@ -1341,155 +1100,22 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
   }
 
   dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      showTestimonial(parseInt(dot.dataset.index));
-    });
+    dot.addEventListener('click', () => showTestimonial(parseInt(dot.dataset.index)));
   });
 
-  // Auto-rotate every 5 seconds
   setInterval(() => {
     showTestimonial((currentTestimonial + 1) % testimonials.length);
-  }, 5000);
+  }, 6000);
 
   // ========================================================================
-  // MICRO PROGRESS BAR
-  // ========================================================================
-  const microProgress = document.getElementById('lf-micro-progress');
-
-  function updateMicroProgress() {
-    // Calculate based on step + filled fields
-    const stepWeight = currentStep / 3;
-    let fieldProgress = 0;
-
-    if (currentStep === 0) {
-      const fields = ['lf-prenom', 'lf-nom', 'lf-email', 'lf-phone', 'lf-adresse'];
-      const filled = fields.filter(id => document.getElementById(id).value.trim().length > 0).length;
-      fieldProgress = (filled / fields.length) * (1/3);
-    } else if (currentStep === 1) {
-      const hasObjectif = document.querySelector('input[name="objectif"]:checked') ? 0.5 : 0;
-      fieldProgress = (1/3) + hasObjectif * (1/3);
-    } else if (currentStep === 2) {
-      const fields = ['lf-toiture', 'lf-annee', 'lf-type-propriete'];
-      const filled = fields.filter(id => document.getElementById(id).value.length > 0).length;
-      fieldProgress = (2/3) + (filled / fields.length) * (1/3);
-    }
-
-    const total = Math.max(stepWeight, fieldProgress);
-    microProgress.style.width = Math.min(total * 100, 100) + '%';
-  }
-
-  // Listen to all inputs for micro progress
-  document.querySelectorAll('.lf-input, .lf-select, .lf-textarea').forEach(el => {
-    el.addEventListener('input', updateMicroProgress);
-    el.addEventListener('change', updateMicroProgress);
-  });
-  document.querySelectorAll('.lf-option input').forEach(el => {
-    el.addEventListener('change', updateMicroProgress);
-  });
-
-  // ========================================================================
-  // LOCALSTORAGE SAVE/RESTORE
-  // ========================================================================
-  const savedIndicator = document.getElementById('lf-saved-indicator');
-  let saveTimeout;
-
-  function saveFormData() {
-    const data = {
-      prenom: document.getElementById('lf-prenom').value,
-      nom: document.getElementById('lf-nom').value,
-      email: document.getElementById('lf-email').value,
-      phone: document.getElementById('lf-phone').value,
-      adresse: document.getElementById('lf-adresse').value,
-      objectif: document.querySelector('input[name="objectif"]:checked')?.value || '',
-      facture: document.getElementById('lf-facture').value,
-      toiture: document.getElementById('lf-toiture').value,
-      annee: document.getElementById('lf-annee').value,
-      type_propriete: document.getElementById('lf-type-propriete').value,
-      message: document.getElementById('lf-message').value,
-      currentStep: currentStep,
-      timestamp: Date.now()
-    };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-
-    // Show saved indicator
-    savedIndicator.classList.add('visible');
-    clearTimeout(saveTimeout);
-    saveTimeout = setTimeout(() => savedIndicator.classList.remove('visible'), 2000);
-  }
-
-  function restoreFormData() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (!saved) return;
-
-    try {
-      const data = JSON.parse(saved);
-      // Only restore if less than 24 hours old
-      if (Date.now() - data.timestamp > 24 * 60 * 60 * 1000) {
-        localStorage.removeItem(STORAGE_KEY);
-        return;
-      }
-
-      if (data.prenom) document.getElementById('lf-prenom').value = data.prenom;
-      if (data.nom) document.getElementById('lf-nom').value = data.nom;
-      if (data.email) document.getElementById('lf-email').value = data.email;
-      if (data.phone) document.getElementById('lf-phone').value = data.phone;
-      if (data.adresse) document.getElementById('lf-adresse').value = data.adresse;
-      if (data.facture) document.getElementById('lf-facture').value = data.facture;
-      if (data.toiture) document.getElementById('lf-toiture').value = data.toiture;
-      if (data.annee) document.getElementById('lf-annee').value = data.annee;
-      if (data.type_propriete) document.getElementById('lf-type-propriete').value = data.type_propriete;
-      if (data.message) document.getElementById('lf-message').value = data.message;
-
-      if (data.objectif) {
-        const radio = document.querySelector(`input[name="objectif"][value="${data.objectif}"]`);
-        if (radio) {
-          radio.checked = true;
-          radio.closest('.lf-option').classList.add('selected');
-        }
-      }
-
-      // Update range display
-      const rangeVal = document.getElementById('lf-facture').value;
-      document.getElementById('lf-facture-display').textContent = rangeVal >= 500 ? '500$+' : rangeVal + '$';
-      updateRangeTrack(document.getElementById('lf-facture'));
-
-      // Trigger validation visuals
-      Object.entries(validationRules).forEach(([id, rule]) => {
-        const el = document.getElementById(id);
-        if (el.value.trim() && rule(el.value.trim())) {
-          el.closest('.lf-field').classList.add('valid');
-        }
-      });
-
-      analytics.track('form_restored', { step: data.currentStep });
-    } catch (e) {
-      console.warn('Could not restore form data:', e);
-    }
-  }
-
-  // Auto-save on input
-  document.querySelectorAll('.lf-input, .lf-select, .lf-textarea, .lf-range').forEach(el => {
-    el.addEventListener('input', () => {
-      clearTimeout(saveTimeout);
-      saveTimeout = setTimeout(saveFormData, 500);
-    });
-    el.addEventListener('change', () => {
-      clearTimeout(saveTimeout);
-      saveTimeout = setTimeout(saveFormData, 500);
-    });
-  });
-  document.querySelectorAll('.lf-option').forEach(opt => {
-    opt.addEventListener('click', () => setTimeout(saveFormData, 100));
-  });
-
-  // ========================================================================
-  // PARTICLES SYSTEM with Parallax
+  // PARTICLES
   // ========================================================================
   const particleCanvas = document.getElementById('lf-particles');
   const pCtx = particleCanvas.getContext('2d');
   let particles = [];
+  let globalMouseX = window.innerWidth / 2;
+  let globalMouseY = window.innerHeight / 2;
   const PARTICLE_COUNT = 60;
-  let globalMouseX = 0, globalMouseY = 0;
 
   function resizeParticles() {
     particleCanvas.width = window.innerWidth;
@@ -1497,12 +1123,11 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
   }
 
   class Particle {
-    constructor() { this.reset(); this.layer = Math.random(); }
+    constructor() { this.layer = Math.random(); this.reset(); }
     reset() {
       this.x = Math.random() * particleCanvas.width;
       this.y = Math.random() * particleCanvas.height;
-      this.baseX = this.x;
-      this.baseY = this.y;
+      this.baseX = this.x; this.baseY = this.y;
       this.size = Math.random() * 2.5 + 0.5;
       this.speedX = (Math.random() - 0.5) * 0.3;
       this.speedY = -Math.random() * 0.4 - 0.1;
@@ -1511,121 +1136,68 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
       this.pulseSpeed = Math.random() * 0.02 + 0.01;
     }
     update() {
-      this.baseX += this.speedX;
-      this.baseY += this.speedY;
+      this.baseX += this.speedX; this.baseY += this.speedY;
       this.pulse += this.pulseSpeed;
-
-      // Parallax: deeper layers move less
-      const parallaxStrength = this.layer * 15;
-      const centerX = particleCanvas.width / 2;
-      const centerY = particleCanvas.height / 2;
-      const offsetX = ((globalMouseX - centerX) / centerX) * parallaxStrength;
-      const offsetY = ((globalMouseY - centerY) / centerY) * parallaxStrength;
-
-      this.x = this.baseX + offsetX;
-      this.y = this.baseY + offsetY;
-
+      const ps = this.layer * 15;
+      const cx = particleCanvas.width / 2, cy = particleCanvas.height / 2;
+      this.x = this.baseX + ((globalMouseX - cx) / cx) * ps;
+      this.y = this.baseY + ((globalMouseY - cy) / cy) * ps;
       if (this.baseY < -10 || this.baseX < -10 || this.baseX > particleCanvas.width + 10) this.reset();
       if (this.baseY < -10) { this.baseY = particleCanvas.height + 10; this.y = this.baseY; }
     }
-    draw() {
-      const o = this.opacity * (0.5 + 0.5 * Math.sin(this.pulse));
-      pCtx.beginPath();
-      pCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      pCtx.fillStyle = `rgba(245, 166, 35, ${o})`;
-      pCtx.fill();
-      pCtx.beginPath();
-      pCtx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
-      pCtx.fillStyle = `rgba(245, 166, 35, ${o * 0.15})`;
-      pCtx.fill();
-    }
   }
 
-  function initParticles() {
-    resizeParticles();
-    particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle());
-  }
+  function initParticles() { resizeParticles(); particles = Array.from({ length: PARTICLE_COUNT }, () => new Particle()); }
 
-  // Ambient glow color transition based on step
   const glowColors = [
-    { r: 245, g: 166, b: 35 },  // Gold (step 1)
-    { r: 59, g: 130, b: 246 },  // Blue (step 2)
-    { r: 48, g: 209, b: 88 },   // Green (step 3)
+    { r: 245, g: 166, b: 35 },
+    { r: 59, g: 130, b: 246 },
+    { r: 48, g: 209, b: 88 },
   ];
-  let currentGlow = glowColors[0];
-  let targetGlow = glowColors[0];
+  let currentGlow = glowColors[0], targetGlow = glowColors[0], glowT = 0;
 
   function lerpColor(a, b, t) {
-    return {
-      r: Math.round(a.r + (b.r - a.r) * t),
-      g: Math.round(a.g + (b.g - a.g) * t),
-      b: Math.round(a.b + (b.b - a.b) * t)
-    };
+    return { r: Math.round(a.r + (b.r - a.r) * t), g: Math.round(a.g + (b.g - a.g) * t), b: Math.round(a.b + (b.b - a.b) * t) };
   }
 
-  let glowT = 0;
   function animateParticles() {
     pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
-
-    // Smooth glow transition
-    if (glowT < 1) {
-      glowT = Math.min(glowT + 0.02, 1);
-      currentGlow = lerpColor(currentGlow, targetGlow, glowT);
-    }
-
+    if (glowT < 1) { glowT = Math.min(glowT + 0.02, 1); currentGlow = lerpColor(currentGlow, targetGlow, glowT); }
     particles.forEach(p => {
       p.update();
       const o = p.opacity * (0.5 + 0.5 * Math.sin(p.pulse));
-      pCtx.beginPath();
-      pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      pCtx.fillStyle = `rgba(${currentGlow.r}, ${currentGlow.g}, ${currentGlow.b}, ${o})`;
-      pCtx.fill();
-      pCtx.beginPath();
-      pCtx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
-      pCtx.fillStyle = `rgba(${currentGlow.r}, ${currentGlow.g}, ${currentGlow.b}, ${o * 0.15})`;
-      pCtx.fill();
+      pCtx.beginPath(); pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      pCtx.fillStyle = `rgba(${currentGlow.r},${currentGlow.g},${currentGlow.b},${o})`; pCtx.fill();
+      pCtx.beginPath(); pCtx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+      pCtx.fillStyle = `rgba(${currentGlow.r},${currentGlow.g},${currentGlow.b},${o * 0.15})`; pCtx.fill();
     });
-
-    // Draw connections
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
-        const dx = particles[i].x - particles[j].x;
-        const dy = particles[i].y - particles[j].y;
+        const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 120) {
-          pCtx.beginPath();
-          pCtx.moveTo(particles[i].x, particles[i].y);
-          pCtx.lineTo(particles[j].x, particles[j].y);
-          pCtx.strokeStyle = `rgba(${currentGlow.r}, ${currentGlow.g}, ${currentGlow.b}, ${0.04 * (1 - dist / 120)})`;
-          pCtx.lineWidth = 0.5;
-          pCtx.stroke();
+          pCtx.beginPath(); pCtx.moveTo(particles[i].x, particles[i].y); pCtx.lineTo(particles[j].x, particles[j].y);
+          pCtx.strokeStyle = `rgba(${currentGlow.r},${currentGlow.g},${currentGlow.b},${0.04 * (1 - dist / 120)})`;
+          pCtx.lineWidth = 0.5; pCtx.stroke();
         }
       }
     }
-
     requestAnimationFrame(animateParticles);
   }
 
   window.addEventListener('resize', resizeParticles);
-  initParticles();
-  animateParticles();
+  initParticles(); animateParticles();
 
   // ========================================================================
   // CURSOR GLOW
   // ========================================================================
   const cursorGlow = document.getElementById('lf-cursor-glow');
-
   document.addEventListener('mousemove', (e) => {
-    globalMouseX = e.clientX;
-    globalMouseY = e.clientY;
-    cursorGlow.style.left = e.clientX + 'px';
-    cursorGlow.style.top = e.clientY + 'px';
+    globalMouseX = e.clientX; globalMouseY = e.clientY;
+    cursorGlow.style.left = e.clientX + 'px'; cursorGlow.style.top = e.clientY + 'px';
     cursorGlow.classList.add('active');
   });
-
-  document.addEventListener('mouseleave', () => {
-    cursorGlow.classList.remove('active');
-  });
+  document.addEventListener('mouseleave', () => cursorGlow.classList.remove('active'));
 
   // ========================================================================
   // 3D TILT + SPOTLIGHT
@@ -1637,68 +1209,39 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
   if (!isMobile) {
     card.addEventListener('mousemove', (e) => {
       const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      const rotateX = ((y - centerY) / centerY) * -3;
-      const rotateY = ((x - centerX) / centerX) * 3;
-      card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      const x = e.clientX - rect.left, y = e.clientY - rect.top;
+      const cx = rect.width / 2, cy = rect.height / 2;
+      card.style.transform = `rotateX(${((y - cy) / cy) * -3}deg) rotateY(${((x - cx) / cx) * 3}deg)`;
       spotlight.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(245,166,35,0.06), transparent 60%)`;
     });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'rotateX(0) rotateY(0)';
-    });
+    card.addEventListener('mouseleave', () => { card.style.transform = 'rotateX(0) rotateY(0)'; });
   }
 
   // ========================================================================
-  // CONFETTI SYSTEM
+  // CONFETTI
   // ========================================================================
   const confettiCanvas = document.getElementById('lf-confetti');
   const cCtx = confettiCanvas.getContext('2d');
-  let confettiPieces = [];
-  let confettiActive = false;
+  let confettiPieces = [], confettiActive = false;
 
-  function resizeConfetti() {
-    confettiCanvas.width = window.innerWidth;
-    confettiCanvas.height = window.innerHeight;
-  }
-  resizeConfetti();
-  window.addEventListener('resize', resizeConfetti);
+  function resizeConfetti() { confettiCanvas.width = window.innerWidth; confettiCanvas.height = window.innerHeight; }
+  resizeConfetti(); window.addEventListener('resize', resizeConfetti);
 
   class Confetti {
     constructor() {
-      this.x = Math.random() * confettiCanvas.width;
-      this.y = -20;
-      this.size = Math.random() * 8 + 4;
-      this.speedY = Math.random() * 3 + 2;
-      this.speedX = (Math.random() - 0.5) * 4;
-      this.rotation = Math.random() * 360;
-      this.rotSpeed = (Math.random() - 0.5) * 10;
-      this.opacity = 1;
-      this.color = ['#F5A623', '#FFD700', '#FF8C00', '#FFB94D', '#30D158', '#fff'][Math.floor(Math.random() * 6)];
+      this.x = Math.random() * confettiCanvas.width; this.y = -20;
+      this.size = Math.random() * 8 + 4; this.speedY = Math.random() * 3 + 2;
+      this.speedX = (Math.random() - 0.5) * 4; this.rotation = Math.random() * 360;
+      this.rotSpeed = (Math.random() - 0.5) * 10; this.opacity = 1;
+      this.color = ['#F5A623','#FFD700','#FF8C00','#FFB94D','#30D158','#fff'][Math.floor(Math.random() * 6)];
       this.shape = Math.random() > 0.5 ? 'rect' : 'circle';
     }
-    update() {
-      this.y += this.speedY;
-      this.x += this.speedX;
-      this.rotation += this.rotSpeed;
-      this.speedY += 0.05;
-      this.opacity -= 0.005;
-    }
+    update() { this.y += this.speedY; this.x += this.speedX; this.rotation += this.rotSpeed; this.speedY += 0.05; this.opacity -= 0.005; }
     draw() {
-      cCtx.save();
-      cCtx.translate(this.x, this.y);
-      cCtx.rotate((this.rotation * Math.PI) / 180);
-      cCtx.globalAlpha = Math.max(0, this.opacity);
-      cCtx.fillStyle = this.color;
-      if (this.shape === 'rect') {
-        cCtx.fillRect(-this.size / 2, -this.size / 4, this.size, this.size / 2);
-      } else {
-        cCtx.beginPath();
-        cCtx.arc(0, 0, this.size / 2, 0, Math.PI * 2);
-        cCtx.fill();
-      }
+      cCtx.save(); cCtx.translate(this.x, this.y); cCtx.rotate((this.rotation * Math.PI) / 180);
+      cCtx.globalAlpha = Math.max(0, this.opacity); cCtx.fillStyle = this.color;
+      if (this.shape === 'rect') cCtx.fillRect(-this.size/2, -this.size/4, this.size, this.size/2);
+      else { cCtx.beginPath(); cCtx.arc(0, 0, this.size/2, 0, Math.PI*2); cCtx.fill(); }
       cCtx.restore();
     }
   }
@@ -1707,7 +1250,6 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
     confettiActive = true;
     confettiPieces = Array.from({ length: 150 }, () => new Confetti());
     animateConfetti();
-    // Haptic feedback
     if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
   }
 
@@ -1716,12 +1258,8 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
     cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
     confettiPieces = confettiPieces.filter(c => c.opacity > 0 && c.y < confettiCanvas.height + 20);
     confettiPieces.forEach(c => { c.update(); c.draw(); });
-    if (confettiPieces.length > 0) {
-      requestAnimationFrame(animateConfetti);
-    } else {
-      confettiActive = false;
-      cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-    }
+    if (confettiPieces.length > 0) requestAnimationFrame(animateConfetti);
+    else { confettiActive = false; cCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height); }
   }
 
   // ========================================================================
@@ -1729,6 +1267,12 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
   // ========================================================================
   let currentStep = 0;
   const totalSteps = 3;
+  // CRO: Benefit-oriented CTA labels per step
+  const ctaLabels = [
+    'Voir mon potentiel solaire',
+    'Presque terminé !',
+    'Obtenir ma soumission gratuite'
+  ];
 
   const steps = document.querySelectorAll('.lf-step');
   const stepInds = document.querySelectorAll('.lf-step-ind');
@@ -1736,16 +1280,15 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
   const ringText = document.getElementById('lf-ring-text');
   const btnNext = document.getElementById('lf-next');
   const btnPrev = document.getElementById('lf-prev');
+  const btnText = document.getElementById('lf-btn-text');
   const actionsDiv = document.getElementById('lf-actions');
   const successDiv = document.getElementById('lf-success');
   const successDetails = document.getElementById('lf-success-details');
-
   const CIRCUMFERENCE = 2 * Math.PI * 25;
 
   function updateProgress() {
     const progress = (currentStep + 1) / totalSteps;
-    const offset = CIRCUMFERENCE * (1 - progress);
-    ringFill.style.strokeDashoffset = offset;
+    ringFill.style.strokeDashoffset = CIRCUMFERENCE * (1 - progress);
     ringText.textContent = `${currentStep + 1}/${totalSteps}`;
 
     stepInds.forEach((ind, i) => {
@@ -1756,10 +1299,18 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
       }
     });
 
-    // Update glow color
+    // Update CTA label
+    btnText.textContent = ctaLabels[currentStep] || 'Continuer';
+
+    // Update submit icon on last step
+    if (currentStep === totalSteps - 1) {
+      btnNext.querySelector('svg:not(.lf-spinner)').innerHTML = '<path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" fill="none"/>';
+    } else {
+      btnNext.querySelector('svg:not(.lf-spinner)').innerHTML = '<path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2"/>';
+    }
+
     targetGlow = glowColors[currentStep] || glowColors[0];
     glowT = 0;
-
     updateMicroProgress();
   }
 
@@ -1770,288 +1321,333 @@ html.light .lf-testimonials { background: rgba(0,0,0,0.02); }
   const rangeDisplay = document.getElementById('lf-facture-display');
 
   rangeInput.addEventListener('input', function() {
-    const val = this.value;
+    const val = parseInt(this.value);
     rangeDisplay.textContent = val >= 500 ? '500$+' : val + '$';
     rangeDisplay.classList.add('bumped');
     setTimeout(() => rangeDisplay.classList.remove('bumped'), 150);
-    updateRangeTrack(this);
-    // Haptic feedback on mobile
+    updateMicroProgress();
+    saveToStorage();
     if (navigator.vibrate) navigator.vibrate(5);
   });
 
-  function updateRangeTrack(el) {
-    const pct = ((el.value - el.min) / (el.max - el.min)) * 100;
-    el.style.background = `linear-gradient(90deg, #F5A623 0%, #FFB94D ${pct}%, var(--surface-2) ${pct}%)`;
-  }
-  updateRangeTrack(rangeInput);
-
   // ========================================================================
-  // OPTION CARDS with ripple + haptic
+  // OPTION CARDS
   // ========================================================================
   document.querySelectorAll('.lf-option').forEach(opt => {
-    opt.addEventListener('mousemove', function(e) {
+    opt.addEventListener('click', function(e) {
+      document.querySelectorAll('.lf-option').forEach(o => o.classList.remove('selected'));
+      this.classList.add('selected');
+      this.querySelector('input').checked = true;
       const rect = this.getBoundingClientRect();
       this.style.setProperty('--ripple-x', ((e.clientX - rect.left) / rect.width * 100) + '%');
       this.style.setProperty('--ripple-y', ((e.clientY - rect.top) / rect.height * 100) + '%');
-    });
-
-    opt.addEventListener('click', function() {
-      this.closest('.lf-options').querySelectorAll('.lf-option').forEach(o => o.classList.remove('selected'));
-      this.classList.add('selected');
-      this.querySelector('input').checked = true;
-      // Haptic feedback
-      if (navigator.vibrate) navigator.vibrate(15);
+      updateMicroProgress();
+      saveToStorage();
+      if (navigator.vibrate) navigator.vibrate(10);
       analytics.track('option_selected', { value: this.querySelector('input').value });
     });
   });
 
   // ========================================================================
-  // PHONE FORMATTING
+  // MICRO PROGRESS BAR
   // ========================================================================
-  const phoneInput = document.getElementById('lf-phone');
-  phoneInput.addEventListener('input', function() {
-    let val = this.value.replace(/\D/g, '');
-    if (val.length > 10) val = val.slice(0, 10);
-    if (val.length >= 7) {
-      this.value = '(' + val.slice(0,3) + ') ' + val.slice(3,6) + '-' + val.slice(6);
-    } else if (val.length >= 4) {
-      this.value = '(' + val.slice(0,3) + ') ' + val.slice(3);
-    } else if (val.length > 0) {
-      this.value = '(' + val;
+  const microProgress = document.getElementById('lf-micro-progress');
+
+  function updateMicroProgress() {
+    let filled = 0, total = 0;
+
+    // Step 0: Objectif
+    total += 2; // option + slider
+    if (document.querySelector('input[name="objectif"]:checked')) filled++;
+    if (rangeInput.value !== '150') filled++;
+
+    // Step 1: Propriété
+    total += 3;
+    if (document.getElementById('lf-toiture').value) filled++;
+    if (document.getElementById('lf-annee').value) filled++;
+    if (document.getElementById('lf-type-propriete').value) filled++;
+
+    // Step 2: Coordonnées
+    total += 5;
+    ['lf-prenom','lf-nom','lf-email','lf-phone','lf-adresse'].forEach(id => {
+      if (document.getElementById(id).value.trim()) filled++;
+    });
+
+    const pct = Math.max(2, (filled / total) * 100);
+    microProgress.style.width = pct + '%';
+  }
+
+  // ========================================================================
+  // VALIDATION
+  // ========================================================================
+  function validateStep(step) {
+    if (step === 0) return true; // Objectif step - no required fields
+    if (step === 1) return true; // Property step - no required fields
+    if (step === 2) {
+      let valid = true;
+      const fields = [
+        { id: 'lf-prenom', test: v => v.trim().length >= 2 },
+        { id: 'lf-nom', test: v => v.trim().length >= 2 },
+        { id: 'lf-email', test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
+        { id: 'lf-phone', test: v => v.replace(/\D/g, '').length >= 10 },
+        { id: 'lf-adresse', test: v => v.trim().length >= 5 },
+      ];
+      fields.forEach(f => {
+        const el = document.getElementById(f.id);
+        const parent = el.closest('.lf-field');
+        if (!f.test(el.value)) {
+          parent.classList.add('has-error');
+          parent.classList.remove('valid');
+          el.classList.add('error');
+          valid = false;
+          if (navigator.vibrate) navigator.vibrate([30, 20, 30]);
+        } else {
+          parent.classList.remove('has-error');
+          parent.classList.add('valid');
+          el.classList.remove('error');
+        }
+      });
+      if (!valid) {
+        const firstError = document.querySelector('.lf-field.has-error .lf-input');
+        if (firstError) firstError.focus();
+      }
+      return valid;
     }
-  });
+    return true;
+  }
 
-  // ========================================================================
-  // REAL-TIME VALIDATION
-  // ========================================================================
-  const validationRules = {
-    'lf-prenom': v => v.length > 0,
-    'lf-nom': v => v.length > 0,
-    'lf-email': v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
-    'lf-phone': v => v.replace(/\D/g, '').length >= 10,
-    'lf-adresse': v => v.length > 3,
-  };
-
-  Object.entries(validationRules).forEach(([id, rule]) => {
+  // Real-time validation for step 2 fields
+  ['lf-prenom','lf-nom','lf-email','lf-phone','lf-adresse'].forEach(id => {
     const el = document.getElementById(id);
     el.addEventListener('input', function() {
-      const field = this.closest('.lf-field');
-      field.classList.remove('has-error');
-      if (rule(this.value.trim())) {
-        field.classList.add('valid');
+      const parent = this.closest('.lf-field');
+      const validators = {
+        'lf-prenom': v => v.trim().length >= 2,
+        'lf-nom': v => v.trim().length >= 2,
+        'lf-email': v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+        'lf-phone': v => v.replace(/\D/g, '').length >= 10,
+        'lf-adresse': v => v.trim().length >= 5,
+      };
+      if (validators[id](this.value)) {
+        parent.classList.remove('has-error');
+        parent.classList.add('valid');
+        this.classList.remove('error');
       } else {
-        field.classList.remove('valid');
+        parent.classList.remove('valid');
       }
+      updateMicroProgress();
+      saveToStorage();
     });
+  });
+
+  // Phone formatting
+  document.getElementById('lf-phone').addEventListener('input', function() {
+    let digits = this.value.replace(/\D/g, '').substring(0, 10);
+    if (digits.length >= 7) this.value = `(${digits.substring(0,3)}) ${digits.substring(3,6)}-${digits.substring(6)}`;
+    else if (digits.length >= 4) this.value = `(${digits.substring(0,3)}) ${digits.substring(3)}`;
+    else if (digits.length > 0) this.value = `(${digits}`;
   });
 
   // ========================================================================
   // NAVIGATION
   // ========================================================================
   btnNext.addEventListener('click', function() {
-    // Haptic feedback
-    if (navigator.vibrate) navigator.vibrate(20);
+    if (!validateStep(currentStep)) return;
+
+    analytics.track('step_completed', { step: currentStep, time: Date.now() - analytics.stepTimes[analytics.stepTimes.length - 1] });
 
     if (currentStep < totalSteps - 1) {
-      if (!validateStep(currentStep)) return;
-      analytics.trackStepComplete(currentStep);
-      goToStep(currentStep + 1);
+      steps[currentStep].classList.remove('active');
+      currentStep++;
+      steps[currentStep].classList.add('active');
+      btnPrev.style.display = 'flex';
+      updateProgress();
+      analytics.stepTimes.push(Date.now());
+      saveToStorage();
+      if (navigator.vibrate) navigator.vibrate(15);
     } else {
-      if (!validateStep(currentStep)) return;
-      analytics.trackStepComplete(currentStep);
       submitForm();
     }
   });
 
   btnPrev.addEventListener('click', function() {
-    if (navigator.vibrate) navigator.vibrate(10);
-    if (currentStep > 0) goToStep(currentStep - 1);
-  });
-
-  function goToStep(newStep) {
-    const oldStepEl = steps[currentStep];
-    const newStepEl = steps[newStep];
-
-    oldStepEl.classList.remove('active');
-    oldStepEl.classList.add('exiting');
-
-    setTimeout(() => {
-      oldStepEl.classList.remove('exiting');
-      newStepEl.classList.add('active');
-      currentStep = newStep;
+    if (currentStep > 0) {
+      steps[currentStep].classList.remove('active');
+      currentStep--;
+      steps[currentStep].classList.add('active');
+      if (currentStep === 0) btnPrev.style.display = 'none';
       updateProgress();
-      updateButtons();
-      analytics.trackStep(newStep);
-      saveFormData();
-    }, 400);
-  }
-
-  function updateButtons() {
-    btnPrev.style.display = currentStep === 0 ? 'none' : 'flex';
-    if (currentStep === totalSteps - 1) {
-      btnNext.querySelector('.lf-btn-text').textContent = 'Envoyer ma demande';
-      btnNext.querySelector('svg:not(.lf-spinner)').innerHTML = '<path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="currentColor" stroke-width="2" fill="none"/>';
-    } else {
-      btnNext.querySelector('.lf-btn-text').textContent = 'Continuer';
-      btnNext.querySelector('svg:not(.lf-spinner)').innerHTML = '<path d="M5 12h14m-7-7l7 7-7 7" stroke="currentColor" stroke-width="2" fill="none"/>';
+      if (navigator.vibrate) navigator.vibrate(10);
     }
-  }
-
-  updateProgress();
-
-  // ========================================================================
-  // VALIDATION
-  // ========================================================================
-  function validateStep(step) {
-    clearErrors();
-    let valid = true;
-
-    if (step === 0) {
-      const fields = [
-        { id: 'lf-prenom', msg: 'Veuillez entrer votre prénom' },
-        { id: 'lf-nom', msg: 'Veuillez entrer votre nom' },
-        { id: 'lf-email', msg: 'Veuillez entrer un courriel valide', validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) },
-        { id: 'lf-phone', msg: 'Veuillez entrer un numéro valide', validate: v => v.replace(/\D/g,'').length >= 10 },
-        { id: 'lf-adresse', msg: 'Veuillez entrer votre adresse' },
-      ];
-
-      fields.forEach(f => {
-        const el = document.getElementById(f.id);
-        const val = el.value.trim();
-        const isValid = f.validate ? f.validate(val) : val.length > 0;
-        if (!isValid) {
-          el.closest('.lf-field').classList.add('has-error');
-          el.closest('.lf-field').classList.remove('valid');
-          valid = false;
-          el.style.animation = 'none';
-          el.offsetHeight;
-          el.style.animation = 'lf-shake 0.5s ease';
-          // Haptic feedback for error
-          if (navigator.vibrate) navigator.vibrate([30, 20, 30]);
-        }
-      });
-    }
-
-    if (step === 1) {
-      const selected = document.querySelector('input[name="objectif"]:checked');
-      if (!selected) {
-        const opts = document.getElementById('lf-objectif-options');
-        opts.style.animation = 'none';
-        opts.offsetHeight;
-        opts.style.animation = 'lf-shake 0.5s ease';
-        valid = false;
-        if (navigator.vibrate) navigator.vibrate([30, 20, 30]);
-      }
-    }
-
-    return valid;
-  }
-
-  function clearErrors() {
-    document.querySelectorAll('.has-error').forEach(el => el.classList.remove('has-error'));
-  }
-
-  document.querySelectorAll('.lf-input, .lf-select, .lf-textarea').forEach(el => {
-    el.addEventListener('input', function() {
-      this.closest('.lf-field')?.classList.remove('has-error');
-    });
   });
 
   // ========================================================================
   // SUBMIT
   // ========================================================================
-  async function submitForm() {
+  function submitForm() {
     btnNext.classList.add('loading');
     btnNext.disabled = true;
+    analytics.track('form_submitted');
 
-    const data = {
-      prenom: document.getElementById('lf-prenom').value.trim(),
-      nom: document.getElementById('lf-nom').value.trim(),
-      email: document.getElementById('lf-email').value.trim(),
-      phone: document.getElementById('lf-phone').value.trim(),
-      adresse: document.getElementById('lf-adresse').value.trim(),
-      objectif: document.querySelector('input[name="objectif"]:checked')?.value || '',
-      facture: document.getElementById('lf-facture').value + '$',
-      toiture: document.getElementById('lf-toiture').value,
-      annee_toiture: document.getElementById('lf-annee').value,
-      type_propriete: document.getElementById('lf-type-propriete').value,
-      message: document.getElementById('lf-message').value.trim(),
+    const formData = {
+      objectif: document.querySelector('input[name="objectif"]:checked')?.value || 'Non spécifié',
+      facture: rangeInput.value + '$/mois',
+      toiture: document.getElementById('lf-toiture').value || 'Non spécifié',
+      annee: document.getElementById('lf-annee').value || 'Non spécifié',
+      typePropriete: document.getElementById('lf-type-propriete').value || 'Non spécifié',
+      message: document.getElementById('lf-message').value,
+      prenom: document.getElementById('lf-prenom').value,
+      nom: document.getElementById('lf-nom').value,
+      email: document.getElementById('lf-email').value,
+      phone: document.getElementById('lf-phone').value,
+      adresse: document.getElementById('lf-adresse').value,
+      abVariant: abVariant,
+      analytics: analytics
     };
 
-    analytics.trackSubmit(data);
+    // TODO: Replace with Monday.com API call
+    // fetch('YOUR_WEBHOOK_URL', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) });
 
-    // Monday.com API (uncomment when ready)
-    /*
-    try {
-      const columnValues = JSON.stringify({});
-      const mutation = `mutation {
-        create_item(
-          board_id: ${MONDAY_BOARD_ID}
-          ${MONDAY_GROUP_ID ? `group_id: "${MONDAY_GROUP_ID}"` : ''}
-          item_name: "${data.prenom} ${data.nom}"
-          column_values: ${JSON.stringify(columnValues)}
-        ) { id }
-      }`;
-      await fetch('https://api.monday.com/v2', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': MONDAY_API_KEY,
-          'API-Version': '2024-10'
-        },
-        body: JSON.stringify({ query: mutation })
-      });
-    } catch (err) { console.error('Monday.com error:', err); }
-    */
+    setTimeout(() => {
+      btnNext.classList.remove('loading');
+      actionsDiv.style.display = 'none';
+      document.getElementById('lf-steps').style.display = 'none';
+      document.querySelector('.lf-progress-bar').style.display = 'none';
+      document.getElementById('lf-testimonials').style.display = 'none';
+      microProgress.style.width = '100%';
 
-    // Webhook alternative (uncomment when ready)
-    /*
-    try {
-      await fetch('https://hook.us1.make.com/VOTRE_WEBHOOK_ID', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-    } catch (err) { console.error('Webhook error:', err); }
-    */
-
-    await new Promise(r => setTimeout(r, 1500));
-
-    // Clear saved data on success
-    localStorage.removeItem(STORAGE_KEY);
-
-    showSuccess(data);
-  }
-
-  function showSuccess(data) {
-    btnNext.classList.remove('loading');
-    actionsDiv.style.display = 'none';
-    document.querySelector('.lf-steps').style.display = 'none';
-    document.querySelector('.lf-progress-ring-container').style.display = 'none';
-
-    // Set micro progress to 100%
-    microProgress.style.width = '100%';
-
-    successDetails.innerHTML = `
-      <div class="lf-success-detail"><span class="lf-success-detail-label">Nom</span><span class="lf-success-detail-value">${data.prenom} ${data.nom}</span></div>
-      <div class="lf-success-detail"><span class="lf-success-detail-label">Courriel</span><span class="lf-success-detail-value">${data.email}</span></div>
-      <div class="lf-success-detail"><span class="lf-success-detail-label">Téléphone</span><span class="lf-success-detail-value">${data.phone}</span></div>
-      <div class="lf-success-detail"><span class="lf-success-detail-label">Objectif</span><span class="lf-success-detail-value">${data.objectif}</span></div>
-      <div class="lf-success-detail"><span class="lf-success-detail-label">Facture mensuelle</span><span class="lf-success-detail-value">${data.facture}/mois</span></div>
-    `;
-
-    successDiv.classList.add('active');
-    launchConfetti();
-
-    // Change glow to green for success
-    targetGlow = { r: 48, g: 209, b: 88 };
-    glowT = 0;
+      successDetails.innerHTML = `
+        <div class="lf-detail-row"><span class="lf-detail-label">Nom</span><span class="lf-detail-value">${formData.prenom} ${formData.nom}</span></div>
+        <div class="lf-detail-row"><span class="lf-detail-label">Courriel</span><span class="lf-detail-value">${formData.email}</span></div>
+        <div class="lf-detail-row"><span class="lf-detail-label">Téléphone</span><span class="lf-detail-value">${formData.phone}</span></div>
+        <div class="lf-detail-row"><span class="lf-detail-label">Objectif</span><span class="lf-detail-value">${formData.objectif}</span></div>
+        <div class="lf-detail-row"><span class="lf-detail-label">Facture mensuelle</span><span class="lf-detail-value">${formData.facture}</span></div>
+      `;
+      successDiv.classList.add('active');
+      launchConfetti();
+      localStorage.removeItem('lf_form_data');
+      analytics.track('form_success');
+    }, 1800);
   }
 
   // ========================================================================
-  // RESTORE SAVED DATA
+  // LOCAL STORAGE
   // ========================================================================
-  restoreFormData();
+  const savedIndicator = document.getElementById('lf-saved');
+
+  function saveToStorage() {
+    const data = {
+      step: currentStep,
+      objectif: document.querySelector('input[name="objectif"]:checked')?.value || '',
+      facture: rangeInput.value,
+      toiture: document.getElementById('lf-toiture').value,
+      annee: document.getElementById('lf-annee').value,
+      typePropriete: document.getElementById('lf-type-propriete').value,
+      message: document.getElementById('lf-message').value,
+      prenom: document.getElementById('lf-prenom').value,
+      nom: document.getElementById('lf-nom').value,
+      email: document.getElementById('lf-email').value,
+      phone: document.getElementById('lf-phone').value,
+      adresse: document.getElementById('lf-adresse').value,
+    };
+    localStorage.setItem('lf_form_data', JSON.stringify(data));
+    savedIndicator.classList.add('visible');
+    setTimeout(() => savedIndicator.classList.remove('visible'), 2000);
+  }
+
+  function restoreFromStorage() {
+    const saved = localStorage.getItem('lf_form_data');
+    if (!saved) return;
+    try {
+      const data = JSON.parse(saved);
+      if (data.objectif) {
+        const radio = document.querySelector(`input[name="objectif"][value="${data.objectif}"]`);
+        if (radio) { radio.checked = true; radio.closest('.lf-option').classList.add('selected'); }
+      }
+      if (data.facture) { rangeInput.value = data.facture; rangeDisplay.textContent = parseInt(data.facture) >= 500 ? '500$+' : data.facture + '$'; }
+      if (data.toiture) document.getElementById('lf-toiture').value = data.toiture;
+      if (data.annee) document.getElementById('lf-annee').value = data.annee;
+      if (data.typePropriete) document.getElementById('lf-type-propriete').value = data.typePropriete;
+      if (data.message) document.getElementById('lf-message').value = data.message;
+      if (data.prenom) document.getElementById('lf-prenom').value = data.prenom;
+      if (data.nom) document.getElementById('lf-nom').value = data.nom;
+      if (data.email) document.getElementById('lf-email').value = data.email;
+      if (data.phone) document.getElementById('lf-phone').value = data.phone;
+      if (data.adresse) document.getElementById('lf-adresse').value = data.adresse;
+
+      if (data.step > 0) {
+        for (let i = 0; i < data.step; i++) {
+          steps[i].classList.remove('active');
+        }
+        currentStep = data.step;
+        steps[currentStep].classList.add('active');
+        if (currentStep > 0) btnPrev.style.display = 'flex';
+        updateProgress();
+      }
+      updateMicroProgress();
+      analytics.track('form_restored');
+    } catch (e) {}
+  }
+  restoreFromStorage();
+
+  // ========================================================================
+  // EXIT INTENT POPUP
+  // ========================================================================
+  const exitOverlay = document.getElementById('lf-exit-overlay');
+  const exitClose = document.getElementById('lf-exit-close');
+  const exitCta = document.getElementById('lf-exit-cta');
+  const exitDismiss = document.getElementById('lf-exit-dismiss');
+  let exitShown = false;
+  let hasSubmitted = false;
+
+  function showExitPopup() {
+    if (exitShown || hasSubmitted) return;
+    exitShown = true;
+    exitOverlay.style.display = 'flex';
+    requestAnimationFrame(() => exitOverlay.classList.add('active'));
+    analytics.track('exit_intent_shown');
+    if (navigator.vibrate) navigator.vibrate([20, 10, 20]);
+  }
+
+  function hideExitPopup() {
+    exitOverlay.classList.remove('active');
+    setTimeout(() => { exitOverlay.style.display = 'none'; }, 400);
+  }
+
+  // Detect mouse leaving viewport (desktop)
+  document.addEventListener('mouseout', (e) => {
+    if (e.clientY <= 0 && !exitShown && !hasSubmitted) {
+      showExitPopup();
+    }
+  });
+
+  // Mobile: detect back button or tab switch
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden' && !exitShown && !hasSubmitted) {
+      // Can't show popup when hidden, but mark for next visit
+      saveToStorage();
+    }
+  });
+
+  exitClose.addEventListener('click', hideExitPopup);
+  exitDismiss.addEventListener('click', () => {
+    hideExitPopup();
+    analytics.track('exit_intent_dismissed');
+  });
+  exitCta.addEventListener('click', () => {
+    hideExitPopup();
+    analytics.track('exit_intent_converted');
+    // Scroll to form
+    document.querySelector('.lf-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+  exitOverlay.addEventListener('click', (e) => {
+    if (e.target === exitOverlay) hideExitPopup();
+  });
+
+  // ========================================================================
+  // INIT
+  // ========================================================================
+  updateProgress();
   updateMicroProgress();
 
 })();
